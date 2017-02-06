@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HL7DataModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Development\HL7Parser\HL7Data.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="EventType">
+    <Key>
+      <PropertyRef Name="EventTypeId" />
+    </Key>
+    <Property Name="EventTypeId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EventType" Type="varchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="MessageTypeId" Type="integer" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="2147483647" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MessageType">
+    <Key>
+      <PropertyRef Name="MessageTypeId" />
+    </Key>
+    <Property Name="MessageTypeId" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MessageType" Type="varchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="2147483647" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'main.Segment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Segment">
+    <Key>
+      <PropertyRef Name="SegmentId" />
+      <PropertyRef Name="Sequence" />
+      <PropertyRef Name="Length" />
+      <PropertyRef Name="Version" />
+      <PropertyRef Name="IsRequired" />
+      <PropertyRef Name="IsRepeating" />
+    </Key>
+    <Property Name="SegmentId" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Sequence" Type="integer" Nullable="false" />
+    <Property Name="Length" Type="integer" Nullable="false" />
+    <Property Name="Version" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="IsRequired" Type="bit" Nullable="false" />
+    <Property Name="IsRepeating" Type="bit" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'main.TriggerEvent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="TriggerEvent">
+    <Key>
+      <PropertyRef Name="MessageType" />
+      <PropertyRef Name="EventType" />
+      <PropertyRef Name="Segment" />
+      <PropertyRef Name="IsOptional" />
+      <PropertyRef Name="IsRepeated" />
+      <PropertyRef Name="Sequence" />
+      <PropertyRef Name="Version" />
+    </Key>
+    <Property Name="MessageType" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="EventType" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Segment" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="IsOptional" Type="bit" Nullable="false" />
+    <Property Name="IsRepeated" Type="bit" Nullable="false" />
+    <Property Name="Sequence" Type="integer" Nullable="false" />
+    <Property Name="Version" Type="varchar" MaxLength="5" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Version">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_EventType_0_0">
+    <End Role="MessageType" Type="Self.MessageType" Multiplicity="1" />
+    <End Role="EventType" Type="Self.EventType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MessageType">
+        <PropertyRef Name="MessageTypeId" />
+      </Principal>
+      <Dependent Role="EventType">
+        <PropertyRef Name="MessageTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HL7DataModelStoreContainer">
+    <EntitySet Name="EventType" EntityType="Self.EventType" store:Type="Tables" />
+    <EntitySet Name="MessageType" EntityType="Self.MessageType" store:Type="Tables" />
+    <EntitySet Name="Version" EntityType="Self.Version" store:Type="Tables" />
+    <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables">
+      <DefiningQuery>SELECT 
+[Segment].[SegmentId] AS [SegmentId], 
+[Segment].[Sequence] AS [Sequence], 
+[Segment].[Length] AS [Length], 
+[Segment].[Version] AS [Version], 
+[Segment].[Name] AS [Name], 
+[Segment].[IsRequired] AS [IsRequired], 
+[Segment].[IsRepeating] AS [IsRepeating]
+FROM [Segment] AS [Segment]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables">
+      <DefiningQuery>SELECT 
+[TriggerEvent].[MessageType] AS [MessageType], 
+[TriggerEvent].[EventType] AS [EventType], 
+[TriggerEvent].[Segment] AS [Segment], 
+[TriggerEvent].[IsOptional] AS [IsOptional], 
+[TriggerEvent].[IsRepeated] AS [IsRepeated], 
+[TriggerEvent].[Sequence] AS [Sequence], 
+[TriggerEvent].[Version] AS [Version]
+FROM [TriggerEvent] AS [TriggerEvent]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
+      <End Role="MessageType" EntitySet="MessageType" />
+      <End Role="EventType" EntitySet="EventType" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
