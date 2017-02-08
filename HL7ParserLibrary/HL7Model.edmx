@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HL7DataModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Development\HL7Parser\HL7Data.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HL7DataModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Development\HL7Parser\HL7Data.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EventType">
           <Key>
             <PropertyRef Name="EventTypeId" />
@@ -42,6 +42,7 @@ warning 6002: The table/view 'main.Segment' does not have a primary key defined.
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="IsRequired" Type="bit" Nullable="false" />
           <Property Name="IsRepeating" Type="bit" Nullable="false" />
+          <Property Name="DataType" Type="varchar" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'main.TriggerEvent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -94,7 +95,8 @@ warning 6002: The table/view 'main.TriggerEvent' does not have a primary key def
 [Segment].[Version] AS [Version], 
 [Segment].[Name] AS [Name], 
 [Segment].[IsRequired] AS [IsRequired], 
-[Segment].[IsRepeating] AS [IsRepeating]
+[Segment].[IsRepeating] AS [IsRepeating], 
+[Segment].[DataType] AS [DataType]
 FROM [Segment] AS [Segment]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables">
@@ -113,8 +115,7 @@ FROM [TriggerEvent] AS [TriggerEvent]</DefiningQuery>
             <End Role="EventType" EntitySet="EventType" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HL7DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -162,6 +163,7 @@ FROM [TriggerEvent] AS [TriggerEvent]</DefiningQuery>
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IsRequired" Type="Boolean" Nullable="false" />
           <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
+          <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TriggerEvent">
           <Key>
@@ -242,6 +244,7 @@ FROM [TriggerEvent] AS [TriggerEvent]</DefiningQuery>
           <EntitySetMapping Name="Segments">
             <EntityTypeMapping TypeName="HL7DataModel.Segment">
               <MappingFragment StoreEntitySet="Segment">
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="SegmentId" ColumnName="SegmentId" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="Length" ColumnName="Length" />

@@ -70,6 +70,11 @@
   <ItemGroup>
     <Compile Include="AppConfiguration.cs" />
     <Compile Include="Base\BaseEvent.cs" />
+    <Compile Include="DataTypes\IDataType.cs" />
+    <Compile Include="DataTypes\XAD.cs" />
+    <Compile Include="DataTypes\XCN.cs" />
+    <Compile Include="DataTypes\XPN.cs" />
+    <Compile Include="DataTypes\XTN.cs" />
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
@@ -93,8 +98,13 @@
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EVN.cs" />
+    <Compile Include="Models\GT1.cs" />
     <Compile Include="Models\HL7Message.cs" />
     <Compile Include="Models\IEvent.cs" />
+    <Compile Include="Models\IN1.cs" />
+    <Compile Include="Models\IN2.cs" />
+    <Compile Include="Models\PID.cs" />
+    <Compile Include="Models\PV1.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\MSH.cs" />
     <Compile Include="Models\Segment.cs" />
@@ -118,6 +128,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HL7Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="HL7Data.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="HL7Model.edmx.diagram">
       <DependentUpon>HL7Model.edmx</DependentUpon>
     </None>
@@ -127,7 +140,9 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Repository\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="HL7Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

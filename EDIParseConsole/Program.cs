@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HL7Parser.DataTypes;
 using HL7Parser.Models;
 using HL7Parser.Parser;
 
@@ -20,9 +21,6 @@ namespace EDIParseConsole
             string message = File.ReadAllText(filePath);
 
             HL7Message temp = parse.Parse(message);
-
-            //HL7Loader load = new HL7Loader();
-            //load.LoadLocalDatabase(filePath,false);
         }
         #endregion
 

@@ -11,12 +11,17 @@ namespace HL7Parser.Models
         #region Member Variables 
         Token _token = null;
         string _rawMessage = string.Empty;
-
+        Dictionary<string, IEvent> _events;
         #endregion
 
         #region Properties    
         public MSH MSH { get; set; }
 
+        public Dictionary<string, IEvent> Events
+        {
+            get { return this._events; }
+            set { this._events = value; }
+        }
         #endregion
 
         #region Constructor
@@ -24,6 +29,7 @@ namespace HL7Parser.Models
         {
             this._token = t;
             this._rawMessage = rawMessage;
+            this._events = new Dictionary<string, IEvent>();
         }
 
         #endregion

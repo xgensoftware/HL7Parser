@@ -21,5 +21,6 @@ namespace HL7Parser
         public string Name { get; set; }
         public bool IsRequired { get; set; }
         public bool IsRepeating { get; set; }
+        public string DataType { get; set; }
     }
 }

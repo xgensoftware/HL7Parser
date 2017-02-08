@@ -33,6 +33,7 @@
     <EntitySetMapping Name="Segments">
       <EntityTypeMapping TypeName="HL7DataModel.Segment">
         <MappingFragment StoreEntitySet="Segment">
+          <ScalarProperty Name="DataType" ColumnName="DataType" />
           <ScalarProperty Name="SegmentId" ColumnName="SegmentId" />
           <ScalarProperty Name="Sequence" ColumnName="Sequence" />
           <ScalarProperty Name="Length" ColumnName="Length" />

@@ -60,13 +60,13 @@ namespace HL7Parser.Models
         {
             this._segment.Add(key, data);
         }
-        public string GetSegmentData(string segment)
+        public string[] GetSegmentData(string segment)
         {
-            string value = string.Empty;
+            string[] value = { };
 
             try
             {
-                value = this._segment.Where(x => x.Key == segment).FirstOrDefault().Value;
+                value = this._segment.Where(x => x.Key == segment).FirstOrDefault().Value.Split(this._fieldSeparator);
             }
             catch { }
 

@@ -44,6 +44,7 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="IsRequired" Type="Boolean" Nullable="false" />
     <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
+    <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="TriggerEvent">
     <Key>

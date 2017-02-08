@@ -1,5 +1,0 @@
-20170130 16:35:50 INFO: Successfully loaded file C:\Users\anthony.sanfilippo\Downloads\HL7\1477923416236-468216.txt.dpp
-20170130 16:35:51 ERROR: Failed to parse HL7 file. ERROR: No connection string named 'HL7DataEntities' could be found in the application config file.
-20170130 16:36:56 INFO: Successfully loaded file C:\Users\anthony.sanfilippo\Downloads\HL7\1477923416236-468216.txt.dpp
-20170130 16:37:25 ERROR: Failed to parse HL7 file. ERROR: No connection string named 'HL7DataEntities' could be found in the application config file.
-20170130 16:38:29 INFO: Successfully loaded file C:\Users\anthony.sanfilippo\Downloads\HL7\1477923416236-468216.txt.dpp

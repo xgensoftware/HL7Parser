@@ -12,3 +12,4 @@ C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\System.Data.SQLite.dll
 C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\System.Data.SQLite.EF6.dll
 C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\System.Data.SQLite.xml
+C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\HL7Data.db

@@ -8,8 +8,9 @@ namespace HL7Parser.Models
 {
     public interface IEvent
     {
-         Dictionary<string, Segment> Segments { get; set; }
-
+        //List<Models.Segment> Segments { get; }
         Segment GetSegment(string name);
+
+        void AddSegment(Models.Segment s);
     }
 }

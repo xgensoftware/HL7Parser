@@ -33,7 +33,7 @@ namespace HL7Parser.Helper
             LogHelper._readWriteLock.EnterWriteLock();
             try
             {
-                string logFile = "HL7Parser.log";
+                string logFile = string.Format("HL7Parser_{0}.log",DateTime.Now.ToString("yyyyMMdd"));
                 using (StreamWriter streamWriter = File.AppendText(logFile))
                 {
                     DateTime now = DateTime.Now;

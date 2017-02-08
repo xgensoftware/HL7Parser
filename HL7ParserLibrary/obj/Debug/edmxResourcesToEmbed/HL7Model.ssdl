@@ -37,6 +37,7 @@ warning 6002: The table/view 'main.Segment' does not have a primary key defined.
     <Property Name="Name" Type="varchar" MaxLength="50" />
     <Property Name="IsRequired" Type="bit" Nullable="false" />
     <Property Name="IsRepeating" Type="bit" Nullable="false" />
+    <Property Name="DataType" Type="varchar" MaxLength="10" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'main.TriggerEvent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -89,7 +90,8 @@ warning 6002: The table/view 'main.TriggerEvent' does not have a primary key def
 [Segment].[Version] AS [Version], 
 [Segment].[Name] AS [Name], 
 [Segment].[IsRequired] AS [IsRequired], 
-[Segment].[IsRepeating] AS [IsRepeating]
+[Segment].[IsRepeating] AS [IsRepeating], 
+[Segment].[DataType] AS [DataType]
 FROM [Segment] AS [Segment]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables">

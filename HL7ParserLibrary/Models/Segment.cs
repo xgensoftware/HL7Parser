@@ -3,45 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using HL7Parser.DataTypes;
 namespace HL7Parser.Models
 {
     public class Segment
     {
-        #region Member Variables
-        //This needs to be changed to OBJ and will be set based on the DB type
-        string _value;
+        #region Member Variables        
+        object _value;
         #endregion
 
         #region Properties 
-        public int Sequence { get; }
+        public long Sequence { get; }
 
-        public int Length { get; }
+        public long Length { get; }
 
         public string Version { get; }
 
         public string Name { get; }
 
-        public string Value {
-            get { return this._value; }
+        public string DataType { get;}
+
+        public object Value {
+            get
+            {
+                return this._value;
+            }
         }
         #endregion
 
         #region Constructor
-        public Segment(int sequence, int length, string version, string name)
+        public Segment(long sequence, long length, string version, string name, string dataType)
         {
             this.Sequence = sequence;
             this.Length = length;
             this.Version = version;
             this.Name = name;
+            this.DataType = dataType;
             this._value = string.Empty;
+            
         }
         #endregion
 
         #region Public Methods
-        public void SetValue(string obj)
+        public void SetValue(string dataType, object obj)
         {
-            this._value = obj;
+            Type type = Type.GetType(string.Format("HL7Parser.DataTypes.{0}",dataType));
+
+            if(type != null)
+            {
+                this._value = (IDataType)Activator.CreateInstance(type,obj);
+            }
+            else
+            {
+                this._value = obj;
+            }            
         }
         #endregion
     }
