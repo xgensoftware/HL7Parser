@@ -36,6 +36,7 @@
             this.cmbEventType = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnQuery = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,17 +44,21 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 161);
+            this.dataGridView1.Location = new System.Drawing.Point(15, 121);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(710, 370);
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(1060, 522);
             this.dataGridView1.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(47, 9);
+            this.label1.Location = new System.Drawing.Point(47, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 1;
@@ -62,7 +67,7 @@
             // cmbHL7Versions
             // 
             this.cmbHL7Versions.FormattingEnabled = true;
-            this.cmbHL7Versions.Location = new System.Drawing.Point(98, 6);
+            this.cmbHL7Versions.Location = new System.Drawing.Point(101, 40);
             this.cmbHL7Versions.Name = "cmbHL7Versions";
             this.cmbHL7Versions.Size = new System.Drawing.Size(121, 21);
             this.cmbHL7Versions.TabIndex = 2;
@@ -70,7 +75,7 @@
             // cmbMessageType
             // 
             this.cmbMessageType.FormattingEnabled = true;
-            this.cmbMessageType.Location = new System.Drawing.Point(98, 33);
+            this.cmbMessageType.Location = new System.Drawing.Point(101, 67);
             this.cmbMessageType.Name = "cmbMessageType";
             this.cmbMessageType.Size = new System.Drawing.Size(121, 21);
             this.cmbMessageType.TabIndex = 4;
@@ -78,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 36);
+            this.label2.Location = new System.Drawing.Point(12, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 13);
             this.label2.TabIndex = 3;
@@ -87,7 +92,7 @@
             // cmbEventType
             // 
             this.cmbEventType.FormattingEnabled = true;
-            this.cmbEventType.Location = new System.Drawing.Point(98, 60);
+            this.cmbEventType.Location = new System.Drawing.Point(101, 94);
             this.cmbEventType.Name = "cmbEventType";
             this.cmbEventType.Size = new System.Drawing.Size(121, 21);
             this.cmbEventType.TabIndex = 6;
@@ -95,7 +100,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 63);
+            this.label3.Location = new System.Drawing.Point(27, 97);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 5;
@@ -103,7 +108,8 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(144, 87);
+            this.btnQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnQuery.Location = new System.Drawing.Point(1000, 649);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 7;
@@ -111,11 +117,23 @@
             this.btnQuery.UseVisualStyleBackColor = true;
             this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
+            // btnNew
+            // 
+            this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNew.Location = new System.Drawing.Point(919, 649);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(75, 23);
+            this.btnNew.TabIndex = 8;
+            this.btnNew.Text = "Add Event";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
             // frmEventBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 543);
+            this.ClientSize = new System.Drawing.Size(1089, 685);
+            this.Controls.Add(this.btnNew);
             this.Controls.Add(this.btnQuery);
             this.Controls.Add(this.cmbEventType);
             this.Controls.Add(this.label3);
@@ -124,14 +142,26 @@
             this.Controls.Add(this.cmbHL7Versions);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
+            this.MaximumSize = new System.Drawing.Size(1105, 723);
             this.Name = "frmEventBuilder";
-            this.Text = "frmEventBuilder";
+            this.Text = "Trigger Events";
             this.Load += new System.EventHandler(this.frmEventBuilder_Load);
+            this.Controls.SetChildIndex(this.dataGridView1, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.cmbHL7Versions, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.cmbMessageType, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.cmbEventType, 0);
+            this.Controls.SetChildIndex(this.btnQuery, 0);
+            this.Controls.SetChildIndex(this.btnNew, 0);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+
 
         #endregion
 
@@ -143,5 +173,6 @@
         private System.Windows.Forms.ComboBox cmbEventType;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnQuery;
+        private System.Windows.Forms.Button btnNew;
     }
 }

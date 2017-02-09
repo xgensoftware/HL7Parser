@@ -46,24 +46,6 @@
     <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
     <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="TriggerEvent">
-    <Key>
-      <PropertyRef Name="MessageType" />
-      <PropertyRef Name="EventType" />
-      <PropertyRef Name="Segment" />
-      <PropertyRef Name="IsOptional" />
-      <PropertyRef Name="IsRepeated" />
-      <PropertyRef Name="Sequence" />
-      <PropertyRef Name="Version" />
-    </Key>
-    <Property Name="MessageType" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="EventType" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Segment" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="IsOptional" Type="Boolean" Nullable="false" />
-    <Property Name="IsRepeated" Type="Boolean" Nullable="false" />
-    <Property Name="Sequence" Type="Int64" Nullable="false" />
-    <Property Name="Version" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-  </EntityType>
   <Association Name="FK_EventType_0_0">
     <End Role="MessageType" Type="Self.MessageType" Multiplicity="1" />
     <End Role="EventType" Type="Self.EventType" Multiplicity="*" />
@@ -81,10 +63,23 @@
     <EntitySet Name="MessageTypes" EntityType="Self.MessageType" />
     <EntitySet Name="Versions" EntityType="Self.Version" />
     <EntitySet Name="Segments" EntityType="Self.Segment" />
-    <EntitySet Name="TriggerEvents" EntityType="Self.TriggerEvent" />
     <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
       <End Role="MessageType" EntitySet="MessageTypes" />
       <End Role="EventType" EntitySet="EventTypes" />
     </AssociationSet>
+    <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
   </EntityContainer>
+  <EntityType Name="TriggerEvent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="MessageType" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="EventType" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="Segment" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsOptional" Type="Boolean" Nullable="false" />
+    <Property Name="IsRepeated" Type="Boolean" Nullable="false" />
+    <Property Name="Sequence" Type="Int64" Nullable="false" />
+    <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
 </Schema>

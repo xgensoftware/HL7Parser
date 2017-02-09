@@ -21,5 +21,6 @@ namespace HL7Parser
         public bool IsRepeated { get; set; }
         public long Sequence { get; set; }
         public string Version { get; set; }
+        public long Id { get; set; }
     }
 }

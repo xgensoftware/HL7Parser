@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.Helper
 {
-    enum LogType
+    public enum LogType
     {
         ERROR,
         INFO
     }
 
-    class LogHelper
+    public class LogHelper
     {     
 
         private static ReaderWriterLockSlim _readWriteLock;
@@ -33,7 +33,7 @@ namespace HL7Parser.Helper
             LogHelper._readWriteLock.EnterWriteLock();
             try
             {
-                string logFile = string.Format("HL7Parser_{0}.log",DateTime.Now.ToString("yyyyMMdd"));
+                string logFile = string.Format(AppConfiguration.LogFile,DateTime.Now.ToString("yyyyMMdd"));
                 using (StreamWriter streamWriter = File.AppendText(logFile))
                 {
                     DateTime now = DateTime.Now;

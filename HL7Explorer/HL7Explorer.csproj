@@ -70,6 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,13 +88,25 @@
     <Compile Include="frmEventBuilder.Designer.cs">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTriggerEventAddEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTriggerEventAddEdit.Designer.cs">
+      <DependentUpon>frmTriggerEventAddEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmEventBuilder.resx">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTriggerEventAddEdit.resx">
+      <DependentUpon>frmTriggerEventAddEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -47,13 +47,14 @@
     <EntitySetMapping Name="TriggerEvents">
       <EntityTypeMapping TypeName="HL7DataModel.TriggerEvent">
         <MappingFragment StoreEntitySet="TriggerEvent">
-          <ScalarProperty Name="MessageType" ColumnName="MessageType" />
-          <ScalarProperty Name="EventType" ColumnName="EventType" />
-          <ScalarProperty Name="Segment" ColumnName="Segment" />
-          <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
-          <ScalarProperty Name="IsRepeated" ColumnName="IsRepeated" />
-          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="IsRepeated" ColumnName="IsRepeated" />
+          <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
+          <ScalarProperty Name="Segment" ColumnName="Segment" />
+          <ScalarProperty Name="EventType" ColumnName="EventType" />
+          <ScalarProperty Name="MessageType" ColumnName="MessageType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -39,17 +39,9 @@ warning 6002: The table/view 'main.Segment' does not have a primary key defined.
     <Property Name="IsRepeating" Type="bit" Nullable="false" />
     <Property Name="DataType" Type="varchar" MaxLength="10" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'main.TriggerEvent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="TriggerEvent">
     <Key>
-      <PropertyRef Name="MessageType" />
-      <PropertyRef Name="EventType" />
-      <PropertyRef Name="Segment" />
-      <PropertyRef Name="IsOptional" />
-      <PropertyRef Name="IsRepeated" />
-      <PropertyRef Name="Sequence" />
-      <PropertyRef Name="Version" />
+      <PropertyRef Name="Id" />
     </Key>
     <Property Name="MessageType" Type="varchar" MaxLength="3" Nullable="false" />
     <Property Name="EventType" Type="varchar" MaxLength="3" Nullable="false" />
@@ -58,6 +50,7 @@ warning 6002: The table/view 'main.TriggerEvent' does not have a primary key def
     <Property Name="IsRepeated" Type="bit" Nullable="false" />
     <Property Name="Sequence" Type="integer" Nullable="false" />
     <Property Name="Version" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="Version">
     <Key>
@@ -81,6 +74,7 @@ warning 6002: The table/view 'main.TriggerEvent' does not have a primary key def
   <EntityContainer Name="HL7DataModelStoreContainer">
     <EntitySet Name="EventType" EntityType="Self.EventType" store:Type="Tables" />
     <EntitySet Name="MessageType" EntityType="Self.MessageType" store:Type="Tables" />
+    <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables" />
     <EntitySet Name="Version" EntityType="Self.Version" store:Type="Tables" />
     <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables">
       <DefiningQuery>SELECT 
@@ -93,17 +87,6 @@ warning 6002: The table/view 'main.TriggerEvent' does not have a primary key def
 [Segment].[IsRepeating] AS [IsRepeating], 
 [Segment].[DataType] AS [DataType]
 FROM [Segment] AS [Segment]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables">
-      <DefiningQuery>SELECT 
-[TriggerEvent].[MessageType] AS [MessageType], 
-[TriggerEvent].[EventType] AS [EventType], 
-[TriggerEvent].[Segment] AS [Segment], 
-[TriggerEvent].[IsOptional] AS [IsOptional], 
-[TriggerEvent].[IsRepeated] AS [IsRepeated], 
-[TriggerEvent].[Sequence] AS [Sequence], 
-[TriggerEvent].[Version] AS [Version]
-FROM [TriggerEvent] AS [TriggerEvent]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
       <End Role="MessageType" EntitySet="MessageType" />

@@ -10,10 +10,14 @@ using System.Windows.Forms;
 using HL7Parser;
 namespace HL7Explorer
 {
-    public partial class frmEventBuilder : Form
+    public partial class frmEventBuilder :BaseForm
     {
+        #region Member Variables 
+        HL7DataEntities _dbCTX = null;
+        #endregion 
+
         #region Private Methods 
-        void PopulateForms()
+        void PopulateFormControls()
         {
 
             cmbHL7Versions.Items.Add("2.1");
@@ -22,33 +26,20 @@ namespace HL7Explorer
             cmbHL7Versions.Items.Add("2.3.1");
             cmbHL7Versions.Items.Add("2.4");
             cmbHL7Versions.Items.Add("2.5");
+            cmbHL7Versions.SelectedIndex = cmbHL7Versions.FindStringExact("2.3");
 
-            using (HL7DataEntities dbContext = new HL7DataEntities())
-            {
-                var messageType = dbContext.MessageTypes.Where(x => x.IsActive == true).OrderBy(x => x.MessageTypeId).ToList();
-                foreach(var mt in messageType)
-                    cmbMessageType.Items.Add(mt.MessageType1);
+            var messageType = this._dbCTX.MessageTypes.Where(x => x.IsActive == true).OrderBy(x => x.MessageTypeId).ToList();
+            cmbMessageType.DataSource = messageType;
+            cmbMessageType.DisplayMember = "MessageType1";
 
-                var eventType = dbContext.EventTypes.Where(x => x.IsActive == true).OrderBy(x => x.EventType1).ToList();
-                foreach (var et in eventType)
-                    cmbEventType.Items.Add(et.EventType1);
-            }
+
+            var eventType = this._dbCTX.EventTypes.Where(x => x.IsActive == true).OrderBy(x => x.EventType1).ToList();
+            cmbEventType.DataSource = eventType;
+            cmbEventType.DisplayMember = "EventType1";
         }
-        #endregion
 
-        #region Form Events 
-        public frmEventBuilder()
+        void PopulateGrid()
         {
-            InitializeComponent();
-        }
-
-        private void frmEventBuilder_Load(object sender, EventArgs e)
-        {
-            this.PopulateForms();
-        }
-
-        private void btnQuery_Click(object sender, EventArgs e)
-        {          
             dataGridView1.DataSource = null;
             string version = string.Empty;
             string messageType = string.Empty;
@@ -65,7 +56,7 @@ namespace HL7Explorer
             }
 
             if (cmbMessageType.SelectedItem != null)
-                messageType = cmbMessageType.SelectedItem.ToString();
+                messageType = ((MessageType)cmbMessageType.SelectedItem).MessageType1;
 
             if (string.IsNullOrEmpty(messageType))
             {
@@ -74,8 +65,8 @@ namespace HL7Explorer
                 return;
             }
 
-            if(cmbEventType.SelectedItem != null)
-                eventType = cmbEventType.SelectedItem.ToString();
+            if (cmbEventType.SelectedItem != null)
+                eventType = ((EventType)cmbEventType.SelectedItem).EventType1;
 
             if (string.IsNullOrEmpty(eventType))
             {
@@ -84,16 +75,56 @@ namespace HL7Explorer
                 return;
             }
 
-            using (HL7DataEntities dbContext = new HL7DataEntities())
-            {
-                var triggerEvent = dbContext.TriggerEvents
-                    .Where(x => x.Version == version && x.MessageType == messageType && x.EventType == eventType)
-                    .OrderBy(x => x.Sequence)
-                    .ToList();
+            var triggerEvent = this._dbCTX.TriggerEvents
+                .Where(x => x.Version == version && x.MessageType == messageType && x.EventType == eventType)
+                .OrderBy(x => x.Sequence)
+                .ToList();
 
-                dataGridView1.DataSource = triggerEvent;
-            }
+            dataGridView1.DataSource = triggerEvent;
         }
-        #endregion        
+        #endregion
+
+        #region Form Events 
+        public frmEventBuilder()
+        {
+            InitializeComponent();
+            this.dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;
+
+            this._dbCTX = new HL7DataEntities();
+        }
+
+        private void frmEventBuilder_Load(object sender, EventArgs e)
+        {
+            this.PopulateFormControls();
+        }
+
+        private void btnQuery_Click(object sender, EventArgs e)
+        {
+            this.PopulateGrid();
+        }
+
+        private void DataGridView1_CellDoubleClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
+        {
+            var row = (TriggerEvent)dataGridView1.SelectedRows[0].DataBoundItem;
+            frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._dbCTX,row);
+            frm.OnTriggerEventCompleted += Frm_OnTriggerEventCompleted;
+            frm.ShowDialog();
+
+        }       
+
+        private void btnNew_Click(object sender, EventArgs e)
+        {
+            frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._dbCTX,null);
+            frm.OnTriggerEventCompleted += Frm_OnTriggerEventCompleted;
+            frm.ShowDialog();
+        }
+
+        private void Frm_OnTriggerEventCompleted(bool isSuccess)
+        {
+            //Refresh the grid
+            if(isSuccess)
+                this.PopulateGrid();
+        }
+        #endregion
     }
 }
