@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
-    public class XCN : Object, IDataType
+    public class XCN : BaseDataType, IDataType
     {
         #region Memebr Variables 
         string _id = string.Empty;
@@ -35,12 +35,10 @@ namespace HL7Parser.DataTypes
         #endregion
 
         #region Constructor
-        public XCN()
-        {
-
-        }
         public XCN(string val)
         {
+            _rawMessage = val;
+
             if (!string.IsNullOrEmpty(val))
             {
                 // split the value on the ^ char

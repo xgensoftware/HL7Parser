@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HL7Parser;
 using HL7Parser.Helper;
 
 namespace HL7Explorer
@@ -15,6 +16,7 @@ namespace HL7Explorer
     {
         #region Member Variables 
         LogHelper _logger = null;
+        protected HL7DataEntities _dbCTX = null;
         #endregion
 
         public BaseForm()

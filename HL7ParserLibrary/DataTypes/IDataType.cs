@@ -8,5 +8,6 @@ namespace HL7Parser.DataTypes
 {
     public interface IDataType
     {
+        string ToString();
     }
 }

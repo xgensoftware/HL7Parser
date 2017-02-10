@@ -30,20 +30,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Segments">
-      <EntityTypeMapping TypeName="HL7DataModel.Segment">
-        <MappingFragment StoreEntitySet="Segment">
-          <ScalarProperty Name="DataType" ColumnName="DataType" />
-          <ScalarProperty Name="SegmentId" ColumnName="SegmentId" />
-          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-          <ScalarProperty Name="Length" ColumnName="Length" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
-          <ScalarProperty Name="IsRepeating" ColumnName="IsRepeating" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TriggerEvents">
       <EntityTypeMapping TypeName="HL7DataModel.TriggerEvent">
         <MappingFragment StoreEntitySet="TriggerEvent">
@@ -55,6 +41,21 @@
           <ScalarProperty Name="Segment" ColumnName="Segment" />
           <ScalarProperty Name="EventType" ColumnName="EventType" />
           <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Segments">
+      <EntityTypeMapping TypeName="HL7DataModel.Segment">
+        <MappingFragment StoreEntitySet="Segment">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DataType" ColumnName="DataType" />
+          <ScalarProperty Name="IsRepeating" ColumnName="IsRepeating" />
+          <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Length" ColumnName="Length" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="SegmentId" ColumnName="SegmentId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

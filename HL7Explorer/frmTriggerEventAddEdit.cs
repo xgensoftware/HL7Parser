@@ -17,7 +17,6 @@ namespace HL7Explorer
     public partial class frmTriggerEventAddEdit : BaseForm
     {
         #region Member Variables 
-        HL7DataEntities _dbCTX;
         TriggerEvent _triggerEvent;
         #endregion
 

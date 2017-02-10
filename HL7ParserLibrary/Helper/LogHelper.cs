@@ -32,7 +32,7 @@ namespace HL7Parser.Helper
         {
             LogHelper._readWriteLock.EnterWriteLock();
             try
-            {
+            {                
                 string logFile = string.Format(AppConfiguration.LogFile,DateTime.Now.ToString("yyyyMMdd"));
                 using (StreamWriter streamWriter = File.AppendText(logFile))
                 {

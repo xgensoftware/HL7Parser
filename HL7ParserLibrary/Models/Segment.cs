@@ -6,22 +6,34 @@ using System.Threading.Tasks;
 using HL7Parser.DataTypes;
 namespace HL7Parser.Models
 {
-    public class Segment
+    public class SegmentEvent
     {
         #region Member Variables        
         object _value;
+
+        long _sequence = 0;
+        long _length = 0;
+        string _version = string.Empty;
+        string _name = string.Empty;
+        string _dataType = string.Empty;
+        bool _isRequired = false;
+        bool _isRepeating = false;
         #endregion
 
         #region Properties 
-        public long Sequence { get; }
+        public long Sequence { get { return _sequence; } }
 
-        public long Length { get; }
+        public long Length { get { return _length; } }
 
-        public string Version { get; }
+        public string Version { get { return _version; } }
 
-        public string Name { get; }
+        public string Name { get { return _name; } }
 
-        public string DataType { get;}
+        public string DataType { get { return _dataType; } }
+
+        public bool IsRequired { get { return _isRequired; } }
+
+        public bool IsRepeating { get { return _isRepeating; } }
 
         public object Value {
             get
@@ -32,13 +44,15 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor
-        public Segment(long sequence, long length, string version, string name, string dataType)
+        public SegmentEvent(long sequence, long length, string version, string name, string dataType,bool isRequired, bool isRepeating)
         {
-            this.Sequence = sequence;
-            this.Length = length;
-            this.Version = version;
-            this.Name = name;
-            this.DataType = dataType;
+            this._sequence = sequence;
+            this._length = length;
+            this._version = version;
+            this._name = name;
+            this._dataType = dataType;
+            this._isRequired = isRequired;
+            this._isRepeating = isRepeating;
             this._value = string.Empty;
             
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
-    public class XTN : Object
+    public class XTN : BaseDataType, IDataType
     {
         #region Member Variables 
         string _phone = string.Empty;
@@ -20,10 +20,9 @@ namespace HL7Parser.DataTypes
         #endregion
 
         #region Constructor 
-        public XTN() { }
-
         public XTN(string val)
         {
+            _rawMessage = val;
             if (!string.IsNullOrEmpty(val))
             {
                 string[] splitString = val.Split('^');

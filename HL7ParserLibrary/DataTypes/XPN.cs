@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
-    public class XPN : Object, IDataType
+    public class XPN : BaseDataType, IDataType
     {
         #region Member Variables 
         string _lastName = string.Empty;
@@ -32,10 +32,11 @@ namespace HL7Parser.DataTypes
         #endregion
 
         #region Constructor
-        public XPN() { }
 
         public XPN(string val)
         {
+            _rawMessage = val;
+
             if(!string.IsNullOrEmpty(val))
             {
                 string[] splitString = val.Split('^');
@@ -43,7 +44,7 @@ namespace HL7Parser.DataTypes
                 this._lastName = splitString[0];
                 this._firstName = splitString[1];
 
-                if(splitString.Count() > 1)
+                if(splitString.Count() > 2)
                 {
                     this._mi = splitString[2];
                 }

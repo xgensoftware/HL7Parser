@@ -13,7 +13,7 @@ namespace HL7Parser.Models
     /// Description: IN2 HL7 Model
     /// </summary>
 
-    public class IN2 : Object
+    public class IN2 : BaseEvent, IEvent
     {
         #region Member Variables 
 
@@ -24,9 +24,14 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor 
-        public IN2() : base()
+        public IN2(string eventType, string name, string version, int seq, bool isOptional, bool isRepeated) : base()
         {
-
+            _eventType = eventType;
+            _name = name;
+            _version = version;
+            _sequence = seq;
+            _isOptional = isOptional;
+            _isRepeated = isRepeated;
         }
         #endregion
     }

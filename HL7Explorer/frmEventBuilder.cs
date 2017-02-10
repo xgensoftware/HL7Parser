@@ -13,7 +13,6 @@ namespace HL7Explorer
     public partial class frmEventBuilder :BaseForm
     {
         #region Member Variables 
-        HL7DataEntities _dbCTX = null;
         #endregion 
 
         #region Private Methods 
@@ -85,12 +84,12 @@ namespace HL7Explorer
         #endregion
 
         #region Form Events 
-        public frmEventBuilder()
+        public frmEventBuilder(HL7DataEntities dbctx)
         {
             InitializeComponent();
             this.dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;
 
-            this._dbCTX = new HL7DataEntities();
+            this._dbCTX = dbctx;
         }
 
         private void frmEventBuilder_Load(object sender, EventArgs e)

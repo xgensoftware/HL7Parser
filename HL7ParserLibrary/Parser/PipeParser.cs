@@ -17,123 +17,90 @@ namespace HL7Parser.Parser
     public class PipeParser : ParserBase
     {
         #region Member Variables 
-        Token _messageToken;
+        HL7Message _hl7 = null;
+        HL7DataEntities _dbCTX = null;
         #endregion
 
         #region Constructor 
         public PipeParser()
             :base()
         {
-
+            _dbCTX = new HL7DataEntities();
         }
         #endregion
 
-        #region Private Methods 
-        private MSH CreateMessageHeader(string[] parsedMSH)
-        {
-            MSH msh = new MSH();
+        #region Private Methods        
 
-            if (parsedMSH.Length > 0)
-            {
-                //Parse the message header based on the |                
-                msh.SendingApplication = parsedMSH[2];
-                msh.SendingFacility = parsedMSH[3];
-                msh.ReceivingApplication = parsedMSH[4];
-                msh.Security = parsedMSH[7];
-                msh.MessageControlId = parsedMSH[9];
-
-
-                int year = int.Parse(parsedMSH[6].Substring(0, 4));
-                int month = int.Parse(parsedMSH[6].Substring(4, 2));
-                int day = int.Parse(parsedMSH[6].Substring(6, 2));
-                int hour = int.Parse(parsedMSH[6].Substring(8, 2));
-                int minute = int.Parse(parsedMSH[6].Substring(10, 2));
-                int seconds = int.Parse(parsedMSH[6].Substring(12, 2));
-                msh.DateTimeOfMessage = new DateTime(year, month, day,hour,minute,seconds);
-            }
-
-            return msh;
-        }
-
-        private IEvent CreateEvent(string segmentName, List<Segment> segmentsConfig)
+        private IEvent CreateEvent(TriggerEvent tr, List<Segment> segmentsConfig)
         {
             IEvent e = null;
             try
             {
-                Type segmentType = Type.GetType(string.Format("HL7Parser.Models.{0}", segmentName));
-                e = (IEvent)Activator.CreateInstance(segmentType);
+                Type segmentType = Type.GetType(string.Format("HL7Parser.Models.{0}", tr.Segment));
+                e = (IEvent)Activator.CreateInstance(segmentType,tr.EventType,tr.Segment,tr.Version,(int)tr.Sequence,(bool)tr.IsOptional,(bool)tr.IsRepeated);
             }
             catch (ArgumentNullException) { }
 
             if (e != null)
             {
-                string[] messageSegmentData = this._messageToken.GetSegmentData(segmentName);
+                string[] messageSegmentData = this._hl7.MessageToken.GetSegmentData(tr.Segment);
                 foreach (Segment s in segmentsConfig)
                 {
                     try
                     {
-                        Models.Segment segment = new Models.Segment(s.Sequence, s.Length, s.Version, s.Name, s.DataType);
+                        SegmentEvent segment = new SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired,s.IsRepeating);
                         segment.SetValue(s.DataType,messageSegmentData[s.Sequence]);
                         e.AddSegment(segment);
                     }
                     catch (Exception ex)
                     {
-                        this.LogErrorMessage(string.Format("CreateEvent failed on {0}.{1}. ERROR: {2}", segmentName, s.Name, ex.Message));
+                        this.LogErrorMessage(string.Format("CreateEvent failed on {0}.{1}. ERROR: {2}", tr.Segment, s.Name, ex.Message));
                     }
                 }
             }
             else
             {
-                this.LogInfoMessage(string.Format("No Segment class exists for {0}.", segmentName));
+                this.LogInfoMessage(string.Format("No Segment class exists for {0}.", tr.Segment));
             }
             return e;
         }
-                
+        
         #endregion
 
         #region Public Methods 
         public HL7Message Parse(string message)
         {            
-            string[] temp = message.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            for(int i=0; i <= temp.Length -1; i++)
+            string[] tempMessage = message.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            for(int i=0; i <= tempMessage.Length -1; i++)
             {
-                temp[i].Trim();
+                string segment = tempMessage[i].Substring(0, 3);
+                if (segment == "MSH")
+                {
+                    tempMessage[i] = string.Format("{0}", tempMessage[i]);
+                }
+
+                tempMessage[i].Trim();
             }
-            this._messageToken = Tokenizer.CreateMessageToken(temp);
-            HL7Message hl7 = new HL7Message(this._messageToken, message);           
 
-            //Create the MSH segment of the message object
-            hl7.MSH = this.CreateMessageHeader(this._messageToken.GetSegmentData("MSH"));
-            hl7.MSH.Version = this._messageToken.MessageVersion;
-            hl7.MSH.MessageType = this._messageToken.MessageType;
-            hl7.MSH.EventType = this._messageToken.EventType;
+            _hl7 = new HL7Message(tempMessage);
 
-
-            using (HL7DataEntities e = new HL7DataEntities())
-            {
-                //get all the trigger events based on Message type, event type, and version
-                //Do not include MSH, those will be a manual process
-                var triggerEvents = e.TriggerEvents
-                    .Where(x => x.Version == this._messageToken.MessageVersion && x.MessageType == this._messageToken.MessageType && x.EventType == this._messageToken.EventType)
-                    .Where(x => x.Segment != "MSH")
+            var triggerEvents = _dbCTX.TriggerEvents
+                    .Where(x => x.Version == _hl7.MessageToken.MessageVersion && x.MessageType == _hl7.MessageToken.MessageType && x.EventType == _hl7.MessageToken.EventType)
                     .OrderBy(x => x.Sequence)
                     .ToList();
-                foreach (var tr in triggerEvents)
-                {
-                    var eventSegments = e.Segments
-                        .Where(x => x.SegmentId == tr.Segment && x.Version == tr.Version)
-                        .OrderBy(x => x.Sequence)
-                        .ToList();
 
-                    IEvent newEvent = this.CreateEvent(tr.Segment, eventSegments);
-                    if(newEvent != null)
-                        hl7.Events.Add(tr.Segment,newEvent);
-                }
-            }               
+            foreach (var tr in triggerEvents)
+            {
+                var eventSegments = _dbCTX.Segments
+                    .Where(x => x.SegmentId == tr.Segment && x.Version == tr.Version)
+                    .OrderBy(x => x.Sequence)
+                    .ToList();
+                IEvent newEvent = this.CreateEvent(tr, eventSegments);
+                if (newEvent != null)
+                    _hl7.AddEventSegment(newEvent);
+            }
 
-
-
-            return hl7;
+            return _hl7;
         }
         #endregion
     }

@@ -3,31 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HL7Parser.Base;
 
-namespace HL7Parser.Models
+namespace HL7Parser.DataTypes
 {
-    /// <summary>
-    /// Created By: Anthony Sanfilippo
-    /// Create Date: 2017-02-08
-    /// Description: IN1 Model
-    /// </summary>
-
-    public class IN1 : Object
+    public abstract class BaseDataType : Object
     {
         #region Member Variables 
-
+        protected string _rawMessage = string.Empty;
         #endregion
 
         #region Properties
-
+        public override string ToString()
+        {
+            return this._rawMessage;
+        }
         #endregion
 
         #region Constructor 
-        public IN1():base()
-        {
 
-        }
         #endregion
     }
 }

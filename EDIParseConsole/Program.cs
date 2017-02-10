@@ -16,11 +16,25 @@ namespace EDIParseConsole
         private static void ParseMessage()
         {
             PipeParser parse = new PipeParser();
-            string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\2016-12-29 15.15.0_68140460.dat";
-
+            string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\1476286403448-1863881.txt.dpp";
             string message = File.ReadAllText(filePath);
+            string[] temp = message.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i <= temp.Length - 1; i++)
+            {
+                string segment = temp[i].Substring(0, 3);
+                if(segment == "MSH")
+                {
+                    //reorder the msh segment
+                    temp[i] = string.Format("|{0}",temp[i]);
+                }
+                temp[i].Trim();
 
-            HL7Message temp = parse.Parse(message);
+                
+            }
+
+
+            //HL7Message temp = parse.Parse(message);
+            //var segment = temp.Events.Where(x => x.Name == "MSH").FirstOrDefault();
         }
         #endregion
 

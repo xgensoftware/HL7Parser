@@ -10,10 +10,10 @@ namespace HL7Parser.Models
     /// <summary>
     /// Created By: Anthony Sanfilippo
     /// Create Date: 2017-02-08
-    /// Description: PV1 HL7 Model
+    /// Description: IN1 Model
     /// </summary>
 
-    public class PV1 : Object
+    public class IN1 : BaseEvent, IEvent
     {
         #region Member Variables 
 
@@ -24,9 +24,14 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor 
-        public PV1() : base()
+        public IN1(string eventType, string name, string version, int seq, bool isOptional, bool isRepeated) :base()
         {
-
+            _eventType = eventType;
+            _name = name;
+            _version = version;
+            _sequence = seq;
+            _isOptional = isOptional;
+            _isRepeated = isRepeated;
         }
         #endregion
     }

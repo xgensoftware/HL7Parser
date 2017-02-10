@@ -19,16 +19,9 @@
     <Property Name="Description" Type="varchar" MaxLength="2147483647" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'main.Segment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Segment">
     <Key>
-      <PropertyRef Name="SegmentId" />
-      <PropertyRef Name="Sequence" />
-      <PropertyRef Name="Length" />
-      <PropertyRef Name="Version" />
-      <PropertyRef Name="IsRequired" />
-      <PropertyRef Name="IsRepeating" />
+      <PropertyRef Name="Id" />
     </Key>
     <Property Name="SegmentId" Type="varchar" MaxLength="3" Nullable="false" />
     <Property Name="Sequence" Type="integer" Nullable="false" />
@@ -38,6 +31,7 @@ warning 6002: The table/view 'main.Segment' does not have a primary key defined.
     <Property Name="IsRequired" Type="bit" Nullable="false" />
     <Property Name="IsRepeating" Type="bit" Nullable="false" />
     <Property Name="DataType" Type="varchar" MaxLength="10" />
+    <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="TriggerEvent">
     <Key>
@@ -74,20 +68,9 @@ warning 6002: The table/view 'main.Segment' does not have a primary key defined.
   <EntityContainer Name="HL7DataModelStoreContainer">
     <EntitySet Name="EventType" EntityType="Self.EventType" store:Type="Tables" />
     <EntitySet Name="MessageType" EntityType="Self.MessageType" store:Type="Tables" />
+    <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables" />
     <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables" />
     <EntitySet Name="Version" EntityType="Self.Version" store:Type="Tables" />
-    <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables">
-      <DefiningQuery>SELECT 
-[Segment].[SegmentId] AS [SegmentId], 
-[Segment].[Sequence] AS [Sequence], 
-[Segment].[Length] AS [Length], 
-[Segment].[Version] AS [Version], 
-[Segment].[Name] AS [Name], 
-[Segment].[IsRequired] AS [IsRequired], 
-[Segment].[IsRepeating] AS [IsRepeating], 
-[Segment].[DataType] AS [DataType]
-FROM [Segment] AS [Segment]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
       <End Role="MessageType" EntitySet="MessageType" />
       <End Role="EventType" EntitySet="EventType" />

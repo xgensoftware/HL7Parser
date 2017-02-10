@@ -28,24 +28,6 @@
     <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
   </EntityType>
-  <EntityType Name="Segment">
-    <Key>
-      <PropertyRef Name="SegmentId" />
-      <PropertyRef Name="Sequence" />
-      <PropertyRef Name="Length" />
-      <PropertyRef Name="Version" />
-      <PropertyRef Name="IsRequired" />
-      <PropertyRef Name="IsRepeating" />
-    </Key>
-    <Property Name="SegmentId" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Sequence" Type="Int64" Nullable="false" />
-    <Property Name="Length" Type="Int64" Nullable="false" />
-    <Property Name="Version" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="IsRequired" Type="Boolean" Nullable="false" />
-    <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
-    <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-  </EntityType>
   <Association Name="FK_EventType_0_0">
     <End Role="MessageType" Type="Self.MessageType" Multiplicity="1" />
     <End Role="EventType" Type="Self.EventType" Multiplicity="*" />
@@ -62,12 +44,12 @@
     <EntitySet Name="EventTypes" EntityType="Self.EventType" />
     <EntitySet Name="MessageTypes" EntityType="Self.MessageType" />
     <EntitySet Name="Versions" EntityType="Self.Version" />
-    <EntitySet Name="Segments" EntityType="Self.Segment" />
     <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
       <End Role="MessageType" EntitySet="MessageTypes" />
       <End Role="EventType" EntitySet="EventTypes" />
     </AssociationSet>
     <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
+    <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
   </EntityContainer>
   <EntityType Name="TriggerEvent">
     <Key>
@@ -80,6 +62,20 @@
     <Property Name="IsRepeated" Type="Boolean" Nullable="false" />
     <Property Name="Sequence" Type="Int64" Nullable="false" />
     <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="Segment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="SegmentId" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="Sequence" Type="Int64" Nullable="false" />
+    <Property Name="Length" Type="Int64" Nullable="false" />
+    <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+    <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
+    <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
   </EntityType>
 </Schema>

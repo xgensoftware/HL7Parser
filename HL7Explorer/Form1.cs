@@ -7,15 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using HL7Parser;
 namespace HL7Explorer
 {
     public partial class Form1 : Form
     {
+        #region Member Variables 
+        HL7DataEntities _dbCTX = null;
+        #endregion
+
         #region Constructor 
         public Form1()
         {
             InitializeComponent();
+            this._dbCTX = new HL7DataEntities();
         }
         #endregion
 
@@ -27,13 +32,19 @@ namespace HL7Explorer
 
         private void toolStripMenuTriggerBuild_Click(object sender, EventArgs e)
         {
-            frmEventBuilder frm = new frmEventBuilder();
+            frmEventBuilder frm = new frmEventBuilder(this._dbCTX);
             frm.ShowDialog();
         }
         
         private void toolStripClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void toolStripMenuItemViewHL7Message_Click(object sender, EventArgs e)
+        {
+            frmViewHL7Message frm = new frmViewHL7Message(this._dbCTX);
+            frm.ShowDialog();
         }
         #endregion
     }

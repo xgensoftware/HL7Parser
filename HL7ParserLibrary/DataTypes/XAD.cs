@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
-    public class XAD: Object,IDataType
+    public class XAD: BaseDataType,IDataType
     {
         #region Member Variables 
+       
         string _streetAddress = string.Empty;
         string _city = string.Empty;
         string _state = string.Empty;
@@ -44,11 +45,11 @@ namespace HL7Parser.DataTypes
         #endregion
 
         #region Constructor 
-        public XAD() { }
 
         public XAD (string val)
         {
-            if(!string.IsNullOrEmpty(val))
+            _rawMessage = val;
+            if (!string.IsNullOrEmpty(val))
             {
                 string[] valSplit = val.Split('^');
 
@@ -56,7 +57,9 @@ namespace HL7Parser.DataTypes
                 this._city = valSplit[2];
                 this._state = valSplit[3];
                 this._zip = valSplit[4];
-                this._country = valSplit[5];
+
+                if(valSplit.Count() > 6)
+                    this._country = valSplit[5];
             }
         }
         #endregion

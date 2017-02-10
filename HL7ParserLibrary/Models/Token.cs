@@ -15,7 +15,9 @@ namespace HL7Parser.Models
         string _messageType = string.Empty;
         string _eventType = string.Empty;
 
-        Dictionary<string,string> _segment = null;      
+        Dictionary<string,string> _segment = null;
+
+        StringBuilder _rawMessage = new StringBuilder();      
         #endregion
 
         #region Properties 
@@ -44,22 +46,44 @@ namespace HL7Parser.Models
             get { return _eventType; }
         }
         
-        #endregion
-
-        public Token(char fieldSep, char encoding, string version, string messageType, string eventType)
+        public string RawMessage
         {
+            get { return _rawMessage.ToString(); }
+        }
+        #endregion
+        
+        public Token(string[] message)
+        {
+            this._segment = new Dictionary<string, string>();
+
+            //Parse the message header based on the |
+            string[] parsedMSH = message[0].Split('|');
+
+            char fieldSep = Convert.ToChar(message[0].Substring(3, 1));
+            char encoding = Convert.ToChar(message[0].Substring(4, 1));
+            var trigger = parsedMSH[8].Split('^');
+
+            //fieldSep, encoding, parsedMSH[11], trigger[0], trigger[1]
             this._fieldSeparator = fieldSep;
             this._encodingCharacter = encoding;
-            this._messageVersion = version;
-            this._messageType = messageType;
-            this._eventType = eventType;
+            this._messageVersion = parsedMSH[11];
+            this._messageType = trigger[0];
+            this._eventType = trigger[1];
+
             this._segment = new Dictionary<string, string>();
+            for (int idx = 0; idx <= message.Length - 1; idx++)
+            {
+                this._segment.Add(message[idx].Substring(0, 3), message[idx]);
+                this._rawMessage.AppendLine(message[idx]);
+            }
+
         }
 
         public void AddSegment(string key, string data)
         {
             this._segment.Add(key, data);
         }
+
         public string[] GetSegmentData(string segment)
         {
             string[] value = { };
@@ -71,7 +95,6 @@ namespace HL7Parser.Models
             catch { }
 
             return value;
-        }
-
+        }        
     }
 }

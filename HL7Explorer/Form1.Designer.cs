@@ -30,10 +30,11 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuTriggerBuild = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripClose = new System.Windows.Forms.ToolStripTextBox();
+            this.toolsToolStripMenuTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuTriggerBuild = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemViewHL7Message = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,21 +58,6 @@
             this.toolStripMenuFile.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuFile.Text = "File";
             // 
-            // toolsToolStripMenuTools
-            // 
-            this.toolsToolStripMenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuTriggerBuild});
-            this.toolsToolStripMenuTools.Name = "toolsToolStripMenuTools";
-            this.toolsToolStripMenuTools.Size = new System.Drawing.Size(48, 20);
-            this.toolsToolStripMenuTools.Text = "Tools";
-            // 
-            // toolStripMenuTriggerBuild
-            // 
-            this.toolStripMenuTriggerBuild.Name = "toolStripMenuTriggerBuild";
-            this.toolStripMenuTriggerBuild.Size = new System.Drawing.Size(184, 22);
-            this.toolStripMenuTriggerBuild.Text = "Trigger Event Builder";
-            this.toolStripMenuTriggerBuild.Click += new System.EventHandler(this.toolStripMenuTriggerBuild_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -83,6 +69,29 @@
             this.toolStripClose.Size = new System.Drawing.Size(100, 23);
             this.toolStripClose.Text = "Close";
             this.toolStripClose.Click += new System.EventHandler(this.toolStripClose_Click);
+            // 
+            // toolsToolStripMenuTools
+            // 
+            this.toolsToolStripMenuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuTriggerBuild,
+            this.toolStripMenuItemViewHL7Message});
+            this.toolsToolStripMenuTools.Name = "toolsToolStripMenuTools";
+            this.toolsToolStripMenuTools.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuTools.Text = "Tools";
+            // 
+            // toolStripMenuTriggerBuild
+            // 
+            this.toolStripMenuTriggerBuild.Name = "toolStripMenuTriggerBuild";
+            this.toolStripMenuTriggerBuild.Size = new System.Drawing.Size(184, 22);
+            this.toolStripMenuTriggerBuild.Text = "Trigger Event Builder";
+            this.toolStripMenuTriggerBuild.Click += new System.EventHandler(this.toolStripMenuTriggerBuild_Click);
+            // 
+            // toolStripMenuItemViewHL7Message
+            // 
+            this.toolStripMenuItemViewHL7Message.Name = "toolStripMenuItemViewHL7Message";
+            this.toolStripMenuItemViewHL7Message.Size = new System.Drawing.Size(184, 22);
+            this.toolStripMenuItemViewHL7Message.Text = "View HL7Message";
+            this.toolStripMenuItemViewHL7Message.Click += new System.EventHandler(this.toolStripMenuItemViewHL7Message_Click);
             // 
             // Form1
             // 
@@ -111,6 +120,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuTriggerBuild;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripTextBox toolStripClose;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemViewHL7Message;
     }
 }
 

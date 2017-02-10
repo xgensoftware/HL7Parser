@@ -18,9 +18,14 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor 
-        public PID() : base()
+        public PID(string eventType, string name, string version, int seq, bool isOptional, bool isRepeated) : base()
         {
-
+            _eventType = eventType;
+            _name = name;
+            _version = version;
+            _sequence = seq;
+            _isOptional = isOptional;
+            _isRepeated = isRepeated;
         }
         #endregion
     }
