@@ -129,9 +129,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HL7Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="HL7Data.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="HL7Data.db" />
     <None Include="HL7Model.edmx.diagram">
       <DependentUpon>HL7Model.edmx</DependentUpon>
     </None>
