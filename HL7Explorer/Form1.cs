@@ -8,20 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HL7Parser;
+using HL7Parser.Repository;
 namespace HL7Explorer
 {
     public partial class Form1 : Form
     {
         #region Member Variables 
-        HL7DataEntities _dbCTX = null;
+        HL7SchemaRepository _repo = null;
         #endregion
 
         #region Constructor 
         public Form1()
         {
             InitializeComponent();
-            this._dbCTX = new HL7DataEntities();
-        }
+            this.FormClosing += Form1_FormClosing;
+            this._repo = RepositoryFactory.CreateRepository<HL7SchemaRepository>();
+
+
+        }        
         #endregion
 
         #region Form Events
@@ -32,7 +36,7 @@ namespace HL7Explorer
 
         private void toolStripMenuTriggerBuild_Click(object sender, EventArgs e)
         {
-            frmEventBuilder frm = new frmEventBuilder(this._dbCTX);
+            frmEventBuilder frm = new frmEventBuilder(this._repo);
             frm.ShowDialog();
         }
         
@@ -41,9 +45,14 @@ namespace HL7Explorer
             this.Close();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this._repo.Dispose();
+        }
+
         private void toolStripMenuItemViewHL7Message_Click(object sender, EventArgs e)
         {
-            frmViewHL7Message frm = new frmViewHL7Message(this._dbCTX);
+            frmViewHL7Message frm = new frmViewHL7Message(this._repo);
             frm.ShowDialog();
         }
         #endregion

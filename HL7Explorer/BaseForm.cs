@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HL7Parser;
 using HL7Parser.Helper;
-
+using HL7Parser.Repository;
 namespace HL7Explorer
 {
     public partial class BaseForm : Form
     {
         #region Member Variables 
         LogHelper _logger = null;
-        protected HL7DataEntities _dbCTX = null;
+        protected HL7SchemaRepository _repo = null;
         #endregion
 
         public BaseForm()

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using HL7Parser;
 using HL7Parser.Parser;
 using HL7Parser.Models;
-
+using HL7Parser.Repository;
 namespace HL7Explorer
 {
     /// <summary>
@@ -30,10 +30,10 @@ namespace HL7Explorer
         #endregion
 
         #region Form Events
-        public frmViewHL7Message(HL7DataEntities dbctx)
+        public frmViewHL7Message(HL7SchemaRepository repo)
         {
             InitializeComponent();
-            this._dbCTX = dbctx;
+            this._repo = repo;
 
             tvSegments.NodeMouseClick += TvSegments_NodeMouseClick;
         }
@@ -68,6 +68,7 @@ namespace HL7Explorer
             }
 
         }
+
         private void TvSegments_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;

@@ -88,6 +88,12 @@
     <Compile Include="frmEventBuilder.Designer.cs">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSchemaMapping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSchemaMapping.Designer.cs">
+      <DependentUpon>frmSchemaMapping.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTriggerEventAddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEventBuilder.resx">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSchemaMapping.resx">
+      <DependentUpon>frmSchemaMapping.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTriggerEventAddEdit.resx">
       <DependentUpon>frmTriggerEventAddEdit.cs</DependentUpon>

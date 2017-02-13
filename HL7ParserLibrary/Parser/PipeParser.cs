@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HL7Parser.Models;
 using HL7Parser.Parser;
+using HL7Parser.Repository;
 namespace HL7Parser.Parser
 {
 /// <summary>
@@ -18,22 +19,24 @@ namespace HL7Parser.Parser
     {
         #region Member Variables 
         HL7Message _hl7 = null;
-        HL7DataEntities _dbCTX = null;
+        HL7SchemaRepository  _repo = null;
         #endregion
 
         #region Constructor 
         public PipeParser()
             :base()
         {
-            _dbCTX = new HL7DataEntities();
+            this._repo = RepositoryFactory.CreateRepository<HL7SchemaRepository>();
         }
         #endregion
 
         #region Private Methods        
 
-        private IEvent CreateEvent(TriggerEvent tr, List<Segment> segmentsConfig)
+        private IEvent CreateEvent(TriggerEvent tr)
         {
             IEvent e = null;
+            List<Segment> segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
+
             try
             {
                 Type segmentType = Type.GetType(string.Format("HL7Parser.Models.{0}", tr.Segment));
@@ -82,20 +85,13 @@ namespace HL7Parser.Parser
                 tempMessage[i].Trim();
             }
 
-            _hl7 = new HL7Message(tempMessage);
+            this._hl7 = new HL7Message(tempMessage);
 
-            var triggerEvents = _dbCTX.TriggerEvents
-                    .Where(x => x.Version == _hl7.MessageToken.MessageVersion && x.MessageType == _hl7.MessageToken.MessageType && x.EventType == _hl7.MessageToken.EventType)
-                    .OrderBy(x => x.Sequence)
-                    .ToList();
+            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType);
 
             foreach (var tr in triggerEvents)
             {
-                var eventSegments = _dbCTX.Segments
-                    .Where(x => x.SegmentId == tr.Segment && x.Version == tr.Version)
-                    .OrderBy(x => x.Sequence)
-                    .ToList();
-                IEvent newEvent = this.CreateEvent(tr, eventSegments);
+                IEvent newEvent = this.CreateEvent(tr);
                 if (newEvent != null)
                     _hl7.AddEventSegment(newEvent);
             }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HL7Parser;
+using HL7Parser.Repository;
 namespace HL7Explorer
 {
     public partial class frmEventBuilder :BaseForm
@@ -27,12 +28,12 @@ namespace HL7Explorer
             cmbHL7Versions.Items.Add("2.5");
             cmbHL7Versions.SelectedIndex = cmbHL7Versions.FindStringExact("2.3");
 
-            var messageType = this._dbCTX.MessageTypes.Where(x => x.IsActive == true).OrderBy(x => x.MessageTypeId).ToList();
+            var messageType = this._repo.GetMessageTypes();
             cmbMessageType.DataSource = messageType;
             cmbMessageType.DisplayMember = "MessageType1";
 
 
-            var eventType = this._dbCTX.EventTypes.Where(x => x.IsActive == true).OrderBy(x => x.EventType1).ToList();
+            var eventType = this._repo.GetEventTypes();
             cmbEventType.DataSource = eventType;
             cmbEventType.DisplayMember = "EventType1";
         }
@@ -74,22 +75,19 @@ namespace HL7Explorer
                 return;
             }
 
-            var triggerEvent = this._dbCTX.TriggerEvents
-                .Where(x => x.Version == version && x.MessageType == messageType && x.EventType == eventType)
-                .OrderBy(x => x.Sequence)
-                .ToList();
-
-            dataGridView1.DataSource = triggerEvent;
+            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(version, messageType, eventType);
+            
+            dataGridView1.DataSource = triggerEvents;
         }
         #endregion
 
         #region Form Events 
-        public frmEventBuilder(HL7DataEntities dbctx)
+        public frmEventBuilder(HL7SchemaRepository repo)
         {
             InitializeComponent();
             this.dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;
 
-            this._dbCTX = dbctx;
+            this._repo = repo;
         }
 
         private void frmEventBuilder_Load(object sender, EventArgs e)
@@ -105,7 +103,7 @@ namespace HL7Explorer
         private void DataGridView1_CellDoubleClick(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
         {
             var row = (TriggerEvent)dataGridView1.SelectedRows[0].DataBoundItem;
-            frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._dbCTX,row);
+            frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._repo,row);
             frm.OnTriggerEventCompleted += Frm_OnTriggerEventCompleted;
             frm.ShowDialog();
 
@@ -113,7 +111,7 @@ namespace HL7Explorer
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._dbCTX,null);
+            frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._repo,null);
             frm.OnTriggerEventCompleted += Frm_OnTriggerEventCompleted;
             frm.ShowDialog();
         }

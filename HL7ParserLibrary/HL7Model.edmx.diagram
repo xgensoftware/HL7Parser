@@ -9,8 +9,8 @@
         <EntityTypeShape EntityType="HL7DataModel.MessageType" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="HL7DataModel.Version" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="HL7DataModel.FK_EventType_0_0" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="HL7DataModel.TriggerEvent" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="HL7DataModel.Segment" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HL7DataModel.TriggerEvent" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

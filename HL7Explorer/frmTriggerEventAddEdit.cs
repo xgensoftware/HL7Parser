@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HL7Parser;
+using HL7Parser.Repository;
 namespace HL7Explorer
 {
     /// <summary>
@@ -36,12 +37,12 @@ namespace HL7Explorer
             cmbHL7Versions.Items.Add("2.4");
             cmbHL7Versions.Items.Add("2.5");
 
-            var messageType = this._dbCTX.MessageTypes.Where(x => x.IsActive == true).OrderBy(x => x.MessageTypeId).ToList();
+            var messageType = this._repo.GetMessageTypes();
             cmbMessageType.DataSource = messageType;
             cmbMessageType.DisplayMember = "MessageType1";
 
 
-            var eventType = this._dbCTX.EventTypes.Where(x => x.IsActive == true).OrderBy(x => x.EventType1).ToList();
+            var eventType = this._repo.GetEventTypes();
             cmbEventType.DataSource = eventType;
             cmbEventType.DisplayMember = "EventType1";
         }
@@ -58,9 +59,7 @@ namespace HL7Explorer
             chkIsOptional.Checked = this._triggerEvent.IsOptional;
             chkIsRepeatable.Checked = this._triggerEvent.IsRepeated;
 
-            List<Segment> s = this._dbCTX.Segments
-                    .Where(x => x.Version == this._triggerEvent.Version && x.SegmentId == this._triggerEvent.Segment)
-                    .OrderBy(x => x.Sequence).ToList();
+            List<Segment> s = this._repo.GetSegmentBy(this._triggerEvent.Version, this._triggerEvent.Segment);
 
             gridSegments.DataSource = s;
 
@@ -68,12 +67,13 @@ namespace HL7Explorer
         #endregion
 
         #region Form Methods
-        public frmTriggerEventAddEdit(HL7DataEntities dbctx, TriggerEvent triggerEvent) : base()
+        public frmTriggerEventAddEdit(HL7SchemaRepository repo, TriggerEvent triggerEvent) : base()
         {
             InitializeComponent();
-            this._dbCTX = dbctx;
-            this.PopulateControls();
+            this._repo = repo;
 
+            this.PopulateControls();
+            
             this._triggerEvent = triggerEvent;
             if (this._triggerEvent != null)
             {                
@@ -108,9 +108,11 @@ namespace HL7Explorer
                 this._triggerEvent.IsRepeated = chkIsRepeatable.Checked;
 
                 if (this._triggerEvent.Id == 0)
-                    this._dbCTX.TriggerEvents.Add(this._triggerEvent);
-
-                this._dbCTX.SaveChanges();
+                {
+                    this._repo.AddNew<TriggerEvent>(this._triggerEvent);
+                }
+                else
+                    this._repo.Save();
 
                 message = string.Format("Successfully saved {0}", this._triggerEvent.Segment);
             }
