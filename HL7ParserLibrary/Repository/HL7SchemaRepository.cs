@@ -35,6 +35,10 @@ namespace HL7Parser.Repository
                 case "TriggerEvent":
                     this._dbCTX.TriggerEvents.Add(entity as TriggerEvent);
                     break;
+
+                case "Segment":
+                    this._dbCTX.Segments.Add(entity as Segment);
+                    break;
             }
 
             this._dbCTX.SaveChanges();         

@@ -15,4 +15,6 @@ C:\Development\HL7Parser\EDIParseConsole\bin\Debug\System.Data.SQLite.EF6.dll
 C:\Development\HL7Parser\EDIParseConsole\bin\Debug\System.Data.SQLite.dll
 C:\Development\HL7Parser\EDIParseConsole\bin\Debug\System.Data.SQLite.Linq.dll
 C:\Development\HL7Parser\EDIParseConsole\bin\Debug\System.Data.SQLite.xml
-C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HL7Data.db
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HtmlAgilityPack.dll
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HtmlAgilityPack.pdb
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HtmlAgilityPack.xml
