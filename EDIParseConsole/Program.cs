@@ -144,7 +144,7 @@ namespace EDIParseConsole
         private static void ScrapeSegments()
         {
             List<string> collection = new List<string>();
-            log.LogMessage(LogType.INFO, string.Format("Starting Scraping {0}",DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
+            log.LogMessage(LogType.INFO, string.Format("**************** Starting Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
 
             //this will read in from a file
 
@@ -156,7 +156,7 @@ namespace EDIParseConsole
                 CreateSegment(segmentData, version);
             });
 
-            log.LogMessage(LogType.INFO, string.Format("Completed Scraping {0}", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
+            log.LogMessage(LogType.INFO, string.Format("**************** Completed Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
         }
         
 
