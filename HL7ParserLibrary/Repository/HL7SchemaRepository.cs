@@ -41,7 +41,15 @@ namespace HL7Parser.Repository
                     break;
             }
 
-            this._dbCTX.SaveChanges();         
+            try
+            {
+                this._dbCTX.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                string message = string.Format("Error saving entity {0}. ERROR: {1}", table.Name, ex.Message);
+                this._logging.LogMessage(Helper.LogType.ERROR, message);
+            }       
         }
 
         public void Save()
