@@ -15,17 +15,19 @@ namespace HL7Parser.Helper
     }
 
     public class LogHelper
-    {     
-
+    {
+        private string _logName = string.Empty;
         private static ReaderWriterLockSlim _readWriteLock;
 
         static LogHelper()
         {
+            
             LogHelper._readWriteLock = new ReaderWriterLockSlim();
         }
 
-        public LogHelper()
+        public LogHelper(string logName)
         {
+            this._logName = logName;
         }
 
         public void LogMessage(LogType logType,string message)
@@ -33,7 +35,7 @@ namespace HL7Parser.Helper
             LogHelper._readWriteLock.EnterWriteLock();
             try
             {                
-                string logFile = string.Format(AppConfiguration.LogFile,DateTime.Now.ToString("yyyyMMdd"));
+                string logFile = string.Format(AppConfiguration.LogFile,this._logName,DateTime.Now.ToString("yyyyMMdd"));
                 using (StreamWriter streamWriter = File.AppendText(logFile))
                 {
                     DateTime now = DateTime.Now;

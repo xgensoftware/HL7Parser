@@ -23,7 +23,7 @@ namespace HL7Explorer
         {
             InitializeComponent();
 
-            this._logger = new LogHelper();
+            this._logger = new LogHelper(AppConfiguration.ApplicationName);
         }
 
         protected void LogError(string message)

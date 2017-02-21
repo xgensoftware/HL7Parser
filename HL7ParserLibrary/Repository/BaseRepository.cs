@@ -21,7 +21,7 @@ namespace HL7Parser.Repository
         #region Constructor 
         public BaseRepository()
         {
-            this._logging = new LogHelper();
+            this._logging = new LogHelper(AppConfiguration.ApplicationName);
         }
         #endregion
     }

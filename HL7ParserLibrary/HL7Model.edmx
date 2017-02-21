@@ -32,7 +32,7 @@
           <Property Name="Sequence" Type="integer" Nullable="false" />
           <Property Name="Length" Type="integer" Nullable="false" />
           <Property Name="Version" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
           <Property Name="IsRequired" Type="bit" Nullable="false" />
           <Property Name="IsRepeating" Type="bit" Nullable="false" />
           <Property Name="DataType" Type="varchar" MaxLength="10" />
@@ -133,23 +133,9 @@
             <End Role="MessageType" EntitySet="MessageTypes" />
             <End Role="EventType" EntitySet="EventTypes" />
           </AssociationSet>
-          <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
           <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
+          <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
         </EntityContainer>
-        <EntityType Name="Segment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="SegmentId" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="Sequence" Type="Int64" Nullable="false" />
-          <Property Name="Length" Type="Int64" Nullable="false" />
-          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
-          <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
-          <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
         <EntityType Name="TriggerEvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -161,6 +147,20 @@
           <Property Name="IsRepeated" Type="Boolean" Nullable="false" />
           <Property Name="Sequence" Type="Int64" Nullable="false" />
           <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Segment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="SegmentId" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Sequence" Type="Int64" Nullable="false" />
+          <Property Name="Length" Type="Int64" Nullable="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
+          <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
+          <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
@@ -198,6 +198,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TriggerEvents">
+            <EntityTypeMapping TypeName="HL7DataModel.TriggerEvent">
+              <MappingFragment StoreEntitySet="TriggerEvent">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="IsRepeated" ColumnName="IsRepeated" />
+                <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
+                <ScalarProperty Name="Segment" ColumnName="Segment" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Segments">
             <EntityTypeMapping TypeName="HL7DataModel.Segment">
               <MappingFragment StoreEntitySet="Segment">
@@ -210,20 +224,6 @@
                 <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="SegmentId" ColumnName="SegmentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TriggerEvents">
-            <EntityTypeMapping TypeName="HL7DataModel.TriggerEvent">
-              <MappingFragment StoreEntitySet="TriggerEvent">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="IsRepeated" ColumnName="IsRepeated" />
-                <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
-                <ScalarProperty Name="Segment" ColumnName="Segment" />
-                <ScalarProperty Name="EventType" ColumnName="EventType" />
-                <ScalarProperty Name="MessageType" ColumnName="MessageType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

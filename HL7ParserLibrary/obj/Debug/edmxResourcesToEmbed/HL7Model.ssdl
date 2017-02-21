@@ -27,7 +27,7 @@
     <Property Name="Sequence" Type="integer" Nullable="false" />
     <Property Name="Length" Type="integer" Nullable="false" />
     <Property Name="Version" Type="varchar" MaxLength="5" Nullable="false" />
-    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Name" Type="varchar" MaxLength="250" />
     <Property Name="IsRequired" Type="bit" Nullable="false" />
     <Property Name="IsRepeating" Type="bit" Nullable="false" />
     <Property Name="DataType" Type="varchar" MaxLength="10" />

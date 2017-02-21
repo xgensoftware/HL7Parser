@@ -25,8 +25,9 @@ namespace HL7Parser.Parser
         #endregion
 
         public ParserBase()
-        {
-            _logger = new LogHelper();
+        {        
+            _logger = new LogHelper(AppConfiguration.ApplicationName);
         }
+        
     }
 }

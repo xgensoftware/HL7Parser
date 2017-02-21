@@ -12,7 +12,7 @@ namespace HL7Parser.Repository
     public class HL7SchemaRepository : BaseRepository, IRepository
     {
         #region Member Variables 
-        
+
         #endregion
 
         #region Properties
@@ -30,13 +30,18 @@ namespace HL7Parser.Repository
         public void AddNew<T>(T entity)
         {
             Type table = typeof(T);
-            switch(table.Name)
+            string entityName = string.Empty;
+            switch (table.Name)
             {
                 case "TriggerEvent":
+                    TriggerEvent tr = entity as TriggerEvent;
+                    entityName = string.Format("{0}_{1}:{2}", tr.MessageType, tr.EventType, tr.Segment);
                     this._dbCTX.TriggerEvents.Add(entity as TriggerEvent);
                     break;
 
                 case "Segment":
+                    Segment s = entity as Segment;
+                    entityName = string.Format("{0}:{1}", s.SegmentId, s.Name);
                     this._dbCTX.Segments.Add(entity as Segment);
                     break;
             }
@@ -45,11 +50,11 @@ namespace HL7Parser.Repository
             {
                 this._dbCTX.SaveChanges();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                string message = string.Format("Error saving entity {0}. ERROR: {1}", table.Name, ex.Message);
+                string message = string.Format("Error saving entity {0}. ERROR: {1}.", entityName, ex.Message);
                 this._logging.LogMessage(Helper.LogType.ERROR, message);
-            }       
+            }
         }
 
         public void Save()
@@ -59,8 +64,8 @@ namespace HL7Parser.Repository
 
         public List<TriggerEvent> GetTriggerEventsBy(string version, string message, string eventType)
         {
-            
-            return  _dbCTX.TriggerEvents
+
+            return _dbCTX.TriggerEvents
                     .Where(x => x.Version == version && x.MessageType == message && x.EventType == eventType)
                     .OrderBy(x => x.Sequence)
                     .ToList();
@@ -72,6 +77,12 @@ namespace HL7Parser.Repository
                     .Where(x => x.Version == version && x.SegmentId == segment)
                     .OrderBy(x => x.Sequence)
                     .ToList();
+        }
+
+        public string[] GetDistinctSegmentsBy(string version)
+        {
+            string sql = string.Format("select segmentId From Segment where version = '{0}' group by segmentId order by segmentId asc",version);
+            return _dbCTX.Database.SqlQuery<string>(sql).ToArray();                      
         }
 
         public List<MessageType> GetMessageTypes()

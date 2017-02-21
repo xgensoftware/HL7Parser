@@ -16,7 +16,7 @@ namespace EDIParseConsole
     class Program
     {
         #region static Variables 
-        static LogHelper log = new LogHelper();
+        static LogHelper log = new LogHelper(AppConfiguration.ApplicationName);
         #endregion
 
         #region " Private Methods "
@@ -67,23 +67,31 @@ namespace EDIParseConsole
         private static void CreateSegment(string segment, string version)
         {           
             HL7SchemaRepository rep = new HL7SchemaRepository();
-            Segment s = new Segment();
-            s.SegmentId = segment;
-            s.Version = version;
+            
+            
+            HtmlNodeCollection desc = null;
+            try
+            {
+                log.LogMessage(LogType.INFO, string.Format("Starting segment {0}, version {1}", segment, version));
+                string url = string.Format("http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v{0}&segment={1}", version, segment);
+                var Webget = new HtmlWeb();
+                var doc = Webget.Load(url);
+                desc = doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[5]/div[1]/div[3]/table[1]/tr");
+            }
+            catch(Exception ex)
+            {
+                log.LogMessage(LogType.INFO, string.Format("Failure scraping segment {0}, version {1}. ERROR: {2}", segment, version, ex.Message));
+            }
 
-            log.LogMessage(LogType.INFO, string.Format("Starting segment {0}, version {1}",segment,version));
-
-            string url = string.Format("http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v{0}&segment={1}", version, segment);
-            var Webget = new HtmlWeb();
-            var doc = Webget.Load(url);
-
-            var desc = doc.DocumentNode.SelectNodes("/html[1]/body[1]/div[5]/div[1]/div[3]/table[1]/tr");
             if (desc != null)
             {
                 foreach (HtmlNode node in desc)
                 {
                     if (node.Name == "tr")
                     {
+                        Segment s = new Segment();
+                        s.SegmentId = segment;
+                        s.Version = version;
                         bool isValid = true;
                         const string tdPattern = @"<td\b[^>]*?>(?<V>[\s\S]*?)</\s*td>";
                         StringBuilder strNode = new StringBuilder();
@@ -143,6 +151,7 @@ namespace EDIParseConsole
 
         private static void ScrapeSegments()
         {
+            HL7SchemaRepository repo = new HL7SchemaRepository();
             List<string> collection = new List<string>();
             log.LogMessage(LogType.INFO, string.Format("**************** Starting Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
 
@@ -151,8 +160,12 @@ namespace EDIParseConsole
             string[] segments = ConfigurationManager.AppSettings["Segments"].ToString().Split(',');
             string version = ConfigurationManager.AppSettings["Version"].ToString();
 
-            int segmentCount = segments.Count();
-            Parallel.ForEach(segments, (segmentData) => {
+            var database = repo.GetDistinctSegmentsBy(version);
+
+            //only run for the ones that do not exists
+            var finalList = segments.Except(database);
+            Parallel.ForEach(finalList, (segmentData) =>
+            {
                 CreateSegment(segmentData, version);
             });
 
