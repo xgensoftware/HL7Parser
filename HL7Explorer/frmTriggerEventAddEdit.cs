@@ -30,12 +30,9 @@ namespace HL7Explorer
         #region Private Methods 
         void PopulateControls()
         {
-            cmbHL7Versions.Items.Add("2.1");
-            cmbHL7Versions.Items.Add("2.2");
-            cmbHL7Versions.Items.Add("2.3");
-            cmbHL7Versions.Items.Add("2.3.1");
-            cmbHL7Versions.Items.Add("2.4");
-            cmbHL7Versions.Items.Add("2.5");
+            var versions = this._repo.GetVersions();
+            cmbHL7Versions.DataSource = versions;
+            cmbHL7Versions.DisplayMember = "Name";
 
             var messageType = this._repo.GetMessageTypes();
             cmbMessageType.DataSource = messageType;
@@ -100,7 +97,7 @@ namespace HL7Explorer
                     this._triggerEvent = new TriggerEvent();
 
                 this._triggerEvent.Segment = txtSegment.Text;
-                this._triggerEvent.Version = cmbHL7Versions.SelectedItem.ToString();
+                this._triggerEvent.Version = ((HL7Parser.Version)cmbHL7Versions.SelectedItem).Name;
                 this._triggerEvent.MessageType = ((MessageType)cmbMessageType.SelectedItem).MessageType1;
                 this._triggerEvent.EventType = ((EventType)cmbEventType.SelectedItem).EventType1;
                 this._triggerEvent.Sequence = long.Parse(txtSequence.Text);

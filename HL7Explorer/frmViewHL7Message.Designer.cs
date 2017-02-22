@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmViewHL7Message));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtRawHL7Message = new System.Windows.Forms.TextBox();
@@ -35,8 +36,10 @@
             this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.grdSegmentFields = new System.Windows.Forms.DataGridView();
             this.tvSegments = new System.Windows.Forms.TreeView();
+            this.grdSegmentFields = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.databaseComparisonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -47,6 +50,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -125,6 +129,15 @@
             this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 0;
             // 
+            // tvSegments
+            // 
+            this.tvSegments.ContextMenuStrip = this.contextMenuStrip1;
+            this.tvSegments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvSegments.Location = new System.Drawing.Point(0, 0);
+            this.tvSegments.Name = "tvSegments";
+            this.tvSegments.Size = new System.Drawing.Size(200, 368);
+            this.tvSegments.TabIndex = 0;
+            // 
             // grdSegmentFields
             // 
             this.grdSegmentFields.AllowUserToAddRows = false;
@@ -137,13 +150,19 @@
             this.grdSegmentFields.Size = new System.Drawing.Size(929, 368);
             this.grdSegmentFields.TabIndex = 0;
             // 
-            // tvSegments
+            // contextMenuStrip1
             // 
-            this.tvSegments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvSegments.Location = new System.Drawing.Point(0, 0);
-            this.tvSegments.Name = "tvSegments";
-            this.tvSegments.Size = new System.Drawing.Size(200, 368);
-            this.tvSegments.TabIndex = 0;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseComparisonToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 48);
+            // 
+            // databaseComparisonToolStripMenuItem
+            // 
+            this.databaseComparisonToolStripMenuItem.Name = "databaseComparisonToolStripMenuItem";
+            this.databaseComparisonToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.databaseComparisonToolStripMenuItem.Text = "Database Comparison";
+            this.databaseComparisonToolStripMenuItem.Click += new System.EventHandler(this.databaseComparisonToolStripMenuItem_Click);
             // 
             // frmViewHL7Message
             // 
@@ -170,6 +189,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,5 +204,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TreeView tvSegments;
         private System.Windows.Forms.DataGridView grdSegmentFields;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem databaseComparisonToolStripMenuItem;
     }
 }

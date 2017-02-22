@@ -80,6 +80,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HL7Core\HL7Core.csproj">
+      <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
+      <Name>HL7Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HL7ParserLibrary\HL7Parser.csproj">
       <Project>{be02ade4-7197-4658-bf67-0e69d1102014}</Project>
       <Name>HL7Parser</Name>

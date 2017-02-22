@@ -74,8 +74,12 @@ namespace HL7Explorer
             TreeNode node = e.Node;
             grdSegmentFields.DataSource = node.Tag as List<SegmentEvent>;
         }
+
+        private void databaseComparisonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var treeViewItem = tvSegments.SelectedNode;
+
+        }
         #endregion
-
-
     }
 }

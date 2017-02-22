@@ -19,14 +19,9 @@ namespace HL7Explorer
         #region Private Methods 
         void PopulateFormControls()
         {
-
-            cmbHL7Versions.Items.Add("2.1");
-            cmbHL7Versions.Items.Add("2.2");
-            cmbHL7Versions.Items.Add("2.3");
-            cmbHL7Versions.Items.Add("2.3.1");
-            cmbHL7Versions.Items.Add("2.4");
-            cmbHL7Versions.Items.Add("2.5");
-            cmbHL7Versions.SelectedIndex = cmbHL7Versions.FindStringExact("2.3");
+            var versions = this._repo.GetVersions();
+            cmbHL7Versions.DataSource = versions;
+            cmbHL7Versions.DisplayMember = "Name";
 
             var messageType = this._repo.GetMessageTypes();
             cmbMessageType.DataSource = messageType;
@@ -46,7 +41,7 @@ namespace HL7Explorer
             string eventType = string.Empty;
 
             if (cmbHL7Versions.SelectedItem != null)
-                version = cmbHL7Versions.SelectedItem.ToString();
+                version = ((HL7Parser.Version)cmbHL7Versions.SelectedItem).Name;
 
             if (string.IsNullOrEmpty(version))
             {

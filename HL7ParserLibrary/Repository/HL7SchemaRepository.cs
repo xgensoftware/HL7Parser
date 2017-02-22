@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using HL7Core;
 namespace HL7Parser.Repository
 {
     /// <summary>
@@ -53,7 +53,7 @@ namespace HL7Parser.Repository
             catch (Exception ex)
             {
                 string message = string.Format("Error saving entity {0}. ERROR: {1}.", entityName, ex.Message);
-                this._logging.LogMessage(Helper.LogType.ERROR, message);
+                LogErrorMessage(message);
             }
         }
 
@@ -93,6 +93,11 @@ namespace HL7Parser.Repository
         public List<EventType> GetEventTypes()
         {
             return this._dbCTX.EventTypes.Where(x => x.IsActive == true).OrderBy(x => x.EventType1).ToList();
+        }
+
+        public List<Version> GetVersions()
+        {
+            return _dbCTX.Versions.ToList();
         }
 
         public void Dispose()

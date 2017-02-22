@@ -1,27 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HL7Parser;
-using HL7Parser.Helper;
+using HL7Core;
 namespace HL7Parser.Repository
 {
     public abstract class BaseRepository : Object
     {
         #region Member Variables 
         protected HL7DataEntities _dbCTX = null;
-        protected LogHelper _logging = null;
+        private ILogger _logging = null;
         #endregion
 
         #region Properties
 
         #endregion
 
+        #region Private Methods
+        protected void LogErrorMessage(string message)
+        {
+            _logging.LogMessage(LogMessageType.ERROR, message);
+        }
+        protected void LogInfoMessage(string message)
+        {
+            _logging.LogMessage(LogMessageType.INFO, message);
+        }
+        #endregion
+
         #region Constructor 
         public BaseRepository()
         {
-            this._logging = new LogHelper(AppConfiguration.ApplicationName);
+            LogType type = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
+            this._logging = LogFactory.CreateLogger(type);
         }
         #endregion
     }

@@ -7,33 +7,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HL7Parser;
-using HL7Parser.Helper;
 using HL7Parser.Repository;
+using HL7Core;
+
 namespace HL7Explorer
 {
     public partial class BaseForm : Form
     {
         #region Member Variables 
-        LogHelper _logger = null;
+        ILogger _logger = null;
         protected HL7SchemaRepository _repo = null;
         #endregion
 
         public BaseForm()
         {
             InitializeComponent();
-
-            this._logger = new LogHelper(AppConfiguration.ApplicationName);
+            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
+            this._logger = LogFactory.CreateLogger(logType);
         }
 
         protected void LogError(string message)
         {
-            this._logger.LogMessage(LogType.ERROR, message);
+            this._logger.LogMessage(LogMessageType.ERROR, message);
         }
 
         protected void LogInfo(string message)
         {
-            this._logger.LogMessage(LogType.INFO, message);
+            this._logger.LogMessage(LogMessageType.INFO, message);
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)

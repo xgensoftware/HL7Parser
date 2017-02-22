@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HL7Parser;
 using HL7Parser.Parser;
-using HL7Parser.Helper;
+using HL7Core;
 using HL7Parser.Repository;
 using HtmlAgilityPack;
 namespace EDIParseConsole
@@ -16,7 +16,7 @@ namespace EDIParseConsole
     class Program
     {
         #region static Variables 
-        static LogHelper log = new LogHelper(AppConfiguration.ApplicationName);
+        static ILogger log = null;
         #endregion
 
         #region " Private Methods "
@@ -72,7 +72,7 @@ namespace EDIParseConsole
             HtmlNodeCollection desc = null;
             try
             {
-                log.LogMessage(LogType.INFO, string.Format("Starting segment {0}, version {1}", segment, version));
+                log.LogMessage(LogMessageType.INFO, string.Format("Starting segment {0}, version {1}", segment, version));
                 string url = string.Format("http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v{0}&segment={1}", version, segment);
                 var Webget = new HtmlWeb();
                 var doc = Webget.Load(url);
@@ -80,7 +80,7 @@ namespace EDIParseConsole
             }
             catch(Exception ex)
             {
-                log.LogMessage(LogType.INFO, string.Format("Failure scraping segment {0}, version {1}. ERROR: {2}", segment, version, ex.Message));
+                log.LogMessage(LogMessageType.INFO, string.Format("Failure scraping segment {0}, version {1}. ERROR: {2}", segment, version, ex.Message));
             }
 
             if (desc != null)
@@ -135,7 +135,7 @@ namespace EDIParseConsole
                             }
                             catch (Exception ex)
                             {
-                                log.LogMessage(LogType.ERROR, ex.Message);
+                                log.LogMessage(LogMessageType.ERROR, ex.Message);
                                 isValid = false;
                             }
 
@@ -145,7 +145,7 @@ namespace EDIParseConsole
                     }
                 }
             }
-            log.LogMessage(LogType.INFO, string.Format("Ending segment {0}, version {1}", segment, version));
+            log.LogMessage(LogMessageType.INFO, string.Format("Ending segment {0}, version {1}", segment, version));
 
         }
 
@@ -153,7 +153,7 @@ namespace EDIParseConsole
         {
             HL7SchemaRepository repo = new HL7SchemaRepository();
             List<string> collection = new List<string>();
-            log.LogMessage(LogType.INFO, string.Format("**************** Starting Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
+            log.LogMessage(LogMessageType.INFO, string.Format("**************** Starting Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
 
             //this will read in from a file
 
@@ -169,7 +169,7 @@ namespace EDIParseConsole
                 CreateSegment(segmentData, version);
             });
 
-            log.LogMessage(LogType.INFO, string.Format("**************** Completed Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
+            log.LogMessage(LogMessageType.INFO, string.Format("**************** Completed Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
         }
         
 
@@ -177,6 +177,8 @@ namespace EDIParseConsole
 
         static void Main(string[] args)
         {
+            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
+            log = LogFactory.CreateLogger(logType);
             ScrapeSegments();
         }
     }

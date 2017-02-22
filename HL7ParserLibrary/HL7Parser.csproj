@@ -68,7 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppConfiguration.cs" />
     <Compile Include="Base\BaseEvent.cs" />
     <Compile Include="DataTypes\BaseDataType.cs" />
     <Compile Include="DataTypes\IDataType.cs" />
@@ -79,7 +78,6 @@
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Helper\LogHelper.cs" />
     <Compile Include="HL7Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,7 +142,12 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\HL7Core\HL7Core.csproj">
+      <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
+      <Name>HL7Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="HL7Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

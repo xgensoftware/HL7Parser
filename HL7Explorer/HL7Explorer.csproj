@@ -88,12 +88,6 @@
     <Compile Include="frmEventBuilder.Designer.cs">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSchemaMapping.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmSchemaMapping.Designer.cs">
-      <DependentUpon>frmSchemaMapping.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmTriggerEventAddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,9 +110,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEventBuilder.resx">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSchemaMapping.resx">
-      <DependentUpon>frmSchemaMapping.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTriggerEventAddEdit.resx">
       <DependentUpon>frmTriggerEventAddEdit.cs</DependentUpon>
@@ -151,6 +142,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HL7Core\HL7Core.csproj">
+      <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
+      <Name>HL7Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HL7ParserLibrary\HL7Parser.csproj">
       <Project>{be02ade4-7197-4658-bf67-0e69d1102014}</Project>
       <Name>HL7Parser</Name>
