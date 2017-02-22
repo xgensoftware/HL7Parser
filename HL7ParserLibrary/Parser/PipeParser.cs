@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -32,15 +33,14 @@ namespace HL7Parser.Parser
 
         #region Private Methods        
 
-        private IEvent CreateEvent(TriggerEvent tr)
+        private EventSegment CreateEvent(TriggerEvent tr)
         {
-            IEvent e = null;
+            EventSegment e = null;
             List<Segment> segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
 
             try
             {
-                Type segmentType = Type.GetType(string.Format("HL7Parser.Models.{0}", tr.Segment));
-                e = (IEvent)Activator.CreateInstance(segmentType,tr.EventType,tr.Segment,tr.Version,(int)tr.Sequence,(bool)tr.IsOptional,(bool)tr.IsRepeated);
+                e = new EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
             }
             catch (ArgumentNullException) { }
 
@@ -51,14 +51,11 @@ namespace HL7Parser.Parser
                 {
                     try
                     {
-                        SegmentEvent segment = new SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired,s.IsRepeating);
-                        segment.SetValue(s.DataType,messageSegmentData[s.Sequence]);
-                        e.AddSegment(segment);
+                        SegmentEvent segment = new SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                        segment.SetValue(s.DataType, messageSegmentData[s.Sequence]);
+                        e.AddSegmentEvent(segment);
                     }
-                    catch (Exception ex)
-                    {
-                        this.LogErrorMessage(string.Format("CreateEvent failed on {0}.{1}. ERROR: {2}", tr.Segment, s.Name, ex.Message));
-                    }
+                    catch { }
                 }
             }
             else
@@ -67,10 +64,15 @@ namespace HL7Parser.Parser
             }
             return e;
         }
-        
+
         #endregion
 
         #region Public Methods 
+        /// <summary>
+        /// Parse HL7 message using the local DB for Segments and trigger events
+        /// </summary>
+        /// <param name="message">Raw HL7 formated file</param>
+        /// <returns>HL7 object with segments and events</returns>
         public HL7Message Parse(string message)
         {            
             string[] tempMessage = message.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -87,14 +89,13 @@ namespace HL7Parser.Parser
 
             this._hl7 = new HL7Message(tempMessage);
 
-            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType);
+            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();
 
-            foreach (var tr in triggerEvents)
-            {
-                IEvent newEvent = this.CreateEvent(tr);
+            Parallel.ForEach(triggerEvents, (tr) => {
+                EventSegment newEvent = this.CreateEvent(tr);
                 if (newEvent != null)
                     _hl7.AddEventSegment(newEvent);
-            }
+            });
 
             return _hl7;
         }

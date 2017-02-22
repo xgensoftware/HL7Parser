@@ -53,11 +53,10 @@ namespace HL7Explorer
 
                 HL7Message hl7 = parser.Parse(hl7File);
                 txtRawHL7Message.Text = hl7.MessageToken.RawMessage;
-                //tvSegments.Nodes.Add("MSH");
                 foreach (var seg in hl7.Events)
                 {
                     TreeNode n = new TreeNode(seg.Name);
-                    n.Tag = seg.SegmentEvents;
+                    n.Tag = seg.Segments;
                     tvSegments.Nodes.Add(n);
                 }
 

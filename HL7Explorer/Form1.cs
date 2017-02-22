@@ -39,15 +39,16 @@ namespace HL7Explorer
             frmEventBuilder frm = new frmEventBuilder(this._repo);
             frm.ShowDialog();
         }
-        
-        private void toolStripClose_Click(object sender, EventArgs e)
+
+        private void toolStripMenuItemClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this._repo.Dispose();
+            if (this._repo != null)
+                this._repo.Dispose();
         }
 
         private void toolStripMenuItemViewHL7Message_Click(object sender, EventArgs e)

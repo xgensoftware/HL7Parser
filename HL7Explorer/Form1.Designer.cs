@@ -31,10 +31,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripClose = new System.Windows.Forms.ToolStripTextBox();
             this.toolsToolStripMenuTools = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuTriggerBuild = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemViewHL7Message = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemClose = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +53,7 @@
             // 
             this.toolStripMenuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSeparator1,
-            this.toolStripClose});
+            this.toolStripMenuItemClose});
             this.toolStripMenuFile.Name = "toolStripMenuFile";
             this.toolStripMenuFile.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuFile.Text = "File";
@@ -61,14 +61,7 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
-            // 
-            // toolStripClose
-            // 
-            this.toolStripClose.Name = "toolStripClose";
-            this.toolStripClose.Size = new System.Drawing.Size(100, 23);
-            this.toolStripClose.Text = "Close";
-            this.toolStripClose.Click += new System.EventHandler(this.toolStripClose_Click);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // toolsToolStripMenuTools
             // 
@@ -92,6 +85,13 @@
             this.toolStripMenuItemViewHL7Message.Size = new System.Drawing.Size(184, 22);
             this.toolStripMenuItemViewHL7Message.Text = "View HL7Message";
             this.toolStripMenuItemViewHL7Message.Click += new System.EventHandler(this.toolStripMenuItemViewHL7Message_Click);
+            // 
+            // toolStripMenuItemClose
+            // 
+            this.toolStripMenuItemClose.Name = "toolStripMenuItemClose";
+            this.toolStripMenuItemClose.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemClose.Text = "Close";
+            this.toolStripMenuItemClose.Click += new System.EventHandler(this.toolStripMenuItemClose_Click);
             // 
             // Form1
             // 
@@ -119,8 +119,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuTools;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuTriggerBuild;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripTextBox toolStripClose;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemViewHL7Message;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemClose;
     }
 }
 

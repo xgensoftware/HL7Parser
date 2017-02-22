@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace HL7Parser.Models
     public class EventSegment : Object
     {
         #region Member Variables 
-        List<Models.SegmentEvent> _segmentEvents;
+        ConcurrentBag<SegmentEvent> _segmentEvents;
 
         protected string _eventType = string.Empty;
         protected string _name = string.Empty;
@@ -52,13 +53,22 @@ namespace HL7Parser.Models
         {
             get { return _isRepeated; }
         }
-        public List<SegmentEvent> Segments { get; }
+        public List<SegmentEvent> Segments
+        {
+            get { return _segmentEvents.OrderBy(x => x.Sequence).ToList<SegmentEvent>(); }
+        }
         #endregion
 
         #region Constructor 
-        public EventSegment(IEvent e)
+        public EventSegment(string eventType, string name, string version, int seq, bool isOptional, bool isRepeated)
         {
-            _segmentEvents = new List<SegmentEvent>();            
+            this._eventType = eventType;
+            this._name = name;
+            this._version = version;
+            this._sequence = seq;
+            this._isOptional = isOptional;
+            this._isRepeated = isRepeated;
+            _segmentEvents = new ConcurrentBag<SegmentEvent>();           
         }
         
         #endregion

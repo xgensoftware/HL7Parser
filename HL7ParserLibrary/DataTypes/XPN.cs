@@ -39,15 +39,20 @@ namespace HL7Parser.DataTypes
 
             if(!string.IsNullOrEmpty(val))
             {
-                string[] splitString = val.Split('^');
-
-                this._lastName = splitString[0];
-                this._firstName = splitString[1];
-
-                if(splitString.Count() > 2)
+                if (val.Contains('^'))
                 {
-                    this._mi = splitString[2];
+                    string[] splitString = val.Split('^');
+
+                    this._lastName = splitString[0];
+                    this._firstName = splitString[1];
+
+                    if (splitString.Count() > 2)
+                    {
+                        this._mi = splitString[2];
+                    }
                 }
+                else
+                    this._lastName = val;
             }
         }
 

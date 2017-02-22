@@ -7,7 +7,8 @@ using HL7Core;
 namespace HL7Parser.Repository
 {
     /// <summary>
-    /// Get HL7 schema based on Version and trigger event (i.e ADT_A31)
+    /// Repositry that handles getting trigger events and segments
+    /// from the local SQLite DB.
     /// </summary>
     public class HL7SchemaRepository : BaseRepository, IRepository
     {
@@ -73,10 +74,19 @@ namespace HL7Parser.Repository
 
         public List<Segment> GetSegmentBy(string version, string segment)
         {
-            return _dbCTX.Segments
-                    .Where(x => x.Version == version && x.SegmentId == segment)
-                    .OrderBy(x => x.Sequence)
-                    .ToList();
+            List<Segment> collection = null;
+
+            try
+            {
+                collection = _dbCTX.Segments
+                            .Where(x => x.Version == version && x.SegmentId == segment)
+                            .OrderBy(x => x.Sequence)
+                            .ToList();
+            }
+            catch { collection = new List<Segment>(); }
+
+
+            return collection;
         }
 
         public string[] GetDistinctSegmentsBy(string version)
