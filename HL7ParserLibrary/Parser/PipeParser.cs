@@ -33,14 +33,14 @@ namespace HL7Parser.Parser
 
         #region Private Methods        
 
-        private EventSegment CreateEvent(TriggerEvent tr)
+        private HL7EventSegment CreateEvent(TriggerEvent tr)
         {
-            EventSegment e = null;
+            HL7EventSegment e = null;
             List<Segment> segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
 
             try
             {
-                e = new EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+                e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
             }
             catch (ArgumentNullException) { }
 
@@ -51,7 +51,7 @@ namespace HL7Parser.Parser
                 {
                     try
                     {
-                        SegmentEvent segment = new SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                        HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
                         segment.SetValue(s.DataType, messageSegmentData[s.Sequence]);
                         e.AddSegmentEvent(segment);
                     }
@@ -68,6 +68,7 @@ namespace HL7Parser.Parser
         #endregion
 
         #region Public Methods 
+
         /// <summary>
         /// Parse HL7 message using the local DB for Segments and trigger events
         /// </summary>
@@ -92,7 +93,7 @@ namespace HL7Parser.Parser
             List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();
 
             Parallel.ForEach(triggerEvents, (tr) => {
-                EventSegment newEvent = this.CreateEvent(tr);
+                HL7EventSegment newEvent = this.CreateEvent(tr);
                 if (newEvent != null)
                     _hl7.AddEventSegment(newEvent);
             });

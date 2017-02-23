@@ -15,15 +15,24 @@ namespace HL7Explorer
     public partial class BaseForm : Form
     {
         #region Member Variables 
-        ILogger _logger = null;
+        protected ILogger _logger = null;
         protected HL7SchemaRepository _repo = null;
         #endregion
 
         public BaseForm()
         {
-            InitializeComponent();
-            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
-            this._logger = LogFactory.CreateLogger(logType);
+            InitializeComponent();           
+
+            this.FormClosing += BaseForm_FormClosing;
+
+           // LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
+            this._logger = LogFactory.CreateLogger(LogType.FILE);
+        }
+
+        private void BaseForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this._repo != null)
+                this._repo.Dispose();
         }
 
         protected void LogError(string message)

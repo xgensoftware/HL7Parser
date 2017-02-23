@@ -27,7 +27,7 @@ namespace HL7Parser.Repository
         #region Constructor 
         public BaseRepository()
         {
-            LogType type = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
+            LogType type = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             this._logging = LogFactory.CreateLogger(type);
         }
         #endregion

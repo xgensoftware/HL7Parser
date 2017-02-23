@@ -75,6 +75,7 @@
     <Compile Include="DataTypes\XCN.cs" />
     <Compile Include="DataTypes\XPN.cs" />
     <Compile Include="DataTypes\XTN.cs" />
+    <Compile Include="Entities\Segment.cs" />
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
@@ -96,7 +97,7 @@
     <Compile Include="MessageType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EventSegment.cs" />
+    <Compile Include="Models\HL7EventSegment.cs" />
     <Compile Include="Models\HL7Events\EVN.cs" />
     <Compile Include="Models\HL7Events\GT1.cs" />
     <Compile Include="Models\HL7Message.cs" />
@@ -107,8 +108,8 @@
     <Compile Include="Models\HL7Events\PV1.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\HL7Events\MSH.cs" />
-    <Compile Include="Models\Segment.cs" />
-    <Compile Include="Models\TriggerEvent.cs" />
+    <Compile Include="Models\HL7SegmentEvent.cs" />
+    <Compile Include="Entities\TriggerEvent.cs" />
     <Compile Include="Parser\ParserBase.cs" />
     <Compile Include="Parser\PipeParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

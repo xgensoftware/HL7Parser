@@ -177,7 +177,7 @@ namespace EDIParseConsole
 
         static void Main(string[] args)
         {
-            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
+            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             log = LogFactory.CreateLogger(logType);
             ScrapeSegments();
         }

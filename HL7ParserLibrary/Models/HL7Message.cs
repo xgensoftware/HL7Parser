@@ -15,7 +15,7 @@ namespace HL7Parser.Models
     {
         #region Member Variables 
         Token _token = null;
-        ConcurrentBag<EventSegment> _events;
+        ConcurrentBag<HL7EventSegment> _events;
         
         #endregion
 
@@ -25,7 +25,7 @@ namespace HL7Parser.Models
             get { return _token; }
         }
         
-        public List<EventSegment> Events
+        public List<HL7EventSegment> Events
         {
             get { return this._events.OrderBy(x => x.Sequence).ToList(); }
         }
@@ -35,13 +35,13 @@ namespace HL7Parser.Models
         public HL7Message(string[] message)
         {
             this._token = new Token(message);
-            this._events = new ConcurrentBag<EventSegment>();
+            this._events = new ConcurrentBag<HL7EventSegment>();
         }
 
         #endregion
 
         #region Public Methods
-        public void AddEventSegment(EventSegment e)
+        public void AddEventSegment(HL7EventSegment e)
         {
             this._events.Add(e);
         }

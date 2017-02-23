@@ -77,7 +77,7 @@ namespace HL7Explorer
         #endregion
 
         #region Form Events 
-        public frmEventBuilder(HL7SchemaRepository repo)
+        public frmEventBuilder(HL7SchemaRepository repo) : base()
         {
             InitializeComponent();
             this.dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;

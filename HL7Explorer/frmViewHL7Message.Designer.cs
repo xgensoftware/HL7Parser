@@ -37,9 +37,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tvSegments = new System.Windows.Forms.TreeView();
-            this.grdSegmentFields = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.databaseComparisonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.grdSegmentFields = new System.Windows.Forms.DataGridView();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -49,8 +50,8 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -138,6 +139,20 @@
             this.tvSegments.Size = new System.Drawing.Size(200, 368);
             this.tvSegments.TabIndex = 0;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseComparisonToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 26);
+            // 
+            // databaseComparisonToolStripMenuItem
+            // 
+            this.databaseComparisonToolStripMenuItem.Name = "databaseComparisonToolStripMenuItem";
+            this.databaseComparisonToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.databaseComparisonToolStripMenuItem.Text = "Database Comparison";
+            this.databaseComparisonToolStripMenuItem.Click += new System.EventHandler(this.databaseComparisonToolStripMenuItem_Click);
+            // 
             // grdSegmentFields
             // 
             this.grdSegmentFields.AllowUserToAddRows = false;
@@ -149,20 +164,6 @@
             this.grdSegmentFields.ReadOnly = true;
             this.grdSegmentFields.Size = new System.Drawing.Size(929, 368);
             this.grdSegmentFields.TabIndex = 0;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.databaseComparisonToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 48);
-            // 
-            // databaseComparisonToolStripMenuItem
-            // 
-            this.databaseComparisonToolStripMenuItem.Name = "databaseComparisonToolStripMenuItem";
-            this.databaseComparisonToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.databaseComparisonToolStripMenuItem.Text = "Database Comparison";
-            this.databaseComparisonToolStripMenuItem.Click += new System.EventHandler(this.databaseComparisonToolStripMenuItem_Click);
             // 
             // frmViewHL7Message
             // 
@@ -188,8 +189,8 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,5 +207,6 @@
         private System.Windows.Forms.DataGridView grdSegmentFields;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem databaseComparisonToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

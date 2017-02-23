@@ -48,7 +48,7 @@ namespace HL7Parser.Repository
             }
 
             try
-            {
+            {                
                 this._dbCTX.SaveChanges();
             }
             catch (Exception ex)
@@ -68,6 +68,7 @@ namespace HL7Parser.Repository
 
             return _dbCTX.TriggerEvents
                     .Where(x => x.Version == version && x.MessageType == message && x.EventType == eventType)
+                    .AsParallel()
                     .OrderBy(x => x.Sequence)
                     .ToList();
         }
@@ -80,6 +81,7 @@ namespace HL7Parser.Repository
             {
                 collection = _dbCTX.Segments
                             .Where(x => x.Version == version && x.SegmentId == segment)
+                            .AsParallel()
                             .OrderBy(x => x.Sequence)
                             .ToList();
             }

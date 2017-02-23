@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.Models
 {
+    /// <summary>
+    /// HL7 token object
+    /// holds the respective identifing portions of the raw HL7 message
+    /// </summary>
     public class Token
     {
         #region Member Variables 

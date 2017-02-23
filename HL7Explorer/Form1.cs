@@ -32,8 +32,8 @@ namespace HL7Explorer
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Text = string.Format("{0}: {1}", Application.ProductName, Application.ProductVersion);
+            this.FormClosing += Form1_FormClosing;
         }
-
         private void toolStripMenuTriggerBuild_Click(object sender, EventArgs e)
         {
             frmEventBuilder frm = new frmEventBuilder(this._repo);

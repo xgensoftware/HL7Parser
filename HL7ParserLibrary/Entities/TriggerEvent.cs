@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace HL7Parser
 {
+    /// <summary>
+    /// Partial class for DB entity
+    /// </summary>
     public partial class TriggerEvent
     {
         #region Member Variables 
@@ -13,17 +16,18 @@ namespace HL7Parser
         #endregion
 
         #region Properties
-        public string Trigger
-        {
-            get
-            {
-                return string.Format("{0}_{1}", this.MessageType, this.EventType);
-            }
-        }
+        
         #endregion
 
         #region Constructor 
 
+        #endregion
+
+        #region Overrides
+        public override string ToString()
+        {
+            return string.Format("{0}_{1}", this.MessageType, this.EventType);
+        }
         #endregion
     }
 }

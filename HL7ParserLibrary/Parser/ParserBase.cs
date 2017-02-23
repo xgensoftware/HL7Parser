@@ -26,7 +26,7 @@ namespace HL7Parser.Parser
 
         public ParserBase()
         {
-            LogType type = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LogType);
+            LogType type = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             this._logging = LogFactory.CreateLogger(type);
         }
         
