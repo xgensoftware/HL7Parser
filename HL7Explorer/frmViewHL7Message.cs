@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using HL7Core;
-using HL7Parser;
 using HL7Parser.Parser;
 using HL7Parser.Models;
 using HL7Parser.Repository;
@@ -41,8 +33,7 @@ namespace HL7Explorer
             backgroundWorker1.DoWork += BackgroundWorker1_DoWork;
             backgroundWorker1.RunWorkerCompleted += BackgroundWorker1_RunWorkerCompleted;
         }
-
-
+        
         public frmViewHL7Message() 
         {
             InitializeComponent();
@@ -72,16 +63,23 @@ namespace HL7Explorer
            
         }
 
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            if (this._hl7Message != null)
+            {
+                frmHL7DBComparison dbComparison = new frmHL7DBComparison(this._hl7Message);
+                dbComparison.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("In order to continue, you must first load an HL7 message");
+            }
+        }
+
         private void TvSegments_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
             grdSegmentFields.DataSource = node.Tag as List<HL7SegmentEvent>;
-        }
-
-        private void databaseComparisonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var treeViewItem = tvSegments.SelectedNode;
-
         }
 
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -92,13 +90,14 @@ namespace HL7Explorer
 
         private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            tvSegments.Nodes.Clear();
             toolStripButtonLoad.Enabled = true;
 
             txtRawHL7Message.Text = _hl7Message.MessageToken.RawMessage;
             foreach (var seg in _hl7Message.Events)
             {
-                TreeNode n = new TreeNode(seg.Name);
-                n.Tag = seg.Segments;
+                TreeNode n = new TreeNode(seg.Value.Name);
+                n.Tag = seg.Value.Segments;
                 tvSegments.Nodes.Add(n);
             }
 

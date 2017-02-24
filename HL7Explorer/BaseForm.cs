@@ -22,18 +22,11 @@ namespace HL7Explorer
         public BaseForm()
         {
             InitializeComponent();           
-
-            this.FormClosing += BaseForm_FormClosing;
+            
 
            // LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             this._logger = LogFactory.CreateLogger(LogType.FILE);
-        }
-
-        private void BaseForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (this._repo != null)
-                this._repo.Dispose();
-        }
+        }       
 
         protected void LogError(string message)
         {

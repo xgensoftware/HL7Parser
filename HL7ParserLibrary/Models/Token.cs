@@ -19,7 +19,8 @@ namespace HL7Parser.Models
         string _messageType = string.Empty;
         string _eventType = string.Empty;
 
-        Dictionary<string,string> _segment = null;
+        string[] _segment = null;
+        //Dictionary<string,string> _segment = null;
 
         StringBuilder _rawMessage = new StringBuilder();      
         #endregion
@@ -50,6 +51,11 @@ namespace HL7Parser.Models
             get { return _eventType; }
         }
         
+        public string[] Segments
+        {
+            get { return this._segment; }
+        }
+
         public string RawMessage
         {
             get { return _rawMessage.ToString(); }
@@ -58,8 +64,6 @@ namespace HL7Parser.Models
         
         public Token(string[] message)
         {
-            this._segment = new Dictionary<string, string>();
-
             //Parse the message header based on the |
             string[] parsedMSH = message[0].Split('|');
 
@@ -74,19 +78,19 @@ namespace HL7Parser.Models
             this._messageType = trigger[0];
             this._eventType = trigger[1];
 
-            this._segment = new Dictionary<string, string>();
+            this._segment = new string[message.Length];
             for (int idx = 0; idx <= message.Length - 1; idx++)
             {
-                this._segment.Add(message[idx].Substring(0, 3), message[idx]);
+                this._segment[idx] = message[idx];
                 this._rawMessage.AppendLine(message[idx]);
             }
 
         }
 
-        public void AddSegment(string key, string data)
-        {
-            this._segment.Add(key, data);
-        }
+        //public void AddSegment(string key, string data)
+        //{
+        //    this._segment.Add(key, data);
+        //}
 
         public string[] GetSegmentData(string segment)
         {
@@ -94,11 +98,12 @@ namespace HL7Parser.Models
 
             try
             {
-                value = this._segment.Where(x => x.Key == segment).FirstOrDefault().Value.Split(this._fieldSeparator);
+                //value = this._segment.Where(x => x.Key == segment).FirstOrDefault().Value.Split(this._fieldSeparator);
+                return this._segment.Where(x => x.Substring(0, 3) == segment).FirstOrDefault().ToString().Split(this._fieldSeparator);
             }
             catch { }
 
             return value;
-        }        
+        }
     }
 }

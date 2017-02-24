@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmViewHL7Message));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtRawHL7Message = new System.Windows.Forms.TextBox();
@@ -37,10 +36,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tvSegments = new System.Windows.Forms.TreeView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.databaseComparisonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grdSegmentFields = new System.Windows.Forms.DataGridView();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolStripButtonDBCompare = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -50,7 +49,6 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,7 +71,9 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonLoad});
+            this.toolStripButtonLoad,
+            this.toolStripSeparator1,
+            this.toolStripButtonDBCompare});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1133, 25);
@@ -132,26 +132,11 @@
             // 
             // tvSegments
             // 
-            this.tvSegments.ContextMenuStrip = this.contextMenuStrip1;
             this.tvSegments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvSegments.Location = new System.Drawing.Point(0, 0);
             this.tvSegments.Name = "tvSegments";
             this.tvSegments.Size = new System.Drawing.Size(200, 368);
             this.tvSegments.TabIndex = 0;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.databaseComparisonToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 26);
-            // 
-            // databaseComparisonToolStripMenuItem
-            // 
-            this.databaseComparisonToolStripMenuItem.Name = "databaseComparisonToolStripMenuItem";
-            this.databaseComparisonToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.databaseComparisonToolStripMenuItem.Text = "Database Comparison";
-            this.databaseComparisonToolStripMenuItem.Click += new System.EventHandler(this.databaseComparisonToolStripMenuItem_Click);
             // 
             // grdSegmentFields
             // 
@@ -164,6 +149,21 @@
             this.grdSegmentFields.ReadOnly = true;
             this.grdSegmentFields.Size = new System.Drawing.Size(929, 368);
             this.grdSegmentFields.TabIndex = 0;
+            // 
+            // toolStripButtonDBCompare
+            // 
+            this.toolStripButtonDBCompare.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDBCompare.Image")));
+            this.toolStripButtonDBCompare.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.toolStripButtonDBCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDBCompare.Name = "toolStripButtonDBCompare";
+            this.toolStripButtonDBCompare.Size = new System.Drawing.Size(94, 22);
+            this.toolStripButtonDBCompare.Text = "DB Compare";
+            this.toolStripButtonDBCompare.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // frmViewHL7Message
             // 
@@ -189,7 +189,6 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdSegmentFields)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -205,8 +204,8 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TreeView tvSegments;
         private System.Windows.Forms.DataGridView grdSegmentFields;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem databaseComparisonToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDBCompare;
     }
 }

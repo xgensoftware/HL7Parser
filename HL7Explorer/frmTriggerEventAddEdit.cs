@@ -56,7 +56,7 @@ namespace HL7Explorer
             chkIsOptional.Checked = this._triggerEvent.IsOptional;
             chkIsRepeatable.Checked = this._triggerEvent.IsRepeated;
 
-            List<Segment> s = this._repo.GetSegmentBy(this._triggerEvent.Version, this._triggerEvent.Segment);
+            var s = this._repo.GetSegmentBy(this._triggerEvent.Version, this._triggerEvent.Segment);
 
             gridSegments.DataSource = s;
 

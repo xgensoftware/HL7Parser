@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HL7Parser;
 using HL7Parser.Parser;
+using HL7Parser.Models;
 using HL7Core;
 using HL7Parser.Repository;
 using HtmlAgilityPack;
@@ -25,22 +26,9 @@ namespace EDIParseConsole
             PipeParser parse = new PipeParser();
             string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\1476286403448-1863881.txt.dpp";
             string message = File.ReadAllText(filePath);
-            string[] temp = message.Split(new string[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i <= temp.Length - 1; i++)
-            {
-                string segment = temp[i].Substring(0, 3);
-                if(segment == "MSH")
-                {
-                    //reorder the msh segment
-                    temp[i] = string.Format("|{0}",temp[i]);
-                }
-                temp[i].Trim();
+            HL7Message temp = parse.Parse(message);
 
-                
-            }
-
-
-            //HL7Message temp = parse.Parse(message);
+            Console.WriteLine(temp.SegmentString());
             //var segment = temp.Events.Where(x => x.Name == "MSH").FirstOrDefault();
         }
         private static string DataTypeMap(string type)
@@ -177,9 +165,14 @@ namespace EDIParseConsole
 
         static void Main(string[] args)
         {
-            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
-            log = LogFactory.CreateLogger(logType);
-            ScrapeSegments();
+            //LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
+            //log = LogFactory.CreateLogger(logType);
+            //ScrapeSegments();
+
+
+            ParseMessage();
+
+            Console.ReadLine();
         }
     }
 }

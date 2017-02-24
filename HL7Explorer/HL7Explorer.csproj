@@ -91,6 +91,12 @@
     <Compile Include="frmEventBuilder.Designer.cs">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHL7DBComparison.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHL7DBComparison.Designer.cs">
+      <DependentUpon>frmHL7DBComparison.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTriggerEventAddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEventBuilder.resx">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHL7DBComparison.resx">
+      <DependentUpon>frmHL7DBComparison.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTriggerEventAddEdit.resx">
       <DependentUpon>frmTriggerEventAddEdit.cs</DependentUpon>
@@ -150,6 +159,10 @@
     <ProjectReference Include="..\HL7Core\HL7Core.csproj">
       <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
       <Name>HL7Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HL7ExplorerBL\HL7ExplorerBL.csproj">
+      <Project>{cc5c6173-3508-4281-a389-c3d184e23290}</Project>
+      <Name>HL7ExplorerBL</Name>
     </ProjectReference>
     <ProjectReference Include="..\HL7ParserLibrary\HL7Parser.csproj">
       <Project>{be02ade4-7197-4658-bf67-0e69d1102014}</Project>

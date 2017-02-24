@@ -36,8 +36,8 @@ namespace HL7Parser.Parser
         private HL7EventSegment CreateEvent(TriggerEvent tr)
         {
             HL7EventSegment e = null;
-            List<Segment> segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
-
+            var segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
+            
             try
             {
                 e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
@@ -46,22 +46,45 @@ namespace HL7Parser.Parser
 
             if (e != null)
             {
-                string[] messageSegmentData = this._hl7.MessageToken.GetSegmentData(tr.Segment);
+                var segmentArray = this._hl7.MessageToken.GetSegmentData(tr.Segment);
                 foreach (Segment s in segmentsConfig)
                 {
                     try
                     {
                         HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
-                        segment.SetValue(s.DataType, messageSegmentData[s.Sequence]);
+                        segment.SetValue(s.DataType, segmentArray[s.Sequence]);
                         e.AddSegmentEvent(segment);
                     }
                     catch { }
                 }
+
             }
             else
             {
                 this.LogInfoMessage(string.Format("No Segment class exists for {0}.", tr.Segment));
             }
+                
+            
+
+            return e;
+        }
+        private HL7EventSegment CreateFromSegmentString(string rawSegment, TriggerEvent tr)
+        {
+            var segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
+            HL7EventSegment e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+
+            var segmentArray = rawSegment.Split(this._hl7.MessageToken.FieldSeparator);
+            foreach (Segment s in segmentsConfig)
+            {
+                try
+                {
+                    HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                    segment.SetValue(s.DataType, segmentArray[s.Sequence]);
+                    e.AddSegmentEvent(segment);
+                }
+                catch { }
+            }
+
             return e;
         }
 
@@ -90,13 +113,17 @@ namespace HL7Parser.Parser
 
             this._hl7 = new HL7Message(tempMessage);
 
+            //The Fields in the message should drive this, to handle multiple similar segments.
             List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();
+            foreach (string s in this._hl7.MessageToken.Segments)
+            {
+                string segId = s.Substring(0, 3);
+                TriggerEvent tr = triggerEvents.Where(x => x.Segment == segId).FirstOrDefault();
 
-            Parallel.ForEach(triggerEvents, (tr) => {
-                HL7EventSegment newEvent = this.CreateEvent(tr);
+                HL7EventSegment newEvent = this.CreateFromSegmentString(s, tr);
                 if (newEvent != null)
                     _hl7.AddEventSegment(newEvent);
-            });
+            }
 
             return _hl7;
         }

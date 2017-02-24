@@ -73,7 +73,7 @@ namespace HL7Parser.Repository
                     .ToList();
         }
 
-        public List<Segment> GetSegmentBy(string version, string segment)
+        public  List<Segment> GetSegmentBy(string version, string segment)
         {
             List<Segment> collection = null;
 
@@ -83,9 +83,9 @@ namespace HL7Parser.Repository
                             .Where(x => x.Version == version && x.SegmentId == segment)
                             .AsParallel()
                             .OrderBy(x => x.Sequence)
-                            .ToList();
+                            .ToList<Segment>();
             }
-            catch { collection = new List<Segment>(); }
+            catch { collection = new List<Segment>();  }
 
 
             return collection;
