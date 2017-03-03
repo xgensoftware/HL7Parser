@@ -33,13 +33,19 @@
             this.txtRawHL7Message = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonDBCompare = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tvSegments = new System.Windows.Forms.TreeView();
             this.grdSegmentFields = new System.Windows.Forms.DataGridView();
+            this.colSequence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colIsRequired = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colIsRepeating = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.toolStripButtonDBCompare = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -65,7 +71,7 @@
             this.txtRawHL7Message.Multiline = true;
             this.txtRawHL7Message.Name = "txtRawHL7Message";
             this.txtRawHL7Message.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtRawHL7Message.Size = new System.Drawing.Size(1133, 300);
+            this.txtRawHL7Message.Size = new System.Drawing.Size(1184, 275);
             this.txtRawHL7Message.TabIndex = 3;
             // 
             // toolStrip1
@@ -76,7 +82,7 @@
             this.toolStripButtonDBCompare});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1133, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1184, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -90,6 +96,21 @@
             this.toolStripButtonLoad.Text = "Load";
             this.toolStripButtonLoad.Click += new System.EventHandler(this.toolStripButtonLoad_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonDBCompare
+            // 
+            this.toolStripButtonDBCompare.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDBCompare.Image")));
+            this.toolStripButtonDBCompare.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.toolStripButtonDBCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDBCompare.Name = "toolStripButtonDBCompare";
+            this.toolStripButtonDBCompare.Size = new System.Drawing.Size(94, 22);
+            this.toolStripButtonDBCompare.Text = "DB Compare";
+            this.toolStripButtonDBCompare.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -100,14 +121,16 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.txtRawHL7Message);
-            this.splitContainer1.Panel1MinSize = 300;
+            this.splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer1.Panel1MinSize = 275;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Panel2MinSize = 300;
-            this.splitContainer1.Size = new System.Drawing.Size(1133, 674);
-            this.splitContainer1.SplitterDistance = 300;
+            this.splitContainer1.Size = new System.Drawing.Size(1184, 613);
+            this.splitContainer1.SplitterDistance = 275;
             this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 6;
             // 
@@ -120,14 +143,16 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.tvSegments);
-            this.splitContainer2.Panel1MinSize = 200;
+            this.splitContainer2.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.splitContainer2.Panel1MinSize = 175;
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grdSegmentFields);
+            this.splitContainer2.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer2.Panel2MinSize = 400;
-            this.splitContainer2.Size = new System.Drawing.Size(1133, 368);
-            this.splitContainer2.SplitterDistance = 200;
+            this.splitContainer2.Size = new System.Drawing.Size(1184, 332);
+            this.splitContainer2.SplitterDistance = 175;
             this.splitContainer2.TabIndex = 0;
             // 
             // tvSegments
@@ -135,45 +160,85 @@
             this.tvSegments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvSegments.Location = new System.Drawing.Point(0, 0);
             this.tvSegments.Name = "tvSegments";
-            this.tvSegments.Size = new System.Drawing.Size(200, 368);
+            this.tvSegments.Size = new System.Drawing.Size(175, 332);
             this.tvSegments.TabIndex = 0;
             // 
             // grdSegmentFields
             // 
             this.grdSegmentFields.AllowUserToAddRows = false;
             this.grdSegmentFields.AllowUserToDeleteRows = false;
+            this.grdSegmentFields.AllowUserToResizeRows = false;
             this.grdSegmentFields.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdSegmentFields.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSequence,
+            this.colVersion,
+            this.colName,
+            this.colValue,
+            this.colIsRequired,
+            this.colIsRepeating});
             this.grdSegmentFields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdSegmentFields.Location = new System.Drawing.Point(0, 0);
             this.grdSegmentFields.Name = "grdSegmentFields";
             this.grdSegmentFields.ReadOnly = true;
-            this.grdSegmentFields.Size = new System.Drawing.Size(929, 368);
+            this.grdSegmentFields.Size = new System.Drawing.Size(1005, 332);
             this.grdSegmentFields.TabIndex = 0;
             // 
-            // toolStripButtonDBCompare
+            // colSequence
             // 
-            this.toolStripButtonDBCompare.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDBCompare.Image")));
-            this.toolStripButtonDBCompare.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.toolStripButtonDBCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonDBCompare.Name = "toolStripButtonDBCompare";
-            this.toolStripButtonDBCompare.Size = new System.Drawing.Size(94, 22);
-            this.toolStripButtonDBCompare.Text = "DB Compare";
-            this.toolStripButtonDBCompare.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.colSequence.DataPropertyName = "Sequence";
+            this.colSequence.HeaderText = "Sequence";
+            this.colSequence.Name = "colSequence";
+            this.colSequence.ReadOnly = true;
+            this.colSequence.Width = 75;
             // 
-            // toolStripSeparator1
+            // colVersion
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.colVersion.DataPropertyName = "Version";
+            this.colVersion.HeaderText = "Version";
+            this.colVersion.Name = "colVersion";
+            this.colVersion.ReadOnly = true;
+            this.colVersion.Width = 75;
+            // 
+            // colName
+            // 
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "Name";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            this.colName.Width = 300;
+            // 
+            // colValue
+            // 
+            this.colValue.DataPropertyName = "Value";
+            this.colValue.HeaderText = "Value";
+            this.colValue.Name = "colValue";
+            this.colValue.ReadOnly = true;
+            this.colValue.Width = 300;
+            // 
+            // colIsRequired
+            // 
+            this.colIsRequired.DataPropertyName = "IsRequired";
+            this.colIsRequired.HeaderText = "Required";
+            this.colIsRequired.Name = "colIsRequired";
+            this.colIsRequired.ReadOnly = true;
+            // 
+            // colIsRepeating
+            // 
+            this.colIsRepeating.DataPropertyName = "IsRepeating";
+            this.colIsRepeating.HeaderText = "Repeating";
+            this.colIsRepeating.Name = "colIsRepeating";
+            this.colIsRepeating.ReadOnly = true;
             // 
             // frmViewHL7Message
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1133, 723);
+            this.ClientSize = new System.Drawing.Size(1184, 662);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.MinimumSize = new System.Drawing.Size(1200, 700);
             this.Name = "frmViewHL7Message";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmViewHL7Message";
             this.Load += new System.EventHandler(this.frmViewHL7Message_Load);
             this.Controls.SetChildIndex(this.toolStrip1, 0);
@@ -207,5 +272,11 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButtonDBCompare;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSequence;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colIsRequired;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colIsRepeating;
     }
 }

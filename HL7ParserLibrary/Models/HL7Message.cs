@@ -29,6 +29,22 @@ namespace HL7Parser.Models
         {
             get { return this._events ; }
         }
+
+        public string ToSegmentString
+        {
+            get
+            {
+                StringBuilder s = new StringBuilder();
+                foreach (HL7EventSegment seg in _events.Values)
+                {
+                    s.Append(string.Format("{0},", seg.Name));
+                }
+
+                s.Remove(s.Length - 1, 1);
+
+                return s.ToString();
+            }
+        }
         #endregion
 
         #region Constructor
@@ -53,19 +69,21 @@ namespace HL7Parser.Models
             this._events.Add(key, e);
         }
 
-        public string SegmentString()
+        public string SegmentQueryParamter()
         {
             
             StringBuilder s = new StringBuilder();
-            Parallel.ForEach(_events, (seg) => {
-
-                s.Append(string.Format("'{0}',", seg.Value.Name));
-            });
+            foreach(HL7EventSegment seg in _events.Values)
+            {
+                s.Append(string.Format("'{0}',", seg.Name));
+            }
 
             s.Remove(s.Length - 1, 1);
 
             return s.ToString();            
         }
+
+        
         #endregion
     }
 }

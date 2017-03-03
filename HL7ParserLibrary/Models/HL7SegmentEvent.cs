@@ -72,6 +72,11 @@ namespace HL7Parser.Models
                 this._value = obj;
             }            
         }
+
+        public override string ToString()
+        {
+            return this._name;
+        }
         #endregion
 
     }

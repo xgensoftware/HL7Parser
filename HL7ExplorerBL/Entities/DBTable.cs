@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HL7ExplorerBL.Entities
 {
-    public class DBTable : Object
+    public class DBTable : Object, IComparable
     {
         #region Member Variables 
         string _tableName = string.Empty;
@@ -31,6 +31,24 @@ namespace HL7ExplorerBL.Entities
             this._tableId = tableId;
             this._tableName = tableName;
         }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+
+            DBTable dt = obj as DBTable;
+            if(dt != null)
+            {
+                return this._tableName.CompareTo(dt);
+            }
+            else
+            {
+                throw new ArgumentException("object is not a DBTable");
+            }
+        
+            
+        }
+
 
         #endregion
     }

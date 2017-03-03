@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeEngine.Framework.QueryBuilder">
+      <HintPath>..\..\_components\CodeEngine.Framework.QueryBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="com.Xgensoftware.Core">
       <HintPath>..\..\_components\com.Xgensoftware.Core.dll</HintPath>
     </Reference>
@@ -51,6 +54,7 @@
     <Compile Include="Entities\DBTable.cs" />
     <Compile Include="Entities\DBTableCollection.cs" />
     <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Helper\QueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\GenericDBRepository.cs" />

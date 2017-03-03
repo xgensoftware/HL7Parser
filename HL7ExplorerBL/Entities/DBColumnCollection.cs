@@ -26,5 +26,12 @@ namespace HL7ExplorerBL.Entities
             this._collection = new ConcurrentBag<DBColumn>();
         }
         #endregion
+
+        #region Public Methods 
+        public void Add(DBColumn item)
+        {
+            _collection.Add(item);
+        }
+        #endregion
     }
 }

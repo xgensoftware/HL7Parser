@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using com.Xgensoftware.Core;
+using com.Xgensoftware.Core;
 using com.Xgensoftware.DAL;
 namespace HL7ExplorerBL.Repository
 {
     public abstract class BaseRepository : Object, IDisposable
     {
         #region Member Variables 
-        protected IDataProvider _dbProvider = null;        
+        protected IDataProvider _dbProvider = null;
+        protected DatabaseProvider_Type _dbType = DatabaseProvider_Type.MSSQLProvider;
         private bool disposedValue = false;
 
-        protected string _tableSelectMSSQL = "select object_id[TableId] ,name as [TableName] from sys.tables where substring(name,charindex('_',name) + 1 ,3) in ({0}) order by name asc";
         #endregion
 
 
