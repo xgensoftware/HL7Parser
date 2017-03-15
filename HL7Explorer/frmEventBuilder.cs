@@ -81,6 +81,7 @@ namespace HL7Explorer
         {
             InitializeComponent();
             this.dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;
+            this.toolStripMenuItemNew.Click += ToolStripMenuItemNew_Click;
 
             this._repo = repo;
         }
@@ -109,6 +110,11 @@ namespace HL7Explorer
             frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._repo,null);
             frm.OnTriggerEventCompleted += Frm_OnTriggerEventCompleted;
             frm.ShowDialog();
+        }
+
+                private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(this.Name);
         }
 
         private void Frm_OnTriggerEventCompleted(bool isSuccess)

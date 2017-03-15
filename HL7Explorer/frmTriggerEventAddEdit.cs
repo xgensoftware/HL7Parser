@@ -68,6 +68,8 @@ namespace HL7Explorer
         {
             InitializeComponent();
             this._repo = repo;
+                        
+            this.toolStripMenuItemNew.Click += ToolStripMenuItemNew_Click;
 
             this.PopulateControls();
             
@@ -84,6 +86,12 @@ namespace HL7Explorer
                 this.btnAddSegment.Enabled = false;
             }
             
+        }        
+
+        private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
+        {
+            this._triggerEvent = null;
+            gridSegments.DataSource = null;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -126,6 +134,8 @@ namespace HL7Explorer
 
             MessageBox.Show(message);
         }
+
+        
         #endregion
 
     }

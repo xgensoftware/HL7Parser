@@ -18,6 +18,7 @@ namespace HL7Parser.Models
         string _messageVersion = string.Empty;
         string _messageType = string.Empty;
         string _eventType = string.Empty;
+        string _messageControlId = string.Empty;   
 
         string[] _segment = null;
         //Dictionary<string,string> _segment = null;
@@ -26,6 +27,7 @@ namespace HL7Parser.Models
         #endregion
 
         #region Properties 
+ 
         public char EncodingCharacter
         {
             get { return _encodingCharacter; }
@@ -51,6 +53,11 @@ namespace HL7Parser.Models
             get { return _eventType; }
         }
         
+        public string MessageControlId
+        {
+            get { return _messageControlId; }
+        }
+
         public string[] Segments
         {
             get { return this._segment; }
@@ -75,6 +82,7 @@ namespace HL7Parser.Models
             this._fieldSeparator = fieldSep;
             this._encodingCharacter = encoding;
             this._messageVersion = parsedMSH[11];
+            this._messageControlId = parsedMSH[9];
             this._messageType = trigger[0];
             this._eventType = trigger[1];
 

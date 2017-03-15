@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="com.Xgensoftware.Core">
+      <HintPath>..\..\_components\com.Xgensoftware.Core.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +67,8 @@
       <HintPath>..\packages\System.Data.SQLite.Linq.1.0.104.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +88,10 @@
     <ProjectReference Include="..\HL7Core\HL7Core.csproj">
       <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
       <Name>HL7Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HL7ExplorerBL\HL7ExplorerBL.csproj">
+      <Project>{cc5c6173-3508-4281-a389-c3d184e23290}</Project>
+      <Name>HL7ExplorerBL</Name>
     </ProjectReference>
     <ProjectReference Include="..\HL7ParserLibrary\HL7Parser.csproj">
       <Project>{be02ade4-7197-4658-bf67-0e69d1102014}</Project>

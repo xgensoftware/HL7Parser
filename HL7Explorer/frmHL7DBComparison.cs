@@ -12,6 +12,7 @@ using HL7Parser.Models;
 using HL7ExplorerBL.Entities;
 using HL7ExplorerBL.Repository;
 using HL7ExplorerBL.Helper;
+using HL7ExplorerBL.QueryBuilder;
 namespace HL7Explorer
 {
     public partial class frmHL7DBComparison : BaseForm
@@ -23,7 +24,7 @@ namespace HL7Explorer
 
         Dictionary<string, string> _mappedSegments = null;
 
-        QueryBuilder _sql = null;
+        IQueryBuilder _sql = null;
         #endregion
 
         #region Private Methods
@@ -34,10 +35,7 @@ namespace HL7Explorer
             DBTableCollection selectedTables = _genericRepo.GetDatabaseTables(segments);
             cmbDBTables.DataSource = selectedTables.ToList();
             cmbDBTables.DisplayMember = "TableName";
-
-            // add the tables to the query            
-            this._sql.AddTables(selectedTables.ToStringArray());
-            MessageBox.Show(this._sql.ToString());
+                        
 
             foreach(var evnt in this._hl7Message.Events)
             {
@@ -58,7 +56,7 @@ namespace HL7Explorer
             _genericRepo = new GenericDBRepository(AppConfiguration.DBProvider, AppConfiguration.DBConnection);
 
             this._mappedSegments = new Dictionary<string, string>();
-            this._sql = new QueryBuilder();
+            this._sql = new SheridanQueryBuilder();
             this._hl7Message = msg;          
                         
         }

@@ -20,3 +20,8 @@ C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HtmlAgilityPack.pdb
 C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HtmlAgilityPack.xml
 C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HL7Core.dll
 C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HL7Core.pdb
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\com.Xgensoftware.Core.dll
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HL7ExplorerBL.dll
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\com.Xgensoftware.DAL.dll
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\CodeEngine.Framework.QueryBuilder.dll
+C:\Development\HL7Parser\EDIParseConsole\bin\Debug\HL7ExplorerBL.pdb

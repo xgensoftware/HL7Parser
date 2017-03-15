@@ -15,6 +15,13 @@ namespace HL7Parser.Parser
 /// Create Date: 2017-02-08
 /// Description: Parse a raw HL7message into a HL7Message object 
 /// </summary>
+    public class ParserException : Exception
+    {
+        public ParserException() { }
+
+        public ParserException(string message) : base(message)
+        { }
+    }
 
     public class PipeParser : ParserBase
     {
@@ -70,19 +77,30 @@ namespace HL7Parser.Parser
         }
         private HL7EventSegment CreateFromSegmentString(string rawSegment, TriggerEvent tr)
         {
-            var segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
-            HL7EventSegment e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+            HL7EventSegment e = null;
+            List <Segment> segmentsConfig = null;
 
-            var segmentArray = rawSegment.Split(this._hl7.MessageToken.FieldSeparator);
-            foreach (Segment s in segmentsConfig)
+            try
             {
-                try
+                segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
+            }
+            catch { }
+
+            if (segmentsConfig != null)
+            {
+                e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+
+                var segmentArray = rawSegment.Split(this._hl7.MessageToken.FieldSeparator);
+                foreach (Segment s in segmentsConfig)
                 {
-                    HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
-                    segment.SetValue(s.DataType, segmentArray[s.Sequence]);
-                    e.AddSegmentEvent(segment);
-                }
-                catch { }
+                    try
+                    {
+                        HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                        segment.SetValue(s.DataType, segmentArray[s.Sequence]);
+                        e.AddSegmentEvent(segment);
+                    }
+                    catch { }
+                }                   
             }
 
             return e;
@@ -115,17 +133,24 @@ namespace HL7Parser.Parser
 
             //The Fields in the message should drive this, to handle multiple similar segments.
             List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();
-            foreach (string s in this._hl7.MessageToken.Segments)
+            if (triggerEvents.Count == 0)
             {
-                string segId = s.Substring(0, 3);
-                TriggerEvent tr = triggerEvents.Where(x => x.Segment == segId).FirstOrDefault();
-
-                HL7EventSegment newEvent = this.CreateFromSegmentString(s, tr);
-                if (newEvent != null)
-                    _hl7.AddEventSegment(newEvent);
+                throw new ParserException(string.Format("No trigger events found for version {0}, message type {1}_{2}", this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType));
             }
+            else
+            {
+                foreach (string s in this._hl7.MessageToken.Segments)
+                {
+                    string segId = s.Substring(0, 3);
+                    TriggerEvent tr = triggerEvents.Where(x => x.Segment == segId).FirstOrDefault();
 
-            return _hl7;
+                    HL7EventSegment newEvent = this.CreateFromSegmentString(s, tr);
+                    if (newEvent != null)
+                        _hl7.AddEventSegment(newEvent);
+                }
+
+                return _hl7;
+            }
         }
         #endregion
     }

@@ -26,8 +26,11 @@ namespace HL7Explorer
 
            // LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             this._logger = LogFactory.CreateLogger(LogType.FILE);
+            this.FormClosing += FrmTriggerEventAddEdit_FormClosing;
+
         }       
 
+       
         protected void LogError(string message)
         {
             this._logger.LogMessage(LogMessageType.ERROR, message);
@@ -41,6 +44,17 @@ namespace HL7Explorer
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void toolStripMenuItemEventBuilder_Click(object sender, EventArgs e)
+        {
+            frmEventBuilder evntBuilder = new frmEventBuilder(_repo);
+            evntBuilder.ShowDialog();
+        }
+
+        private void FrmTriggerEventAddEdit_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
         }
     }
 }

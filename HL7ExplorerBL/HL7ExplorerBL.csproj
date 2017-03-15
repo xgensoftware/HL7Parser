@@ -54,17 +54,25 @@
     <Compile Include="Entities\DBTable.cs" />
     <Compile Include="Entities\DBTableCollection.cs" />
     <Compile Include="Entities\IEntity.cs" />
-    <Compile Include="Helper\QueryBuilder.cs" />
+    <Compile Include="Entities\SegmentTableMapping.cs" />
+    <Compile Include="Entities\SegmentTableMappingList.cs" />
+    <Compile Include="QueryBuilder\IQueryBuilder.cs" />
+    <Compile Include="QueryBuilder\QueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilder\SheridanQueryBuilder.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\GenericDBRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\SegmentMappingRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HL7Core\HL7Core.csproj">
       <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
       <Name>HL7Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helper\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

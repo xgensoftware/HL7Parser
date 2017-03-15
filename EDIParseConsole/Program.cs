@@ -10,8 +10,11 @@ using HL7Parser;
 using HL7Parser.Parser;
 using HL7Parser.Models;
 using HL7Core;
+using HL7ExplorerBL.Entities;
 using HL7Parser.Repository;
 using HtmlAgilityPack;
+using com.Xgensoftware.Core;
+using System.Xml.Serialization;
 namespace EDIParseConsole
 {
     class Program
@@ -28,7 +31,7 @@ namespace EDIParseConsole
             string message = File.ReadAllText(filePath);
             HL7Message temp = parse.Parse(message);
 
-            Console.WriteLine(temp.SegmentString());
+            //Console.WriteLine(temp.SegmentString());
             //var segment = temp.Events.Where(x => x.Name == "MSH").FirstOrDefault();
         }
         private static string DataTypeMap(string type)
@@ -160,19 +163,37 @@ namespace EDIParseConsole
             log.LogMessage(LogMessageType.INFO, string.Format("**************** Completed Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
         }
         
+        private static string ReadMappingFile()
+        {
+            return File.ReadAllText(AppConfiguration.SegmentTableMappingFile);
+        }
 
+        private static void CreateMappingFile()
+        {
+        //    SegmentTableMappingList collection = new SegmentTableMappingList();
+        //    collection.Add(new SegmentTableMapping("MSH", "MessageHeader_MSH"));
+        //    collection.Add(new SegmentTableMapping("EVN", "Event_EVN"));
+
+            string xml = ReadMappingFile();
+
+            Console.WriteLine(xml);
+
+            SegmentTableMappingList newCollection = xml.FromXML<SegmentTableMappingList>();
+
+        }
         #endregion
 
         static void Main(string[] args)
         {
-            //LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
-            //log = LogFactory.CreateLogger(logType);
-            //ScrapeSegments();
+            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
+            log = LogFactory.CreateLogger(logType);
+            ScrapeSegments();
 
 
-            ParseMessage();
+            //ParseMessage();
 
-            Console.ReadLine();
+            //CreateMappingFile();
+            //Console.ReadLine();
         }
     }
 }
