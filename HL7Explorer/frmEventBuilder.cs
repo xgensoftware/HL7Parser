@@ -17,6 +17,16 @@ namespace HL7Explorer
         #endregion 
 
         #region Private Methods 
+        protected override void CreateMenuItems()
+        {
+            base.CreateMenuItems();
+
+            ToolStripItem tsiNew = new ToolStripMenuItem();
+            tsiNew.Text = "New";
+            tsiNew.Click += btnNew_Click;
+            this.toolStripMenuItemFile.DropDownItems.Add(tsiNew);
+        }
+
         void PopulateFormControls()
         {
             var versions = this._repo.GetVersions();
@@ -31,6 +41,9 @@ namespace HL7Explorer
             var eventType = this._repo.GetEventTypes();
             cmbEventType.DataSource = eventType;
             cmbEventType.DisplayMember = "EventType1";
+
+
+
         }
 
         void PopulateGrid()
@@ -80,8 +93,9 @@ namespace HL7Explorer
         public frmEventBuilder(HL7SchemaRepository repo) : base()
         {
             InitializeComponent();
+            CreateMenuItems();
+
             this.dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;
-            this.toolStripMenuItemNew.Click += ToolStripMenuItemNew_Click;
 
             this._repo = repo;
         }
@@ -110,11 +124,6 @@ namespace HL7Explorer
             frmTriggerEventAddEdit frm = new frmTriggerEventAddEdit(this._repo,null);
             frm.OnTriggerEventCompleted += Frm_OnTriggerEventCompleted;
             frm.ShowDialog();
-        }
-
-                private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(this.Name);
         }
 
         private void Frm_OnTriggerEventCompleted(bool isSuccess)

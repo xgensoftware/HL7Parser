@@ -19,6 +19,9 @@ namespace HL7Explorer
         protected HL7SchemaRepository _repo = null;
         #endregion
 
+        protected virtual void CreateMenuItems() { }
+
+
         public BaseForm()
         {
             InitializeComponent();           
@@ -28,29 +31,26 @@ namespace HL7Explorer
             this._logger = LogFactory.CreateLogger(LogType.FILE);
             this.FormClosing += FrmTriggerEventAddEdit_FormClosing;
 
+            
         }       
 
        
         protected void LogError(string message)
         {
             this._logger.LogMessage(LogMessageType.ERROR, message);
+            MessageBox.Show(message);
         }
 
         protected void LogInfo(string message)
         {
             this._logger.LogMessage(LogMessageType.INFO, message);
+            MessageBox.Show(message);
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void toolStripMenuItemEventBuilder_Click(object sender, EventArgs e)
-        {
-            frmEventBuilder evntBuilder = new frmEventBuilder(_repo);
-            evntBuilder.ShowDialog();
-        }
+        }        
 
         private void FrmTriggerEventAddEdit_FormClosing(object sender, FormClosingEventArgs e)
         {

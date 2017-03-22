@@ -66,6 +66,7 @@
             // 
             // txtRawHL7Message
             // 
+            this.txtRawHL7Message.AllowDrop = true;
             this.txtRawHL7Message.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtRawHL7Message.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRawHL7Message.Location = new System.Drawing.Point(0, 0);

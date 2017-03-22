@@ -37,6 +37,7 @@ namespace HL7Explorer
 
             try
             {
+                gridSegment.DataSource = stm.TableData;
                 //SegmentTableMappingList collection = File.ReadAllText(AppConfiguration.SegmentTableMappingFile).FromXML<SegmentTableMappingList>();
                 //_segmentMapping = collection.Where(x => x.SegmentName == segmentName).FirstOrDefault();
                 //_segmentMapping.GetTableData();

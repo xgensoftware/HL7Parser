@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using com.Xgensoftware.Core;
-using com.Xgensoftware.Core;
 using com.Xgensoftware.DAL;
 namespace HL7ExplorerBL.Repository
 {

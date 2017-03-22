@@ -31,9 +31,9 @@ namespace HL7ExplorerBL.Repository
 
         #region Public Methods 
 
-        public DataTable GetSegmentTableData(int messageHeaderId, string tableName)
+        public DataTable GetSegmentTableData(int messageHeaderId, string columns, string tableName)
         {
-            string sql = string.Format("select * from {0} where MessageHeaderId = {1}", tableName,messageHeaderId);
+            string sql = string.Format("select {0} from {1} where MessageHeaderId = {2}",columns, tableName,messageHeaderId);
             return this._dbProvider.ExecuteDataSetQuery(sql, null).Tables[0];
         }
 

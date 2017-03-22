@@ -11,7 +11,7 @@ namespace HL7ExplorerBL.QueryBuilder
         #region Member Variables 
         StringBuilder _fromClause = new StringBuilder();
         StringBuilder _columns = new StringBuilder();
-        StringBuilder whereClause = new StringBuilder();
+        StringBuilder _whereClause = new StringBuilder();
         #endregion
 
         #region Properties
@@ -44,6 +44,14 @@ namespace HL7ExplorerBL.QueryBuilder
             _fromClause.Remove(_fromClause.Length - 1, 1);
         }
 
+        public void SelectFromTable(string tableName)
+        {
+            _fromClause.Clear();
+            _fromClause.Append("FROM ");
+            _fromClause.Append(tableName);
+        }
+
+
         public string BuildQuery()
         {
             //if the column string is empty set it to * for all columns/all tables
@@ -51,7 +59,7 @@ namespace HL7ExplorerBL.QueryBuilder
                 _columns.Append("*");
 
 
-            return string.Format("SELECT {1} {2} {3}", _columns.ToString(), _fromClause.ToString(), _fromClause.ToString());
+            return string.Format("SELECT {0} {1} {2}", _columns.ToString(), _fromClause.ToString(), _whereClause.ToString());
         }
         #endregion
     }

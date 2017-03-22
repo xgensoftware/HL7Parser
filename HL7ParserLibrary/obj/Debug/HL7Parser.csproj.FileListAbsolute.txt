@@ -14,3 +14,5 @@ C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\System.Data.SQLite.xml
 C:\Development\HL7Parser\HL7ParserLibrary\obj\Debug\HL7Parser.csprojResolveAssemblyReference.cache
 C:\Development\HL7Parser\HL7ParserLibrary\obj\Debug\HL7Parser.dll
 C:\Development\HL7Parser\HL7ParserLibrary\obj\Debug\HL7Parser.pdb
+C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\HL7Parser.dll.CodeAnalysisLog.xml
+C:\Development\HL7Parser\HL7ParserLibrary\bin\Debug\HL7Parser.dll.lastcodeanalysissucceeded

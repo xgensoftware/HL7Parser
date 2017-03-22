@@ -54,6 +54,7 @@
     <Compile Include="Entities\DBTable.cs" />
     <Compile Include="Entities\DBTableCollection.cs" />
     <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\SegmentDBColumnMapping.cs" />
     <Compile Include="Entities\SegmentTableMapping.cs" />
     <Compile Include="Entities\SegmentTableMappingList.cs" />
     <Compile Include="QueryBuilder\IQueryBuilder.cs" />

@@ -28,6 +28,16 @@ namespace HL7Explorer
         #endregion
 
         #region Private Methods 
+        protected override void CreateMenuItems()
+        {
+            base.CreateMenuItems();
+
+            ToolStripItem tsiNew = new ToolStripMenuItem();
+            tsiNew.Text = "New";
+            tsiNew.Click += ToolStripMenuItemNew_Click;
+            this.toolStripMenuItemFile.DropDownItems.Add(tsiNew);
+        }
+
         void PopulateControls()
         {
             var versions = this._repo.GetVersions();
@@ -63,20 +73,19 @@ namespace HL7Explorer
         }
         #endregion
 
-        #region Form Methods
+        #region Constructor 
         public frmTriggerEventAddEdit(HL7SchemaRepository repo, TriggerEvent triggerEvent) : base()
         {
             InitializeComponent();
             this._repo = repo;
-                        
-            this.toolStripMenuItemNew.Click += ToolStripMenuItemNew_Click;
 
+            CreateMenuItems();
             this.PopulateControls();
-            
+
             this._triggerEvent = triggerEvent;
             if (this._triggerEvent != null)
-            {                
-                this.Text = string.Format("Trigger Event Update: {0}_{1} {2} version: {3}", this._triggerEvent.MessageType,this._triggerEvent.EventType,this._triggerEvent.Segment,this._triggerEvent.Version);
+            {
+                this.Text = string.Format("Trigger Event Update: {0}_{1} {2} version: {3}", this._triggerEvent.MessageType, this._triggerEvent.EventType, this._triggerEvent.Segment, this._triggerEvent.Version);
                 this.btnAddSegment.Enabled = true;
                 this.PopulateFormData();
             }
@@ -85,8 +94,12 @@ namespace HL7Explorer
                 this.Text = "Add Trigger Event";
                 this.btnAddSegment.Enabled = false;
             }
-            
-        }        
+
+        }
+
+        #endregion
+
+        #region Form Methods
 
         private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
         {
