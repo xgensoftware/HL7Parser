@@ -17,12 +17,35 @@ namespace HL7ExplorerBL.Entities
         SegmentMappingRepository _repo = null;
 
         List<SegmentTableMapping> _segmentMappings = null;
+
+        string _messageType = string.Empty;
+        string _eventType = string.Empty;
+        string _version = string.Empty;
         #endregion
 
         #region Properties
+        public string EventType
+        {
+            get { return _eventType; }
+            set { _eventType = value; }
+        }
+
+        public string MessageType
+        {
+            get { return _messageType; }
+            set { _messageType = value; }
+        }
+
+        public string Version
+        {
+            get { return _version; }
+            set { _version = value; }
+        }
+
         public List<SegmentTableMapping> SegmentMappings
         {
             get { return this._segmentMappings; }
+            set { this._segmentMappings = value; }
         }
 
         public int Count

@@ -11,14 +11,16 @@ namespace HL7Core
         public static ILogger CreateLogger(LogType type)
         {
             ILogger l = null;
+            
             switch(type)
             {
                 case LogType.FILE:
-                    l = new FileLogger();
+
+                    l = new FileLogger(AppConfiguration.ApplicationName);
                     break;
 
                 case LogType.DATABASE:
-                    l = new DBLogger();
+                    l = new DBLogger(AppConfiguration.LogConnectionString);
                     break;
             }
 

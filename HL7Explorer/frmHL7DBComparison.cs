@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HL7Core;
+using HL7Parser;
 using HL7Parser.Models;
 using HL7ExplorerBL.Entities;
 using HL7ExplorerBL.Repository;
 using HL7ExplorerBL.Helper;
 using HL7ExplorerBL.QueryBuilder;
+using com.Xgensoftware.Core;
 namespace HL7Explorer
 {
     public partial class frmHL7DBComparison : BaseForm
@@ -20,60 +23,128 @@ namespace HL7Explorer
         #region Member Variables 
 
         GenericDBRepository _genericRepo = null;
-        HL7Message _hl7Message = null;
-
-        Dictionary<string, string> _mappedSegments = null;
-
+        
         IQueryBuilder _sql = null;
+
+        SegmentTableMappingList _segmentDBMappingList = null;
+
+        DBTableCollection _dbTableCollection = null;
+        List<TriggerEvent> _triggerEvents = null;
         #endregion
 
         #region Private Methods
 
-        private void LoadControls()
+        void LoadFromSegmentDbMappingCollection()
         {
-            string segments = _hl7Message.SegmentQueryParamter();
-            DBTableCollection selectedTables = _genericRepo.GetDatabaseTables(segments);
-            cmbDBTables.DataSource = selectedTables.ToList();
-            cmbDBTables.DisplayMember = "TableName";
-                        
+            cmbHL7Versions.SelectedIndex = cmbHL7Versions.FindStringExact(_segmentDBMappingList.Version);
+            cmbMessageType.SelectedIndex = cmbMessageType.FindStringExact(_segmentDBMappingList.MessageType);
+            cmbEventType.SelectedIndex = cmbEventType.FindStringExact(_segmentDBMappingList.EventType);        
 
-            foreach(var evnt in this._hl7Message.Events)
+
+            foreach (SegmentTableMapping stm in _segmentDBMappingList.SegmentMappings)
             {
-                cmbSegment.Items.Add(evnt.Value);
+                TreeNode tnSegmentDB = new TreeNode(stm.ToString());
+                tnSegmentDB.Name = stm.SegmentName;
+
+                foreach(SegmentDBColumnMapping col in stm.ColumnMappings)
+                {
+                    tnSegmentDB.Nodes.Add(col.ToString());
+                }
+
+                tvSegmentTableMap.Nodes.Add(tnSegmentDB);
             }
-            cmbSegment.SelectedIndex = 0;
+            tvSegmentTableMap.ExpandAll();
+        }
+
+        void LoadSegments()
+        {
+            HL7Parser.Version ver = cmbHL7Versions.SelectedItem as HL7Parser.Version;
+            MessageType mt = cmbMessageType.SelectedItem as MessageType;
+            EventType et = cmbEventType.SelectedItem as EventType;
+
+            List<TriggerEvent> _selectedEvents = _triggerEvents.Where(x => x.Version == ver.Name && x.MessageType == mt.MessageType1 && x.EventType == et.EventType1).ToList();
+            foreach (TriggerEvent tr in _selectedEvents)
+            {
+                cmbSegment.Items.Add(tr.Segment);
+            }
+
+
+            if(cmbSegment.Items.Count > 0)
+                cmbSegment.SelectedIndex = 0;
+        }
+
+        private void LoadDropDownControls()
+        {           
+
+            var versions = this._repo.GetVersions();
+            cmbHL7Versions.DataSource = versions;
+            cmbHL7Versions.DisplayMember = "Name";
+
+            var messageType = this._repo.GetMessageTypes();
+            cmbMessageType.DataSource = messageType;
+            cmbMessageType.DisplayMember = "MessageType1";
+
+
+            var eventType = this._repo.GetEventTypes();
+            cmbEventType.DataSource = eventType;
+            cmbEventType.DisplayMember = "EventType1";
+            
+            cmbDBTables.DataSource = _dbTableCollection.ToList();
+            cmbDBTables.DisplayMember = "TableName";
+
+            LoadSegments();
+        }
+
+        protected override void CreateMenuItems()
+        {
+            base.CreateMenuItems();
+
+            ToolStripItem tsiNew = new ToolStripMenuItem();
+            tsiNew.Text = "New";
+            tsiNew.Click += ToolStripMenuItemNew_Click;
+            this.toolStripMenuItemFile.DropDownItems.Add(tsiNew);
         }
         #endregion
 
         #region Form Events
-        public frmHL7DBComparison(HL7Message msg)
+        public frmHL7DBComparison()
         {
             InitializeComponent();
             this.Load += FrmHL7DBComparison_Load;
             this.cmbDBTables.SelectedIndexChanged += CmbDBTables_SelectedIndexChanged;
             this.cmbSegment.SelectedIndexChanged += CmbSegment_SelectedIndexChanged;
+            this.cmbMessageType.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+            this.cmbEventType.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+            this.cmbHL7Versions.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
 
             _genericRepo = new GenericDBRepository(AppConfiguration.DBProvider, AppConfiguration.DBConnection);
-
-            this._mappedSegments = new Dictionary<string, string>();
+            _repo = new HL7Parser.Repository.HL7SchemaRepository();
+            
             this._sql = new SheridanQueryBuilder();
-            this._hl7Message = msg;          
                         
         }
 
         private void FrmHL7DBComparison_Load(object sender, EventArgs e)
         {
-            LoadControls();
+            _dbTableCollection = _genericRepo.GetDatabaseTables(null);
+            _triggerEvents = _repo.GetAllTriggerEvents();
+
+
+            CreateMenuItems();
+            LoadDropDownControls();
         }
 
         private void CmbSegment_SelectedIndexChanged(object sender, EventArgs e)
         {
             lstSegColumns.Items.Clear();
-            HL7EventSegment segment = cmbSegment.SelectedItem as HL7EventSegment;
-            foreach(var s in segment.Segments)
+            string segmentCol = cmbSegment.SelectedItem as string;
+
+            HL7Parser.Version ver = cmbHL7Versions.SelectedItem as HL7Parser.Version;
+            List<Segment> seg = _repo.GetSegmentBy(ver.Name, segmentCol);
+            foreach(Segment s in seg)
             {
-                lstSegColumns.Items.Add(s);
-            }            
+                lstSegColumns.Items.Add(s.Name);
+            }
         }
 
         private void CmbDBTables_SelectedIndexChanged(object sender, EventArgs e)
@@ -83,26 +154,158 @@ namespace HL7Explorer
             lstDBColumns.DisplayMember = "ColumnName";
         }
 
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadSegments();
+        }
+
         private void btnMap_Click(object sender, EventArgs e)
         {
             var dbTable = cmbDBTables.SelectedItem as DBTable;
             var dbColumn = lstDBColumns.SelectedItem as DBColumn;
-            var segment = cmbSegment.SelectedItem as HL7EventSegment;
-            var segColumn = lstSegColumns.SelectedItem as HL7SegmentEvent;
-                         
-            if (this._mappedSegments.Where(x => x.Key == dbColumn.ColumnName).FirstOrDefault().Key != dbColumn.ColumnName)
+            var segment = cmbSegment.SelectedItem.ToString();
+            var segColumn = lstSegColumns.SelectedItem.ToString();
+
+            if(_segmentDBMappingList == null)
             {
-                this._mappedSegments.Add(dbColumn.ColumnName, segColumn.Name);
-                this.lstMapping.Items.Add(string.Format("{0}:{1}", dbColumn.ColumnName, segColumn.Name));
+                MessageBox.Show("You must select New to create a new mapping file.");
+                return;
             }
+            else
+            {
+                btnSaveMap.Enabled = true;
+            }
+
+            //first check to see if the segment already exists
+            SegmentTableMapping stm = _segmentDBMappingList.SegmentMappings.Find(x => x.SegmentName == segment);
+            if (stm == null)
+            {
+                stm = new SegmentTableMapping(segment, dbTable.TableName);
+                _segmentDBMappingList.SegmentMappings.Add(stm);
+            }
+
+            SegmentDBColumnMapping scm = stm.ColumnMappings.Find(x => x.SegmentColumn == segColumn);
+            if (scm == null)
+            {
+                scm = new SegmentDBColumnMapping(segColumn, dbColumn.ColumnName);
+                stm.ColumnMappings.Add(scm);               
+            }
+            else
+            {
+                MessageBox.Show(string.Format("{0} is already mapped", segColumn));
+            }
+
+            //Load the treeview
+            tvSegmentTableMap.Nodes.Clear();
+            foreach (SegmentTableMapping tvSTM in _segmentDBMappingList.SegmentMappings)
+            {
+                TreeNode tnSegmentDB = new TreeNode(tvSTM.ToString());
+                tnSegmentDB.Name = tvSTM.SegmentName;
+
+                foreach (SegmentDBColumnMapping col in tvSTM.ColumnMappings)
+                {
+                    tnSegmentDB.Nodes.Add(col.ToString());
+                }
+
+                tvSegmentTableMap.Nodes.Add(tnSegmentDB);
+            }
+            tvSegmentTableMap.ExpandAll();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            var selectedMap = lstMapping.SelectedItem;
-            lstMapping.Items.Remove(selectedMap);
-            this.lstMapping.Items.Remove(selectedMap);
+            
+        }
+
+        private void btnSaveMap_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.InitialDirectory = Application.ExecutablePath;
+            dialog.AddExtension = true;
+            dialog.DefaultExt = "xml";
+            dialog.Filter = "XML (*.xml)|*.xml";
+            dialog.FileOk += Dialog_FileOk;
+            dialog.ShowDialog();
+        }
+
+        private void Dialog_FileOk(object sender, CancelEventArgs e)
+        {
+            SaveFileDialog dialog = sender as SaveFileDialog;
+            string fileToSave = dialog.FileName;
+            if (!string.IsNullOrEmpty(fileToSave))
+            {
+                var data = _segmentDBMappingList.ToXML().ToByteArray();
+                using (FileStream fs = new FileStream(fileToSave, FileMode.Create, FileAccess.Write))
+                {
+                    try
+                    {
+                        fs.Write(data, 0, data.Length);
+
+                        MessageBox.Show(string.Format("Successfully saved mappings to {0}", fileToSave));
+                    }
+                    catch (IOException ex)
+                    {
+                        LogError(ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("You must select a file to save too.");
+            }
+        }
+
+        private void btnFindFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.DefaultExt = "xml";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    txtMapFilePath.Text = dialog.FileName;
+                    if (_segmentDBMappingList == null && !string.IsNullOrEmpty(txtMapFilePath.Text))
+                    {
+                        btnLoadMapFile.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
+        {
+            txtMapFilePath.Clear();
+            _segmentDBMappingList = new SegmentTableMappingList();
+            cmbHL7Versions.SelectedIndex = 0;
+            cmbMessageType.SelectedIndex = 0;
+            cmbEventType.SelectedIndex = 0;
+            btnLoadMapFile.Enabled = false;
+            tvSegmentTableMap.Nodes.Clear();
+            btnMap.Enabled = true;
+            btnSaveMap.Enabled = true;
+        }
+
+        private void btnLoadMapFile_Click(object sender, EventArgs e)
+        {
+            // load the mapping file if it exists
+            string mapFile = txtMapFilePath.Text;
+            if (!string.IsNullOrEmpty(mapFile))
+            {
+                btnSaveMap.Enabled = true;
+                btnMap.Enabled = true;
+                this._segmentDBMappingList = File.ReadAllText(mapFile).FromXML<SegmentTableMappingList>();
+
+                if (this._segmentDBMappingList != null)
+                {
+                    LoadFromSegmentDbMappingCollection();
+                }
+                else
+                {
+                    LogError(string.Format("Failed to transform file: {0}", mapFile));
+                }
+            }
         }
         #endregion
+
+
     }
 }

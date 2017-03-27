@@ -13,9 +13,9 @@ namespace HL7ExplorerBL.Entities
         SegmentMappingRepository _repo = null;
         string _segmentName = string.Empty;
         string _tableName = string.Empty;
-
         List<SegmentDBColumnMapping> _columnMappings = null;
         System.Data.DataTable _dt = null;
+
         #endregion
 
         #region Properties
@@ -25,7 +25,6 @@ namespace HL7ExplorerBL.Entities
             get { return _segmentName; }
             set { _segmentName = value; }
         }
-
 
         public string TableName
         {
@@ -96,7 +95,10 @@ namespace HL7ExplorerBL.Entities
             catch { }
         }
 
-        
+        public override string ToString()
+        {
+            return string.Format("[Segment]: {0} | [Database Table]: {1}", _segmentName, _tableName);
+        }
         #endregion
     }
 }

@@ -41,5 +41,13 @@ namespace HL7ExplorerBL.Entities
             _databaseColumn = dbColumn;
         }
         #endregion
+
+        #region Public Methods
+        public override string ToString()
+        {
+            return string.Format("[Segment]: {0} | [DB]: {1}", _segmentColumn, _databaseColumn);
+        }
+
+        #endregion
     }
 }

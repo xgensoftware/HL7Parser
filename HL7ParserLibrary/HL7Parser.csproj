@@ -79,6 +79,7 @@
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ParserLog.cs" />
     <Compile Include="HL7Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -133,7 +134,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HL7Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="HL7Data.db" />
+    <None Include="HL7Data.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="HL7Model.edmx.diagram">
       <DependentUpon>HL7Model.edmx</DependentUpon>
     </None>
@@ -142,12 +145,6 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HL7Core\HL7Core.csproj">
-      <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
-      <Name>HL7Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="HL7Model.Context.tt">

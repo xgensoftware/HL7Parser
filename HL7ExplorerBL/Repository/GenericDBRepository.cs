@@ -17,6 +17,7 @@ namespace HL7ExplorerBL.Repository
         enum DB_Schema_Query
         {
             TABLE,
+            ALL_TABLES,
             COLUMN                
         }
         #endregion
@@ -43,6 +44,10 @@ namespace HL7ExplorerBL.Repository
             {
                 switch(query)
                 {
+                    case DB_Schema_Query.ALL_TABLES:
+                        sql = "select object_id[TableId] ,name as [TableName] from sys.tables where CHARINDEX('_',name) <> 0 order by name asc";
+                        break;
+
                     case DB_Schema_Query.TABLE:
                         sql = "select object_id[TableId] ,name as [TableName] from sys.tables where substring(name,charindex('_',name) + 1 ,3) in ({0}) order by name asc";
                         break;
@@ -69,24 +74,31 @@ namespace HL7ExplorerBL.Repository
             // retrieve the table names and add them to the collection 
             // in the correct order.
             DBTableCollection collection = new DBTableCollection();
-            string[] orderList = segmentString.Split(',');
+            
+            string sql = string.Empty;
 
-            string sql = this.GetDBSpecificQuery(DB_Schema_Query.TABLE);
+            if (string.IsNullOrEmpty(segmentString))
+            {
+                sql = this.GetDBSpecificQuery(DB_Schema_Query.ALL_TABLES);
+            }
+            else
+            {
+                sql = this.GetDBSpecificQuery(DB_Schema_Query.TABLE);
+            }
+            
             if(!string.IsNullOrEmpty(sql))
             {
+                string[] orderList;
+                if (!string.IsNullOrEmpty(segmentString))
+                    orderList = segmentString.Split(',');
+
                 sql = string.Format(sql, segmentString);
 
                 DataTable dt = _dbProvider.ExecuteDataSetQuery(sql, null).Tables[0];
 
-                for (int idx = 0; idx <= orderList.Count()-1; idx++)
+                foreach (DataRow dr in dt.Rows)
                 {
-                    string seg = orderList[idx].Remove(0, 1);
-                    seg = seg.Remove(seg.Length-1,1);
-                    foreach(DataRow dr in dt.Rows)
-                    {
-                        if (seg == dr["TableName"].ToString().Split('_')[1])
-                            collection.Add(new DBTable(dr["TableId"].Parse<long>(), dr["TableName"].ToString()));
-                    }
+                    collection.Add(new DBTable(dr["TableId"].Parse<long>(), dr["TableName"].ToString()));
                 }
             }
 

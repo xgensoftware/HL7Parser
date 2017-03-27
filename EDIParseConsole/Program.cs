@@ -170,18 +170,23 @@ namespace EDIParseConsole
 
         private static void CreateMappingFile()
         {
-            //SegmentTableMappingList collection = new SegmentTableMappingList();
+            SegmentTableMappingList collection = new SegmentTableMappingList();
+            collection.SegmentMappings = new List<SegmentTableMapping>();
+            collection.MessageType = "ADT";
+            collection.EventType = "A01";
+            collection.Version = "2.3";
 
-            //SegmentTableMapping msh = new SegmentTableMapping("MSH", "MessageHeader_MSH");
-            //msh.ColumnMappings.Add(new SegmentDBColumnMapping("Sending Application", "Sending Application"));
-            //msh.ColumnMappings.Add(new SegmentDBColumnMapping("Message Type", "MessageType"));            
-            //collection.SegmentMappings.Add(msh);
-            //string x = collection.SegmentMappings.ToXML();
+            SegmentTableMapping msh = new SegmentTableMapping("MSH", "MessageHeader_MSH");
+            msh.ColumnMappings.Add(new SegmentDBColumnMapping("Sending Application", "Sending Application"));
+            msh.ColumnMappings.Add(new SegmentDBColumnMapping("Message Type", "MessageType"));
+            collection.SegmentMappings.Add(msh);
+            string xml = collection.ToXML();
+
             //Console.WriteLine(x);
 
-            //string xml = ReadMappingFile();
+            string x = ReadMappingFile();
             //Console.WriteLine(xml);
-            //List<SegmentTableMapping> newCollection = xml.FromXML<List<SegmentTableMapping>>();
+            SegmentTableMappingList newCollection = x.FromXML<SegmentTableMappingList>();
 
         }
         #endregion

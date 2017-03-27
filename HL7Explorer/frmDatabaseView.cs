@@ -13,7 +13,7 @@ using HL7Core;
 using HL7ExplorerBL.Entities;
 namespace HL7Explorer
 {
-    public partial class frmDatabaseView : Form
+    public partial class frmDatabaseView : BaseForm
     {
         #region Member Variables 
         string _segmentName = string.Empty;
@@ -33,20 +33,15 @@ namespace HL7Explorer
         {
             InitializeComponent();
 
-            //this.Text = segmentName;
+            this.Text = stm.SegmentName;
 
             try
             {
                 gridSegment.DataSource = stm.TableData;
-                //SegmentTableMappingList collection = File.ReadAllText(AppConfiguration.SegmentTableMappingFile).FromXML<SegmentTableMappingList>();
-                //_segmentMapping = collection.Where(x => x.SegmentName == segmentName).FirstOrDefault();
-                //_segmentMapping.GetTableData();
-
-                //gridSegment.DataSource = _segmentMapping.TableData;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format("{0}", ex.Message));
+                LogError(string.Format("Database view of segment {0} had an unexpected error. {1}", stm.SegmentName,ex.Message));
             }
         }
 

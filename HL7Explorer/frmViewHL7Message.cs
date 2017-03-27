@@ -138,7 +138,7 @@ namespace HL7Explorer
 
         private void TsiHL7DBMapping_Click(object sender, EventArgs e)
         {
-            frmHL7DBComparison comparison = new frmHL7DBComparison(_hl7Message);
+            frmHL7DBComparison comparison = new frmHL7DBComparison();
             comparison.ShowDialog();
         }
 
@@ -184,8 +184,7 @@ namespace HL7Explorer
 
         private void bgwParser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            tvSegments.Nodes.Clear();
-            toolStripButtonLoad.Enabled = true;
+            tvSegments.Nodes.Clear();           
 
             if (_hl7Message != null)
             {
@@ -201,14 +200,16 @@ namespace HL7Explorer
                 tvSegments.Nodes[0].Toggle();
                 tvSegments.SelectedNode = tvSegments.Nodes[0];
                 tvSegments.Focus();
-                grdSegmentFields.DataSource = tvSegments.Nodes[0].Tag;
+                grdSegmentFields.DataSource = tvSegments.Nodes[0].Tag;                
+            }
 
-                if (_progressIndicator != null)
-                {
-                    _progressIndicator.Stop();
-                    _progressIndicator = null;
-                }
-            }            
+            if (_progressIndicator != null)
+            {
+                _progressIndicator.Stop();
+                _progressIndicator = null;
+            }
+
+            toolStripButtonLoad.Enabled = true;
         }
         
         private void BgwDBCompare_DoWork(object sender, DoWorkEventArgs e)

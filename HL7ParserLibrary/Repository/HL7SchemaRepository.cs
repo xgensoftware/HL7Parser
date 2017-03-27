@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HL7Core;
 namespace HL7Parser.Repository
 {
     /// <summary>
@@ -71,6 +70,11 @@ namespace HL7Parser.Repository
                     .AsParallel()
                     .OrderBy(x => x.Sequence)
                     .ToList();
+        }
+
+        public List<TriggerEvent> GetAllTriggerEvents()
+        {
+            return _dbCTX.TriggerEvents.AsParallel().ToList();
         }
 
         public  List<Segment> GetSegmentBy(string version, string segment)

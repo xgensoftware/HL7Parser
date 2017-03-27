@@ -80,7 +80,7 @@ namespace HL7Explorer
             this._repo = repo;
 
             CreateMenuItems();
-            this.PopulateControls();
+            PopulateControls();
 
             this._triggerEvent = triggerEvent;
             if (this._triggerEvent != null)
