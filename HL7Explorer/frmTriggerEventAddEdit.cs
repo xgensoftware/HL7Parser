@@ -28,6 +28,17 @@ namespace HL7Explorer
         #endregion
 
         #region Private Methods 
+
+        void ResetForm()
+        {
+            this._triggerEvent = null;
+            txtSegment.Clear();
+            txtSequence.Clear();
+            chkIsOptional.Checked = false;
+            chkIsRepeatable.Checked = false;
+            gridSegments.DataSource = null;
+        }
+
         protected override void CreateMenuItems()
         {
             base.CreateMenuItems();
@@ -103,8 +114,7 @@ namespace HL7Explorer
 
         private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
         {
-            this._triggerEvent = null;
-            gridSegments.DataSource = null;
+            ResetForm();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -146,6 +156,8 @@ namespace HL7Explorer
                 OnTriggerEventCompleted(isSaved);
 
             MessageBox.Show(message);
+
+            ResetForm();
         }
 
         

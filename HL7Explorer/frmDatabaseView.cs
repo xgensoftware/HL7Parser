@@ -29,6 +29,7 @@ namespace HL7Explorer
         }
         #endregion
 
+        #region Form Events
         public frmDatabaseView(SegmentTableMapping stm)
         {
             InitializeComponent();
@@ -45,10 +46,12 @@ namespace HL7Explorer
             }
         }
 
-        private void frmDatabaseView_Load(object sender, EventArgs e)
-        {                    
 
-           
+        private void frmDatabaseView_Load(object sender, EventArgs e)
+        {
+
+
         }
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using com.Xgensoftware.Core;
@@ -76,7 +77,18 @@ namespace HL7ExplorerBL.Entities
         public void GetMappingFile(string pathToMappingFile)
         {
             string xml = File.ReadAllText(pathToMappingFile);
-            this._segmentMappings = xml.FromXML<List<SegmentTableMapping>>();
+
+            var tempMappings = xml.FromXML<SegmentTableMappingList>();
+
+            // check to make sure the XML serialized correctly
+            if (tempMappings == null)
+            {
+                throw new SerializationException(string.Format("Failed to correctly serialize the file {0}", pathToMappingFile));
+            }
+            else
+            {
+                this._segmentMappings = tempMappings.SegmentMappings;
+            }
         }
 
         public void GetMessagesFromDB(string messageControlId)
@@ -86,15 +98,15 @@ namespace HL7ExplorerBL.Entities
 
             if (messageHeaderId != -1)
             {
-                Parallel.ForEach(this._segmentMappings, segment =>
-                {
-                    segment.GetTableData(messageHeaderId);
-                });
-
-                //foreach (SegmentTableMapping stm in this._segmentMappings)
+                //Parallel.ForEach(this._segmentMappings, segment =>
                 //{
-                //    stm.GetTableData(messageHeaderId);
-                //}
+                //    segment.GetTableData(messageHeaderId);
+                //});
+
+                foreach (SegmentTableMapping stm in this._segmentMappings)
+                {
+                    stm.GetTableData(messageHeaderId);
+                }
             }
         }
         #endregion

@@ -170,17 +170,17 @@ namespace EDIParseConsole
 
         private static void CreateMappingFile()
         {
-            SegmentTableMappingList collection = new SegmentTableMappingList();
-            collection.SegmentMappings = new List<SegmentTableMapping>();
-            collection.MessageType = "ADT";
-            collection.EventType = "A01";
-            collection.Version = "2.3";
+            //SegmentTableMappingList collection = new SegmentTableMappingList();
+            //collection.SegmentMappings = new List<SegmentTableMapping>();
+            //collection.MessageType = "ADT";
+            //collection.EventType = "A01";
+            //collection.Version = "2.3";
 
-            SegmentTableMapping msh = new SegmentTableMapping("MSH", "MessageHeader_MSH");
-            msh.ColumnMappings.Add(new SegmentDBColumnMapping("Sending Application", "Sending Application"));
-            msh.ColumnMappings.Add(new SegmentDBColumnMapping("Message Type", "MessageType"));
-            collection.SegmentMappings.Add(msh);
-            string xml = collection.ToXML();
+            //SegmentTableMapping msh = new SegmentTableMapping("MSH", "MessageHeader_MSH");
+            //msh.ColumnMappings.Add(new SegmentDBColumnMapping("Sending Application", "Sending Application"));
+            //msh.ColumnMappings.Add(new SegmentDBColumnMapping("Message Type", "MessageType"));
+            //collection.SegmentMappings.Add(msh);
+            //string xml = collection.ToXML();
 
             //Console.WriteLine(x);
 
@@ -195,12 +195,12 @@ namespace EDIParseConsole
         {
             LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             log = LogFactory.CreateLogger(logType);
-            //ScrapeSegments();
+            ScrapeSegments();
 
 
             //ParseMessage();
 
-            CreateMappingFile();
+            //CreateMappingFile();
             Console.ReadLine();
         }
     }

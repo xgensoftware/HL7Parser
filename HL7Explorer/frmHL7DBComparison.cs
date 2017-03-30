@@ -34,6 +34,21 @@ namespace HL7Explorer
 
         #region Private Methods
 
+        void EnableDisableControl(Enable_Disable_Control status)
+        {
+            bool enable_disable = true;
+
+            //enable/disable the combo boxes
+            if (status == Enable_Disable_Control.DISABLE)
+            {
+                enable_disable = false;
+            }
+
+            cmbMessageType.Enabled = enable_disable;
+            cmbEventType.Enabled = enable_disable;
+            cmbHL7Versions.Enabled = enable_disable;
+        }
+
         void LoadFromSegmentDbMappingCollection()
         {
             cmbHL7Versions.SelectedIndex = cmbHL7Versions.FindStringExact(_segmentDBMappingList.Version);
@@ -44,11 +59,15 @@ namespace HL7Explorer
             foreach (SegmentTableMapping stm in _segmentDBMappingList.SegmentMappings)
             {
                 TreeNode tnSegmentDB = new TreeNode(stm.ToString());
+                tnSegmentDB.Tag = stm;
                 tnSegmentDB.Name = stm.SegmentName;
 
                 foreach(SegmentDBColumnMapping col in stm.ColumnMappings)
                 {
-                    tnSegmentDB.Nodes.Add(col.ToString());
+                    TreeNode tnColMapping = new TreeNode(col.ToString());
+                    tnColMapping.Tag = col;
+                    tnColMapping.Name = col.SegmentColumn;
+                    tnSegmentDB.Nodes.Add(tnColMapping);
                 }
 
                 tvSegmentTableMap.Nodes.Add(tnSegmentDB);
@@ -92,7 +111,7 @@ namespace HL7Explorer
             cmbDBTables.DataSource = _dbTableCollection.ToList();
             cmbDBTables.DisplayMember = "TableName";
 
-            LoadSegments();
+            LoadSegments();            
         }
 
         protected override void CreateMenuItems()
@@ -132,6 +151,7 @@ namespace HL7Explorer
 
             CreateMenuItems();
             LoadDropDownControls();
+            EnableDisableControl(Enable_Disable_Control.ENABLE);
         }
 
         private void CmbSegment_SelectedIndexChanged(object sender, EventArgs e)
@@ -174,9 +194,10 @@ namespace HL7Explorer
             else
             {
                 btnSaveMap.Enabled = true;
+                btnRemove.Enabled = true;
             }
 
-            //first check to see if the segment already exists
+            //first check to see if the db column already exists
             SegmentTableMapping stm = _segmentDBMappingList.SegmentMappings.Find(x => x.SegmentName == segment);
             if (stm == null)
             {
@@ -184,7 +205,7 @@ namespace HL7Explorer
                 _segmentDBMappingList.SegmentMappings.Add(stm);
             }
 
-            SegmentDBColumnMapping scm = stm.ColumnMappings.Find(x => x.SegmentColumn == segColumn);
+            SegmentDBColumnMapping scm = stm.ColumnMappings.Find(x => x.DatabaseColumn == dbColumn.ColumnName);
             if (scm == null)
             {
                 scm = new SegmentDBColumnMapping(segColumn, dbColumn.ColumnName);
@@ -210,11 +231,26 @@ namespace HL7Explorer
                 tvSegmentTableMap.Nodes.Add(tnSegmentDB);
             }
             tvSegmentTableMap.ExpandAll();
+
+            //BL : once the user selects a Message,Event and Version disable so they can change mid mapping.  
+            EnableDisableControl(Enable_Disable_Control.DISABLE);
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            
+            TreeNode selectedNode = tvSegmentTableMap.SelectedNode;
+            Type nodeType = selectedNode.Tag.GetType();
+            MessageBox.Show(nodeType.Name);
+            switch (nodeType.Name)
+            {
+                case "SegmentTableMapping":
+
+                    break;
+
+                case "SegmentDBColumnMapping":
+
+                    break;
+            }
         }
 
         private void btnSaveMap_Click(object sender, EventArgs e)
@@ -230,6 +266,15 @@ namespace HL7Explorer
 
         private void Dialog_FileOk(object sender, CancelEventArgs e)
         {
+            if (string.IsNullOrEmpty(_segmentDBMappingList.MessageType))
+                _segmentDBMappingList.MessageType = ((MessageType)cmbMessageType.SelectedItem).MessageType1;
+
+            if (string.IsNullOrEmpty(_segmentDBMappingList.EventType))
+                _segmentDBMappingList.EventType = ((EventType)cmbEventType.SelectedItem).EventType1;
+
+            if (string.IsNullOrEmpty(_segmentDBMappingList.Version))
+                _segmentDBMappingList.Version = ((HL7Parser.Version)cmbHL7Versions.SelectedItem).Name;
+
             SaveFileDialog dialog = sender as SaveFileDialog;
             string fileToSave = dialog.FileName;
             if (!string.IsNullOrEmpty(fileToSave))
@@ -273,6 +318,8 @@ namespace HL7Explorer
 
         private void ToolStripMenuItemNew_Click(object sender, EventArgs e)
         {
+            EnableDisableControl(Enable_Disable_Control.ENABLE);
+
             txtMapFilePath.Clear();
             _segmentDBMappingList = new SegmentTableMappingList();
             cmbHL7Versions.SelectedIndex = 0;
@@ -281,6 +328,7 @@ namespace HL7Explorer
             btnLoadMapFile.Enabled = false;
             tvSegmentTableMap.Nodes.Clear();
             btnMap.Enabled = true;
+            btnRemove.Enabled = false;
             btnSaveMap.Enabled = true;
         }
 
@@ -292,6 +340,7 @@ namespace HL7Explorer
             {
                 btnSaveMap.Enabled = true;
                 btnMap.Enabled = true;
+                btnRemove.Enabled = true;
                 this._segmentDBMappingList = File.ReadAllText(mapFile).FromXML<SegmentTableMappingList>();
 
                 if (this._segmentDBMappingList != null)

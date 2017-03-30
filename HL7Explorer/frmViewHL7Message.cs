@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using HL7Core;
 using HL7Parser.Parser;
@@ -124,16 +125,22 @@ namespace HL7Explorer
             {
                 if (!string.IsNullOrEmpty(AppConfiguration.DBConnection))
                 {
-                    bgwDBCompare.RunWorkerAsync();
-
-                    _progressIndicator = new frmProgress();
-                    _progressIndicator.ShowDialog();
+                    OpenFileDialog dialog = new OpenFileDialog();
+                    dialog.FileOk += Dialog_FileOk;
+                    dialog.Filter = "XML (*.xml)|*.xml";
+                    dialog.ShowDialog();                   
                 }
             }
             else
             {
                 LogInfo("In order to continue, you must first load an HL7 message");
             }
+        }
+
+        private void Dialog_FileOk(object sender, CancelEventArgs e)
+        {
+            OpenFileDialog dialog = sender as OpenFileDialog;
+            bgwDBCompare.RunWorkerAsync(dialog.FileName);            
         }
 
         private void TsiHL7DBMapping_Click(object sender, EventArgs e)
@@ -215,7 +222,21 @@ namespace HL7Explorer
         private void BgwDBCompare_DoWork(object sender, DoWorkEventArgs e)
         {
             _segmentTableList = new SegmentTableMappingList();
-            _segmentTableList.GetMappingFile(AppConfiguration.SegmentTableMappingFile);
+            _progressIndicator = new frmProgress();
+            _progressIndicator.ShowDialog();
+            
+            try
+            {
+                _segmentTableList.GetMappingFile(e.Argument.ToString());
+            }
+            catch(FileNotFoundException ex)
+            {
+                LogError(ex.Message);
+            }
+            catch(SerializationException ex)
+            {
+                LogError(ex.Message);
+            }
 
             try
             {
@@ -229,6 +250,7 @@ namespace HL7Explorer
 
         private void BgwDBCompare_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+
             if (_segmentTableList.Count > 0)
             {
                 foreach (SegmentTableMapping stm in _segmentTableList.SegmentMappings)

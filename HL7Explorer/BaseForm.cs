@@ -15,6 +15,12 @@ namespace HL7Explorer
     public partial class BaseForm : Form
     {
         #region Member Variables 
+        protected enum Enable_Disable_Control
+        {
+            ENABLE,
+            DISABLE
+        }
+
         protected ILogger _logger = null;
         protected HL7SchemaRepository _repo = null;
         #endregion

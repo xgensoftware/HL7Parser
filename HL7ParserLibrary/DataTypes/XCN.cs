@@ -41,13 +41,20 @@ namespace HL7Parser.DataTypes
 
             if (!string.IsNullOrEmpty(val))
             {
-                // split the value on the ^ char
-                string[] values = val.Split('^');
+                if (val.IndexOf('^') > 0)
+                {
+                    // split the value on the ^ char
+                    string[] values = val.Split('^');
 
-                // assign the properties based on below
-                this._id = values[0];
-                this._lastName = values[1];
-                this._firstName = values[2];
+                    // assign the properties based on below
+                    this._id = values[0];
+                    this._lastName = values[1];
+                    this._firstName = values[2];
+                }
+                else
+                {
+                    this._id = val;
+                }
             }
         }
         

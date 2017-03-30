@@ -36,12 +36,16 @@
             // 
             this.gridSegment.AllowUserToAddRows = false;
             this.gridSegment.AllowUserToDeleteRows = false;
+            this.gridSegment.AllowUserToOrderColumns = true;
+            this.gridSegment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridSegment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridSegment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridSegment.Location = new System.Drawing.Point(0, 0);
+            this.gridSegment.Location = new System.Drawing.Point(0, 27);
+            this.gridSegment.MultiSelect = false;
             this.gridSegment.Name = "gridSegment";
             this.gridSegment.ReadOnly = true;
-            this.gridSegment.Size = new System.Drawing.Size(723, 446);
+            this.gridSegment.Size = new System.Drawing.Size(723, 419);
             this.gridSegment.TabIndex = 0;
             // 
             // frmDatabaseView
@@ -53,8 +57,10 @@
             this.Name = "frmDatabaseView";
             this.Text = "frmDatabaseView";
             this.Load += new System.EventHandler(this.frmDatabaseView_Load);
+            this.Controls.SetChildIndex(this.gridSegment, 0);
             ((System.ComponentModel.ISupportInitialize)(this.gridSegment)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
