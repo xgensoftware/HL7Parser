@@ -64,7 +64,7 @@ namespace HL7Explorer
 
                 foreach(SegmentDBColumnMapping col in stm.ColumnMappings)
                 {
-                    TreeNode tnColMapping = new TreeNode(col.ToString());
+                    TreeNode tnColMapping = new TreeNode(col.ToString());                    
                     tnColMapping.Tag = col;
                     tnColMapping.Name = col.SegmentColumn;
                     tnSegmentDB.Nodes.Add(tnColMapping);
@@ -238,17 +238,31 @@ namespace HL7Explorer
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            DialogResult dialogResult;
+            SegmentTableMapping stm = null;
             TreeNode selectedNode = tvSegmentTableMap.SelectedNode;
-            Type nodeType = selectedNode.Tag.GetType();
-            MessageBox.Show(nodeType.Name);
+            Type nodeType = selectedNode.Tag.GetType();            
             switch (nodeType.Name)
             {
                 case "SegmentTableMapping":
-
+                    stm = selectedNode.Tag as SegmentTableMapping;              
+                     dialogResult= MessageBox.Show("By removing the parent all lower mappings will be removed. Do you wish to continue?","Delete",MessageBoxButtons.OKCancel);
+                    if (dialogResult == DialogResult.OK)
+                    {
+                        _segmentDBMappingList.SegmentMappings.Remove(stm);
+                        tvSegmentTableMap.Nodes.Remove(selectedNode);
+                    }
                     break;
 
                 case "SegmentDBColumnMapping":
-
+                    SegmentDBColumnMapping sdbc = selectedNode.Tag as SegmentDBColumnMapping;
+                    stm = selectedNode.Parent.Tag as SegmentTableMapping;
+                    dialogResult = MessageBox.Show("Are you sure you want to delete?", "Delete", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        stm.ColumnMappings.Remove(sdbc);
+                        tvSegmentTableMap.Nodes.Remove(selectedNode);
+                    }
                     break;
             }
         }
