@@ -27,17 +27,18 @@ namespace HL7Explorer
 
         protected virtual void CreateMenuItems() { }
 
+        protected string SetFormText()
+        {
+            return string.Format(string.Format("{0}: {1}", Application.ProductName, ProductVersion));
+        }
 
         public BaseForm()
         {
             InitializeComponent();           
             
-
-           // LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
-            this._logger = LogFactory.CreateLogger(LogType.FILE);
-            this.FormClosing += FrmTriggerEventAddEdit_FormClosing;
-
             
+            this._logger = LogFactory.CreateLogger(LogType.FILE);
+            this.FormClosing += FrmTriggerEventAddEdit_FormClosing;           
         }       
 
        

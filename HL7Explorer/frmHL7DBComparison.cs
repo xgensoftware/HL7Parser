@@ -126,7 +126,7 @@ namespace HL7Explorer
         #endregion
 
         #region Form Events
-        public frmHL7DBComparison()
+        public frmHL7DBComparison() : base()
         {
             InitializeComponent();
             this.Load += FrmHL7DBComparison_Load;
@@ -135,6 +135,7 @@ namespace HL7Explorer
             this.cmbMessageType.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             this.cmbEventType.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             this.cmbHL7Versions.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+            Text = SetFormText();
 
             _genericRepo = new GenericDBRepository(AppConfiguration.DBProvider, AppConfiguration.DBConnection);
             _repo = new HL7Parser.Repository.HL7SchemaRepository();

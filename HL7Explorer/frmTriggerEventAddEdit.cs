@@ -89,6 +89,7 @@ namespace HL7Explorer
         {
             InitializeComponent();
             this._repo = repo;
+            Text = SetFormText();
 
             CreateMenuItems();
             PopulateControls();

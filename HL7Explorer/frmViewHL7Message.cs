@@ -74,15 +74,17 @@ namespace HL7Explorer
         {
             InitializeComponent();
             this._repo = repo;
+            Text = SetFormText();
 
             CreateMenuItems();
             CreateFormControls();
         }
 
-        public frmViewHL7Message() 
+        public frmViewHL7Message() : base()
         {
             InitializeComponent();
             this._repo = new HL7SchemaRepository();
+            Text = SetFormText();
 
             CreateMenuItems();
             CreateFormControls();        

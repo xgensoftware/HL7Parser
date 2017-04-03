@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("HL7Explorer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Information Technology")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("HL7Explorer")]
-[assembly: AssemblyCopyright("Copyright © Information Technology 2017")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
