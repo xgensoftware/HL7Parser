@@ -39,10 +39,10 @@ namespace HL7Explorer
         {
             int progress = e.ProgressPercentage;
             progressBar1.Value = progress;
-            if (progressBar1.Value == 100)
-            {
-                progressBar1.Value = 0;
-            }
+            //if (progressBar1.Value == 100)
+            //{
+            //    progressBar1.Value = 0;
+            //}
         }
 
         private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -52,15 +52,31 @@ namespace HL7Explorer
 
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            for (int x = 0; x <= 100; x++)
+            //for (int x = 0; x <= 100; x++)
+            //{
+            //    Thread.Sleep(500);
+            //    if (_isRunning == true)
+            //        backgroundWorker1.ReportProgress(x);
+            //    else
+            //    {
+            //        backgroundWorker1.ReportProgress(100);
+            //        break;
+            //    }
+            //}
+
+            while (_isRunning)
             {
-                Thread.Sleep(500);
-                if (_isRunning == true)
-                    backgroundWorker1.ReportProgress(x);
-                else
+                for (int x = 0; x <= 100; x++)
                 {
-                    backgroundWorker1.ReportProgress(100);
-                    break;
+                    Thread.Sleep(500);
+                    if(x <= 100)
+                    {
+                        backgroundWorker1.ReportProgress(x);
+                    }
+                    else
+                    {
+                        backgroundWorker1.ReportProgress(0);
+                    }
                 }
             }
         }

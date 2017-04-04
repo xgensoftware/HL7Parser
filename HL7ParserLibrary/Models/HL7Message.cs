@@ -11,6 +11,15 @@ namespace HL7Parser.Models
     /// <summary>
     /// HL7 Message object with segments and events
     /// </summary>
+    /*
+    History
+
+    *******************************************************
+    Date        Author                  Description
+    *******************************************************
+    04/4/2017   Anthony Sanfilippo      Added ToString Override
+
+    */
     public class HL7Message
     {
         #region Member Variables 
@@ -83,7 +92,17 @@ namespace HL7Parser.Models
             return s.ToString();            
         }
 
-        
+        public override string ToString()
+        {
+            if (_token != null)
+            {
+                return _token.MessageControlId;
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
         #endregion
     }
 }

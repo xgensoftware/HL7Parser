@@ -10,17 +10,24 @@ using HL7Parser.Models;
 using HL7Parser.Repository;
 using HL7ExplorerBL.Entities;
 namespace HL7Explorer
-{
-    /// <summary>
-    /// This form will allow the user to load an raw HL7Message parsed 
-    /// to its respective segments
-    /// </summary>
+{   
+    /*
+    This form will allow the user to load an raw HL7Message parsed to its respective segments
+
+    History
+    *******************************************************
+    Date        Author                  Description
+    *******************************************************
+    04/3/2017   Anthony Sanfilippo      added history comments
+    04/04/2017  Anthony Sanfilippo      added multi HL7 Message Selection
+    */
+
     public partial class frmViewHL7Message : BaseForm
     {
         #region Member Variables
         HL7Message _hl7Message = null;
         SegmentTableMappingList _segmentTableList = null;
-        frmProgress _progressIndicator = null;
+        frmHL7DataFileList _dataList = null;
         #endregion
 
         #region Private Methods
@@ -55,16 +62,36 @@ namespace HL7Explorer
             bgwDBCompare.RunWorkerCompleted += BgwDBCompare_RunWorkerCompleted;
         }
         
-        void LoadHL7(string fileName)
+        void LoadHL7(string hl7Data)
         {
             this._hl7Message = null;
             toolStripButtonLoad.Enabled = false;
+            
+            bgwParser.RunWorkerAsync(hl7Data);
 
-            string hl7File = File.ReadAllText(fileName);
-            bgwParser.RunWorkerAsync(hl7File);
+            StartProgressBar();        
+        }
 
-            _progressIndicator = new frmProgress();
-            _progressIndicator.ShowDialog();           
+        void LoadHL7Controls()
+        {
+            tvSegments.Nodes.Clear();
+
+            if (_hl7Message != null)
+            {
+                txtRawHL7Message.Text = _hl7Message.MessageToken.RawMessage;
+                foreach (var seg in _hl7Message.Events)
+                {
+                    TreeNode n = new TreeNode(seg.Value.Name);
+                    n.Name = seg.Value.Name;
+                    n.Tag = seg.Value.Segments;
+                    tvSegments.Nodes.Add(n);
+                }
+
+                tvSegments.Nodes[0].Toggle();
+                tvSegments.SelectedNode = tvSegments.Nodes[0];
+                tvSegments.Focus();
+                grdSegmentFields.DataSource = tvSegments.Nodes[0].Tag;
+            }
         }
 
         #endregion
@@ -74,7 +101,7 @@ namespace HL7Explorer
         {
             InitializeComponent();
             this._repo = repo;
-            Text = SetFormText();
+            this.Text = SetFormText();
 
             CreateMenuItems();
             CreateFormControls();
@@ -84,7 +111,7 @@ namespace HL7Explorer
         {
             InitializeComponent();
             this._repo = new HL7SchemaRepository();
-            Text = SetFormText();
+            this.Text = SetFormText();
 
             CreateMenuItems();
             CreateFormControls();        
@@ -92,7 +119,6 @@ namespace HL7Explorer
         
         private void frmViewHL7Message_Load(object sender, EventArgs e)
         {
-            this.Text = "View HL7 Message";
 
             if (!string.IsNullOrEmpty(AppConfiguration.DBConnection))
             {
@@ -113,7 +139,8 @@ namespace HL7Explorer
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                LoadHL7(openFileDialog1.FileName);
+                string hl7Data = File.ReadAllText(openFileDialog1.FileName);
+                LoadHL7(hl7Data);
             }
             else
             {
@@ -128,6 +155,7 @@ namespace HL7Explorer
                 if (!string.IsNullOrEmpty(AppConfiguration.DBConnection))
                 {
                     OpenFileDialog dialog = new OpenFileDialog();
+                    dialog.Tag = "DBCompare";
                     dialog.FileOk += Dialog_FileOk;
                     dialog.Filter = "XML (*.xml)|*.xml";
                     dialog.ShowDialog();                   
@@ -139,10 +167,46 @@ namespace HL7Explorer
             }
         }
 
+        private void toolStripButtonLoadHL7DatFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Tag = "HL7DATLoad";
+            dialog.FileOk += Dialog_FileOk;
+            dialog.Filter = "HL7 File (*.dat)|*.dat";
+            dialog.ShowDialog();
+        }
+
         private void Dialog_FileOk(object sender, CancelEventArgs e)
         {
             OpenFileDialog dialog = sender as OpenFileDialog;
-            bgwDBCompare.RunWorkerAsync(dialog.FileName);            
+           
+            switch(dialog.Tag.ToString())
+            {
+                case "DBCompare":
+                    bgwDBCompare.RunWorkerAsync(dialog.FileName);
+                    break;
+
+                case "HL7DATLoad":
+                    _dataList = new frmHL7DataFileList();
+                    _dataList.OnHL7ObjectSelected += DataList_OnHL7ObjectSelected;
+                    _dataList.OnHL7DataFileParsed += DataList_OnHL7DataFileParsed;                    
+                    _dataList.LoadMessages(dialog.FileName);                    
+                    break;
+            }                      
+        }
+
+        private void DataList_OnHL7DataFileParsed(bool isSuccess)
+        {
+            if (isSuccess && _dataList != null)
+            {
+                _dataList.Show();
+            }
+        }
+
+        private void DataList_OnHL7ObjectSelected(HL7Message hl7Object)
+        {
+            _hl7Message = hl7Object;
+            LoadHL7Controls();
         }
 
         private void TsiHL7DBMapping_Click(object sender, EventArgs e)
@@ -175,7 +239,8 @@ namespace HL7Explorer
         private void TxtRawHL7Message_DragEnter(object sender, DragEventArgs e)
         {
             var temp = e.Data.GetData(DataFormats.FileDrop) as string[];
-            LoadHL7(temp[0]);
+            string hl7Data = File.ReadAllText(temp[0]);
+            LoadHL7(hl7Data);
         }
 
         private void bgwParser_DoWork(object sender, DoWorkEventArgs e)
@@ -193,39 +258,18 @@ namespace HL7Explorer
 
         private void bgwParser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            tvSegments.Nodes.Clear();           
+            this.LoadHL7Controls();
 
-            if (_hl7Message != null)
-            {
-                txtRawHL7Message.Text = _hl7Message.MessageToken.RawMessage;
-                foreach (var seg in _hl7Message.Events)
-                {
-                    TreeNode n = new TreeNode(seg.Value.Name);
-                    n.Name = seg.Value.Name;
-                    n.Tag = seg.Value.Segments;
-                    tvSegments.Nodes.Add(n);
-                }
-
-                tvSegments.Nodes[0].Toggle();
-                tvSegments.SelectedNode = tvSegments.Nodes[0];
-                tvSegments.Focus();
-                grdSegmentFields.DataSource = tvSegments.Nodes[0].Tag;                
-            }
-
-            if (_progressIndicator != null)
-            {
-                _progressIndicator.Stop();
-                _progressIndicator = null;
-            }
+            StopProgressBar();
 
             toolStripButtonLoad.Enabled = true;
         }
         
         private void BgwDBCompare_DoWork(object sender, DoWorkEventArgs e)
         {
-            _segmentTableList = new SegmentTableMappingList();
-            _progressIndicator = new frmProgress();
-            _progressIndicator.ShowDialog();
+            StartProgressBar();
+
+            _segmentTableList = new SegmentTableMappingList();           
             
             try
             {
@@ -265,11 +309,7 @@ namespace HL7Explorer
                 MessageBox.Show(string.Format("No database records found for Message control Id {0}", _hl7Message.MessageToken.MessageControlId));
 
 
-            if (_progressIndicator != null)
-            {
-                _progressIndicator.Stop();
-                _progressIndicator = null;
-            }
+            StopProgressBar();
         }
         #endregion
     }

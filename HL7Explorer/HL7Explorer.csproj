@@ -101,6 +101,12 @@
     <Compile Include="frmEventBuilder.Designer.cs">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHL7DataFileList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHL7DataFileList.Designer.cs">
+      <DependentUpon>frmHL7DataFileList.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmHL7DBComparison.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmEventBuilder.resx">
       <DependentUpon>frmEventBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHL7DataFileList.resx">
+      <DependentUpon>frmHL7DataFileList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmHL7DBComparison.resx">
       <DependentUpon>frmHL7DBComparison.cs</DependentUpon>

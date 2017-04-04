@@ -12,6 +12,16 @@ using HL7Core;
 
 namespace HL7Explorer
 {
+    /*
+    History
+
+    *******************************************************
+    Date        Author                  Description
+    *******************************************************
+    04/4/2017   Anthony Sanfilippo      Added protected Progress bar
+                                        StartProgress/StopProgress methods
+
+    */
     public partial class BaseForm : Form
     {
         #region Member Variables 
@@ -23,6 +33,7 @@ namespace HL7Explorer
 
         protected ILogger _logger = null;
         protected HL7SchemaRepository _repo = null;
+        protected frmProgress _progressIndicator = null;
         #endregion
 
         protected virtual void CreateMenuItems() { }
@@ -41,6 +52,21 @@ namespace HL7Explorer
             this.FormClosing += FrmTriggerEventAddEdit_FormClosing;           
         }       
 
+        protected void StartProgressBar()
+        {
+            _progressIndicator = new frmProgress();
+            _progressIndicator.ShowDialog();
+        }
+
+        protected void StopProgressBar()
+        {
+            if (_progressIndicator != null)
+            {
+                _progressIndicator.Stop();
+                _progressIndicator.Close();
+                _progressIndicator = null;
+            }
+        }
        
         protected void LogError(string message)
         {

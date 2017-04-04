@@ -47,6 +47,8 @@
             this.colIsRepeating = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bgwParser = new System.ComponentModel.BackgroundWorker();
             this.bgwDBCompare = new System.ComponentModel.BackgroundWorker();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonLoadHL7DatFile = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,6 +83,8 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonLoad,
             this.toolStripSeparator1,
+            this.toolStripButtonLoadHL7DatFile,
+            this.toolStripSeparator2,
             this.toolStripButtonDBCompare});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -94,8 +98,9 @@
             this.toolStripButtonLoad.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.toolStripButtonLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonLoad.Name = "toolStripButtonLoad";
-            this.toolStripButtonLoad.Size = new System.Drawing.Size(53, 22);
-            this.toolStripButtonLoad.Text = "Load";
+            this.toolStripButtonLoad.Size = new System.Drawing.Size(126, 22);
+            this.toolStripButtonLoad.Text = "Load HL7 Message";
+            this.toolStripButtonLoad.ToolTipText = "Load a single HL7 Message file";
             this.toolStripButtonLoad.Click += new System.EventHandler(this.toolStripButtonLoad_Click);
             // 
             // toolStripSeparator1
@@ -232,6 +237,22 @@
             this.colIsRepeating.Name = "colIsRepeating";
             this.colIsRepeating.ReadOnly = true;
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButtonLoadHL7DatFile
+            // 
+            this.toolStripButtonLoadHL7DatFile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoadHL7DatFile.Image")));
+            this.toolStripButtonLoadHL7DatFile.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.toolStripButtonLoadHL7DatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadHL7DatFile.Name = "toolStripButtonLoadHL7DatFile";
+            this.toolStripButtonLoadHL7DatFile.Size = new System.Drawing.Size(154, 22);
+            this.toolStripButtonLoadHL7DatFile.Text = "Load Multi Message File";
+            this.toolStripButtonLoadHL7DatFile.ToolTipText = "Load a file with multiple HL7 messages";
+            this.toolStripButtonLoadHL7DatFile.Click += new System.EventHandler(this.toolStripButtonLoadHL7DatFile_Click);
+            // 
             // frmViewHL7Message
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -282,5 +303,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn colIsRequired;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colIsRepeating;
         private System.ComponentModel.BackgroundWorker bgwDBCompare;
+        private System.Windows.Forms.ToolStripButton toolStripButtonLoadHL7DatFile;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
