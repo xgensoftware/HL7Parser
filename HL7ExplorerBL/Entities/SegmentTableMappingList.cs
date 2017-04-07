@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using com.Xgensoftware.Core;
 using HL7Core;
+using HL7Parser.Models;
 using HL7ExplorerBL.Repository;
 
 namespace HL7ExplorerBL.Entities
@@ -91,21 +92,28 @@ namespace HL7ExplorerBL.Entities
             }
         }
 
-        public void GetMessagesFromDB(string messageControlId)
+        public void GetMessagesFromDB(HL7Message hl7Message)
         {
+            StringBuilder sql = new StringBuilder();
+
+            System.Data.DataSet ds = new System.Data.DataSet();
             int messageHeaderId = -1;
-            messageHeaderId = _repo.GetMessageHeaderIdBy(messageControlId);
+            messageHeaderId = _repo.GetMessageHeaderIdBy(hl7Message.MessageToken.MessageControlId);
 
             if (messageHeaderId != -1)
             {
-                //Parallel.ForEach(this._segmentMappings, segment =>
-                //{
-                //    segment.GetTableData(messageHeaderId);
-                //});
-
-                foreach (SegmentTableMapping stm in this._segmentMappings)
+                for(int idx = 0; idx <= _segmentMappings.Count - 1; idx ++)
                 {
-                    stm.GetTableData(messageHeaderId);
+                    StringBuilder columns = new StringBuilder();
+                    SegmentTableMapping stm = _segmentMappings[idx];
+
+                    foreach (SegmentDBColumnMapping colMap in stm.ColumnMappings)
+                    {
+                        columns.AppendFormat("{0},", colMap.DatabaseColumn);
+                    }
+
+                    columns.Remove(columns.Length - 1, 1);
+                    stm.TableData = _repo.GetMessageData(string.Format("select {0} from {1} (nolock) where MessageHeaderId = {2};", columns.ToString(), stm.TableName, messageHeaderId));
                 }
             }
         }

@@ -223,10 +223,13 @@ namespace HL7Explorer
             {
                 TreeNode tnSegmentDB = new TreeNode(tvSTM.ToString());
                 tnSegmentDB.Name = tvSTM.SegmentName;
-
+                tnSegmentDB.Tag = tvSTM; 
                 foreach (SegmentDBColumnMapping col in tvSTM.ColumnMappings)
                 {
-                    tnSegmentDB.Nodes.Add(col.ToString());
+                    TreeNode tnSDBC = new TreeNode(col.ToString());
+                    tnSDBC.Name = col.SegmentColumn;
+                    tnSDBC.Tag = col;
+                    tnSegmentDB.Nodes.Add(tnSDBC);
                 }
 
                 tvSegmentTableMap.Nodes.Add(tnSegmentDB);

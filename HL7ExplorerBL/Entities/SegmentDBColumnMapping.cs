@@ -12,7 +12,7 @@ namespace HL7ExplorerBL.Entities
     {
         #region Member Variables 
         string _segmentColumn = string.Empty;
-        string _databaseColumn = string.Empty;  
+        string _databaseColumn = string.Empty;
         #endregion
 
         #region Properties
@@ -27,6 +27,7 @@ namespace HL7ExplorerBL.Entities
             get { return _databaseColumn; }
             set { _databaseColumn = value; }
         }
+
         #endregion
 
         #region Constructor 
@@ -43,6 +44,7 @@ namespace HL7ExplorerBL.Entities
         #endregion
 
         #region Public Methods
+               
         public override string ToString()
         {
             return string.Format("[Segment]: {0} | [DB]: {1}", _segmentColumn, _databaseColumn);

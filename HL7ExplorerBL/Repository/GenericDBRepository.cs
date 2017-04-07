@@ -7,10 +7,23 @@ using System.Threading.Tasks;
 using HL7Core;
 using com.Xgensoftware.Core;
 using com.Xgensoftware.DAL;
+using HL7Parser.Models;
 using HL7ExplorerBL.Entities;
+using HL7ExplorerBL.QueryBuilder;
 
 namespace HL7ExplorerBL.Repository
 {
+/*
+This form will allow the user to load an raw HL7Message parsed to its respective segments
+
+History
+*********************************************************************************
+Date        Author                  Description
+*********************************************************************************
+
+*********************************************************************************
+*/
+
     public class GenericDBRepository : BaseRepository
     {
         #region Member Variables 
@@ -128,8 +141,7 @@ namespace HL7ExplorerBL.Repository
 
             return collection;
         }
-
-
+        
         #endregion
     }
 }

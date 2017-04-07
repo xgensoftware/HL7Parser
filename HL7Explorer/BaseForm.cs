@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HL7Parser.Repository;
 using HL7Core;
-
+using HL7ExplorerBL.Repository;
 namespace HL7Explorer
 {
     /*
@@ -33,6 +33,7 @@ namespace HL7Explorer
 
         protected ILogger _logger = null;
         protected HL7SchemaRepository _repo = null;
+        protected GenericDBRepository _dataRepo = null;
         protected frmProgress _progressIndicator = null;
         #endregion
 
@@ -47,7 +48,12 @@ namespace HL7Explorer
         {
             InitializeComponent();           
             
-            
+            try
+            {
+                _dataRepo = new GenericDBRepository(AppConfiguration.DBProvider, AppConfiguration.DBConnection);
+            }
+            catch { }
+
             this._logger = LogFactory.CreateLogger(LogType.FILE);
             this.FormClosing += FrmTriggerEventAddEdit_FormClosing;           
         }       

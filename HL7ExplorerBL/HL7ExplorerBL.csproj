@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HL7ExplorerBL</RootNamespace>
     <AssemblyName>HL7ExplorerBL</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,6 +71,10 @@
     <ProjectReference Include="..\HL7Core\HL7Core.csproj">
       <Project>{3fe6a047-7a4b-4980-8462-e8eb366728f3}</Project>
       <Name>HL7Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HL7ParserLibrary\HL7Parser.csproj">
+      <Project>{be02ade4-7197-4658-bf67-0e69d1102014}</Project>
+      <Name>HL7Parser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

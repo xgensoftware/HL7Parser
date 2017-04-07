@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using com.Xgensoftware.Core;
 using HL7Core;
+using HL7Parser.Models;
 using HL7ExplorerBL.Entities;
 namespace HL7Explorer
 {
@@ -30,7 +31,7 @@ namespace HL7Explorer
         #endregion
 
         #region Form Events
-        public frmDatabaseView(SegmentTableMapping stm)
+        public frmDatabaseView(SegmentTableMapping stm, HL7EventSegment segment)
         {
             InitializeComponent();
 
@@ -42,7 +43,7 @@ namespace HL7Explorer
             }
             catch (Exception ex)
             {
-                LogError(string.Format("Database view of segment {0} had an unexpected error. {1}", stm.SegmentName,ex.Message));
+                LogError(string.Format("Database view of segment had an unexpected error. {0}", ex.Message));
             }
         }
 

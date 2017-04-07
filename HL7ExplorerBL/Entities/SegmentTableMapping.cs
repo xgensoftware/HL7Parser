@@ -41,6 +41,7 @@ namespace HL7ExplorerBL.Entities
         public System.Data.DataTable TableData
         {
             get { return _dt; }
+            set { _dt = value; }
         }
         #endregion
 
@@ -71,29 +72,6 @@ namespace HL7ExplorerBL.Entities
         #endregion
 
         #region Public Methods 
-
-        public void GetTableData(int messageHeaderId)
-        {
-            StringBuilder columns = new StringBuilder();
-            if (_columnMappings.Count() == 0)
-            {
-                columns.Append("*");
-            }
-            else
-            {
-                foreach (SegmentDBColumnMapping col in _columnMappings)
-                {
-                    columns.AppendFormat("{0},", col.DatabaseColumn);
-                }
-                columns.Remove(columns.Length - 1, 1);
-            }
-
-            try
-            {
-                _dt = _repo.GetSegmentTableData(messageHeaderId, columns.ToString(), _tableName);
-            }
-            catch { }
-        }
 
         public override string ToString()
         {

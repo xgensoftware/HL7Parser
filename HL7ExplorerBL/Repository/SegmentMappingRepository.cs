@@ -33,13 +33,18 @@ namespace HL7ExplorerBL.Repository
 
         public DataTable GetSegmentTableData(int messageHeaderId, string columns, string tableName)
         {
-            string sql = string.Format("select {0} from {1} where MessageHeaderId = {2}",columns, tableName,messageHeaderId);
+            string sql = string.Format("select {0} from {1} (nolock) where MessageHeaderId = {2} ", columns, tableName, messageHeaderId);
+            return this._dbProvider.ExecuteDataSetQuery(sql, null).Tables[0];
+        }
+
+        public DataTable GetMessageData(string sql)
+        {
             return this._dbProvider.ExecuteDataSetQuery(sql, null).Tables[0];
         }
 
         public int GetMessageHeaderIdBy(string messageControlId)
         {
-            string sql = string.Format("select MessageHeaderId from MessageHeader_MSH where MessageControlId = '{0}'", messageControlId);
+            string sql = string.Format("select MessageHeaderId from MessageHeader_MSH (nolock) where MessageControlId = '{0}'", messageControlId);
             return this._dbProvider.ExecuteDataSetQuery(sql, null).Tables[0].Rows[0]["MessageHeaderId"].Parse<int>();
         }
 

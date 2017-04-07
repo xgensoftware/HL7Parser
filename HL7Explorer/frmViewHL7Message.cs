@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using HL7Core;
@@ -9,24 +10,28 @@ using HL7Parser.Parser;
 using HL7Parser.Models;
 using HL7Parser.Repository;
 using HL7ExplorerBL.Entities;
+using HL7ExplorerBL.QueryBuilder;
+
 namespace HL7Explorer
-{   
+{
     /*
     This form will allow the user to load an raw HL7Message parsed to its respective segments
 
     History
-    *******************************************************
+    *********************************************************************************
     Date        Author                  Description
-    *******************************************************
+    *********************************************************************************
     04/3/2017   Anthony Sanfilippo      added history comments
     04/04/2017  Anthony Sanfilippo      added multi HL7 Message Selection
+    04/06/2017  ABS                     Changed so that an HL7 Message will drive what gets 
+                                        queried using the Model SegmentTableMappingList
+    *********************************************************************************
     */
 
     public partial class frmViewHL7Message : BaseForm
     {
         #region Member Variables
         HL7Message _hl7Message = null;
-        SegmentTableMappingList _segmentTableList = null;
         frmHL7DataFileList _dataList = null;
         #endregion
 
@@ -156,6 +161,7 @@ namespace HL7Explorer
                 {
                     OpenFileDialog dialog = new OpenFileDialog();
                     dialog.Tag = "DBCompare";
+                    dialog.InitialDirectory = Application.ExecutablePath;
                     dialog.FileOk += Dialog_FileOk;
                     dialog.Filter = "XML (*.xml)|*.xml";
                     dialog.ShowDialog();                   
@@ -171,6 +177,7 @@ namespace HL7Explorer
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Tag = "HL7DATLoad";
+            dialog.InitialDirectory = Application.ExecutablePath;
             dialog.FileOk += Dialog_FileOk;
             dialog.Filter = "HL7 File (*.dat)|*.dat";
             dialog.ShowDialog();
@@ -184,6 +191,8 @@ namespace HL7Explorer
             {
                 case "DBCompare":
                     bgwDBCompare.RunWorkerAsync(dialog.FileName);
+
+                    StartProgressBar();
                     break;
 
                 case "HL7DATLoad":
@@ -266,14 +275,13 @@ namespace HL7Explorer
         }
         
         private void BgwDBCompare_DoWork(object sender, DoWorkEventArgs e)
-        {
-            StartProgressBar();
-
-            _segmentTableList = new SegmentTableMappingList();           
+        {            
+            
+            SegmentTableMappingList segmentTableList = new SegmentTableMappingList();           
             
             try
             {
-                _segmentTableList.GetMappingFile(e.Argument.ToString());
+                segmentTableList.GetMappingFile(e.Argument.ToString());
             }
             catch(FileNotFoundException ex)
             {
@@ -286,22 +294,25 @@ namespace HL7Explorer
 
             try
             {
-                _segmentTableList.GetMessagesFromDB(_hl7Message.MessageToken.MessageControlId);
+                segmentTableList.GetMessagesFromDB(_hl7Message);
+                e.Result = segmentTableList;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogError(string.Format("Failed to retrieve db record for message control id {0}. ERROR:{1}", _hl7Message.MessageToken.MessageControlId, ex.Message));
             }
+            
         }
 
         private void BgwDBCompare_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
-            if (_segmentTableList.Count > 0)
+            SegmentTableMappingList segmentTableList = e.Result as SegmentTableMappingList;
+            if (segmentTableList.Count > 0)
             {
-                foreach (SegmentTableMapping stm in _segmentTableList.SegmentMappings)
+                foreach (SegmentTableMapping stm in segmentTableList.SegmentMappings)
                 {
-                    frmDatabaseView db = new frmDatabaseView(stm);
+                    HL7EventSegment t = _hl7Message.Events.Where(x => x.Value.Name == stm.SegmentName).FirstOrDefault().Value;
+                    frmDatabaseView db = new frmDatabaseView(stm, t);
                     db.Show();
                 }
             }
