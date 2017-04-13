@@ -12,11 +12,14 @@ namespace HL7Parser
     public partial class TriggerEvent
     {
         #region Member Variables 
-
+        
         #endregion
 
         #region Properties
-        
+        public List<Segment> SegmentCollection
+        {
+            get; set;
+        }
         #endregion
 
         #region Constructor 

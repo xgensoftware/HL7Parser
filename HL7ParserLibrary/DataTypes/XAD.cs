@@ -53,13 +53,15 @@ namespace HL7Parser.DataTypes
             {
                 string[] valSplit = val.Split('^');
 
-                this._streetAddress = valSplit[0];
-                this._city = valSplit[2];
-                this._state = valSplit[3];
-                this._zip = valSplit[4];
+                this._streetAddress = valSplit[0];                               
 
-                if(valSplit.Count() > 6)
+                if (valSplit.Count() > 6)
+                {
+                    this._city = valSplit[2];
+                    this._state = valSplit[3];
+                    this._zip = valSplit[4];
                     this._country = valSplit[5];
+                }
             }
         }
         #endregion

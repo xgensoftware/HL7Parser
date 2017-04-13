@@ -29,7 +29,7 @@ namespace EDIParseConsole
             Console.WriteLine(DateTime.Now.ToString());
 
             PipeParser parse = new PipeParser();
-            string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\1476286403448-1863881.txt.dpp";
+            string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\R01_2701363_32200927664_20170130390155_92a290c2-8b44-4cd9-b45b-bb2aa546dd56.hl7";
             string message = File.ReadAllText(filePath);
             HL7Message temp = parse.Parse(message);
 

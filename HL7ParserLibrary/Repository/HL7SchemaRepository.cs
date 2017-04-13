@@ -65,11 +65,21 @@ namespace HL7Parser.Repository
         public List<TriggerEvent> GetTriggerEventsBy(string version, string message, string eventType)
         {
 
-            return _dbCTX.TriggerEvents
-                    .Where(x => x.Version == version && x.MessageType == message && x.EventType == eventType)
-                    .AsParallel()
-                    .OrderBy(x => x.Sequence)
-                    .ToList();
+            List<TriggerEvent> collection = _dbCTX.TriggerEvents
+                                            .Where(x => x.Version == version && x.MessageType == message && x.EventType == eventType)
+                                            .AsParallel()
+                                            .OrderBy(x => x.Sequence)
+                                            .ToList();
+
+            if (collection.Count >0)
+            {
+                for (int idx = 0; idx <= collection.Count() - 1; idx++)
+                {
+                    collection[idx].SegmentCollection = GetSegmentBy(version, collection[idx].Segment);
+                }
+            }
+
+            return collection;
         }
 
         public List<TriggerEvent> GetAllTriggerEvents()

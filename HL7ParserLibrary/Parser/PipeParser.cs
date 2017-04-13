@@ -79,13 +79,13 @@ namespace HL7Parser.Parser
         private HL7Segment CreateFromSegmentString(string rawSegment, TriggerEvent tr)
         {
             HL7Segment e = null;
-            List <Segment> segmentsConfig = null;
+            List<Segment> segmentsConfig = tr.SegmentCollection;
 
-            try
-            {
-                segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
-            }
-            catch { }
+            //try
+            //{
+            //    segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
+            //}
+            //catch { }
 
             if (segmentsConfig != null)
             {
@@ -133,7 +133,8 @@ namespace HL7Parser.Parser
             this._hl7 = new HL7Message(tempMessage);
 
             //The Fields in the message should drive this, to handle multiple similar segments.
-            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();
+            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();            
+
             if (triggerEvents.Count == 0)
             {
                 throw new ParserException(string.Format("No trigger events found for version {0}, message type {1}_{2}", this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType));
