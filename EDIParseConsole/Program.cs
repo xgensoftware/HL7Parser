@@ -26,14 +26,18 @@ namespace EDIParseConsole
         #region " Private Methods "
         private static void ParseMessage()
         {
+            Console.WriteLine(DateTime.Now.ToString());
+
             PipeParser parse = new PipeParser();
             string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\1476286403448-1863881.txt.dpp";
             string message = File.ReadAllText(filePath);
             HL7Message temp = parse.Parse(message);
 
+            Console.WriteLine(DateTime.Now.ToString());
             //Console.WriteLine(temp.SegmentString());
             //var segment = temp.Events.Where(x => x.Name == "MSH").FirstOrDefault();
         }
+
         private static string DataTypeMap(string type)
         {
             string dataType = "String";
@@ -195,10 +199,10 @@ namespace EDIParseConsole
         {
             LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
             log = LogFactory.CreateLogger(logType);
-            ScrapeSegments();
 
+            //ScrapeSegments();
 
-            //ParseMessage();
+            ParseMessage();
 
             //CreateMappingFile();
             Console.ReadLine();
