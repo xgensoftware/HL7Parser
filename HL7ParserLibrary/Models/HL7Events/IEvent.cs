@@ -16,11 +16,11 @@ namespace HL7Parser.Models
         bool IsOptional { get; }
         bool IsRepeated { get; }
 
-        List<Models.HL7SegmentEvent> SegmentEvents { get; }
+        List<Models.HL7SegmentColumn> SegmentEvents { get; }
         #endregion
 
-        HL7SegmentEvent GetSegment(string name);
+        HL7SegmentColumn GetSegment(string name);
 
-        void AddSegment(Models.HL7SegmentEvent s);
+        void AddSegment(Models.HL7SegmentColumn s);
     }
 }

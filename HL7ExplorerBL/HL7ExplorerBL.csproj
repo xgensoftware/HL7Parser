@@ -54,6 +54,7 @@
     <Compile Include="Entities\DBColumnCollection.cs" />
     <Compile Include="Entities\DBTable.cs" />
     <Compile Include="Entities\DBTableCollection.cs" />
+    <Compile Include="Entities\HL7DBCompare.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\SegmentDBColumnMapping.cs" />
     <Compile Include="Entities\SegmentTableMapping.cs" />

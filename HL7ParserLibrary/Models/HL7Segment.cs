@@ -10,10 +10,10 @@ namespace HL7Parser.Models
     /// <summary>
     /// THis will be the new class for dynamic HL7Events based on the Segment and TriggerEvent Tables
     /// </summary>
-    public class HL7EventSegment : Object
+    public class HL7Segment : Object
     {
         #region Member Variables 
-        ConcurrentBag<HL7SegmentEvent> _segmentEvents;
+        ConcurrentBag<HL7SegmentColumn> _segmentEvents;
 
         protected string _eventType = string.Empty;
         protected string _name = string.Empty;
@@ -53,14 +53,14 @@ namespace HL7Parser.Models
         {
             get { return _isRepeated; }
         }
-        public List<HL7SegmentEvent> Segments
+        public List<HL7SegmentColumn> Segments
         {
-            get { return _segmentEvents.OrderBy(x => x.Sequence).ToList<HL7SegmentEvent>(); }
+            get { return _segmentEvents.OrderBy(x => x.Sequence).ToList<HL7SegmentColumn>(); }
         }
         #endregion
 
         #region Constructor 
-        public HL7EventSegment(string eventType, string name, string version, int seq, bool isOptional, bool isRepeated)
+        public HL7Segment(string eventType, string name, string version, int seq, bool isOptional, bool isRepeated)
         {
             this._eventType = eventType;
             this._name = name;
@@ -68,13 +68,13 @@ namespace HL7Parser.Models
             this._sequence = seq;
             this._isOptional = isOptional;
             this._isRepeated = isRepeated;
-            _segmentEvents = new ConcurrentBag<HL7SegmentEvent>();           
+            _segmentEvents = new ConcurrentBag<HL7SegmentColumn>();           
         }
         
         #endregion
 
         #region Public Method
-        public void AddSegmentEvent(HL7SegmentEvent se)
+        public void AddSegmentEvent(HL7SegmentColumn se)
         {
             this._segmentEvents.Add(se);
         }

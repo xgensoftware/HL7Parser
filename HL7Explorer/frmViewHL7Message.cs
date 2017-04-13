@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using com.Xgensoftware.Core;
 using HL7Core;
 using HL7Parser.Parser;
 using HL7Parser.Models;
@@ -233,7 +234,7 @@ namespace HL7Explorer
         private void TvSegments_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
-            grdSegmentFields.DataSource = node.Tag as List<HL7SegmentEvent>;
+            grdSegmentFields.DataSource = node.Tag as List<HL7SegmentColumn>;
             
         }
 
@@ -307,21 +308,66 @@ namespace HL7Explorer
         private void BgwDBCompare_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             SegmentTableMappingList segmentTableList = e.Result as SegmentTableMappingList;
-            if (segmentTableList.Count > 0)
+            foreach (SegmentTableMapping map in segmentTableList.SegmentMappings)
             {
-                foreach (SegmentTableMapping stm in segmentTableList.SegmentMappings)
-                {
-                    HL7EventSegment t = _hl7Message.Events.Where(x => x.Value.Name == stm.SegmentName).FirstOrDefault().Value;
-                    frmDatabaseView db = new frmDatabaseView(stm, t);
-                    db.Show();
-                }
+                frmDatabaseView db = new frmDatabaseView(map);
+                db.Show();
             }
-            else
-                MessageBox.Show(string.Format("No database records found for Message control Id {0}", _hl7Message.MessageToken.MessageControlId));
-
 
             StopProgressBar();
         }
+
+        //private void BgwDBCompare_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    SegmentTableMappingList segmentTableList = e.Result as SegmentTableMappingList;
+        //    foreach (KeyValuePair<int, HL7EventSegment> hl7Data in _hl7Message.Events)
+        //    {
+        //        HL7EventSegment hl7EventSegmentData = hl7Data.Value;
+        //        SegmentTableMapping map = segmentTableList.SegmentMappings.Where(x => x.SegmentName == hl7Data.Value.Name).FirstOrDefault();
+        //        if (map != null)
+        //        {
+        //            List<HL7DBCompare> collection = new List<HL7DBCompare>();
+        //            List<HL7SegmentEvent> hl7segments = hl7EventSegmentData.Segments.Where(x => x.Name.Contains("Set ID")).ToList();
+        //            if (hl7segments.Count > 0)
+        //            {
+        //                foreach(HL7SegmentEvent evnt in hl7segments)
+        //                {
+        //                    //System.Data.DataRow dr = map.TableData.Select(string.Format("SetID = '{0}'",evnt.)
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (map.TableData.Rows.Count > 0)
+        //                {
+        //                    System.Data.DataRow dr = map.TableData.Rows[0];
+        //                    foreach (SegmentDBColumnMapping sdbc in map.ColumnMappings)
+        //                    {
+        //                        HL7DBCompare comp = new HL7DBCompare();
+        //                        HL7SegmentEvent hl7SegColName = hl7EventSegmentData.Segments.Where(x => x.Name == sdbc.SegmentColumn).FirstOrDefault();
+        //                        if (hl7SegColName != null)
+        //                        {
+        //                            comp.DBValue = dr[sdbc.DatabaseColumn].ToString();
+        //                            comp.DBColumn = sdbc.DatabaseColumn;
+        //                            comp.SegmentName = hl7SegColName.Name;
+        //                            comp.SegmentValue = hl7SegColName.Value.ToString();
+        //                            collection.Add(comp);
+        //                        }
+        //                    }
+        //                }
+
+        //                if (collection.Count > 0)
+        //                {
+        //                    frmDatabaseView db = new frmDatabaseView(map, collection);
+        //                    db.Show();
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    StopProgressBar();
+        //}
+
+
         #endregion
     }
 }

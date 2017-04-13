@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HL7Parser.DataTypes;
 namespace HL7Parser.Models
 {
-    public class HL7SegmentEvent
+    public class HL7SegmentColumn
     {
         #region Member Variables        
         object _value;
@@ -44,7 +44,7 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor
-        public HL7SegmentEvent(long sequence, long length, string version, string name, string dataType,bool isRequired, bool isRepeating)
+        public HL7SegmentColumn(long sequence, long length, string version, string name, string dataType,bool isRequired, bool isRepeating)
         {
             this._sequence = sequence;
             this._length = length;

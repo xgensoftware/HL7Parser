@@ -31,11 +31,27 @@ namespace HL7Explorer
         #endregion
 
         #region Form Events
-        public frmDatabaseView(SegmentTableMapping stm, HL7EventSegment segment)
+        public frmDatabaseView(SegmentTableMapping stm,List<HL7DBCompare> collection)
         {
             InitializeComponent();
 
-            this.Text = stm.SegmentName;
+            this.Text = string.Format("{0} : {1}", stm.SegmentName, stm.TableName);
+
+            try
+            {
+                gridSegment.DataSource = collection; 
+            }
+            catch (Exception ex)
+            {
+                LogError(string.Format("Database view of segment had an unexpected error. {0}", ex.Message));
+            }
+        }
+
+        public frmDatabaseView(SegmentTableMapping stm)
+        {
+            InitializeComponent();
+
+            this.Text = string.Format("{0} : {1}", stm.SegmentName, stm.TableName);
 
             try
             {

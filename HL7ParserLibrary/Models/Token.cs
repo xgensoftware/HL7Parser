@@ -95,18 +95,12 @@ namespace HL7Parser.Models
 
         }
 
-        //public void AddSegment(string key, string data)
-        //{
-        //    this._segment.Add(key, data);
-        //}
-
         public string[] GetSegmentData(string segment)
         {
             string[] value = { };
 
             try
             {
-                //value = this._segment.Where(x => x.Key == segment).FirstOrDefault().Value.Split(this._fieldSeparator);
                 return this._segment.Where(x => x.Substring(0, 3) == segment).FirstOrDefault().ToString().Split(this._fieldSeparator);
             }
             catch { }

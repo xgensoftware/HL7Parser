@@ -40,14 +40,14 @@ namespace HL7Parser.Parser
 
         #region Private Methods        
 
-        private HL7EventSegment CreateEvent(TriggerEvent tr)
+        private HL7Segment CreateEvent(TriggerEvent tr)
         {
-            HL7EventSegment e = null;
+            HL7Segment e = null;
             var segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
             
             try
             {
-                e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+                e = new HL7Segment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
             }
             catch (ArgumentNullException) { }
 
@@ -58,7 +58,7 @@ namespace HL7Parser.Parser
                 {
                     try
                     {
-                        HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                        HL7SegmentColumn segment = new HL7SegmentColumn(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
                         segment.SetValue(s.DataType, segmentArray[s.Sequence]);
                         e.AddSegmentEvent(segment);
                     }
@@ -75,9 +75,10 @@ namespace HL7Parser.Parser
 
             return e;
         }
-        private HL7EventSegment CreateFromSegmentString(string rawSegment, TriggerEvent tr)
+
+        private HL7Segment CreateFromSegmentString(string rawSegment, TriggerEvent tr)
         {
-            HL7EventSegment e = null;
+            HL7Segment e = null;
             List <Segment> segmentsConfig = null;
 
             try
@@ -88,14 +89,14 @@ namespace HL7Parser.Parser
 
             if (segmentsConfig != null)
             {
-                e = new HL7EventSegment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+                e = new HL7Segment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
 
                 var segmentArray = rawSegment.Split(this._hl7.MessageToken.FieldSeparator);
                 foreach (Segment s in segmentsConfig)
                 {
                     try
                     {
-                        HL7SegmentEvent segment = new HL7SegmentEvent(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                        HL7SegmentColumn segment = new HL7SegmentColumn(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
                         segment.SetValue(s.DataType, segmentArray[s.Sequence]);
                         e.AddSegmentEvent(segment);
                     }
@@ -144,7 +145,7 @@ namespace HL7Parser.Parser
                     string segId = s.Substring(0, 3);
                     TriggerEvent tr = triggerEvents.Where(x => x.Segment == segId).FirstOrDefault();
 
-                    HL7EventSegment newEvent = this.CreateFromSegmentString(s, tr);
+                    HL7Segment newEvent = this.CreateFromSegmentString(s, tr);
                     if (newEvent != null)
                         _hl7.AddEventSegment(newEvent);
                 }
