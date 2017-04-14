@@ -107,6 +107,7 @@
     <Compile Include="Models\HL7Events\IN2.cs" />
     <Compile Include="Models\HL7Events\PID.cs" />
     <Compile Include="Models\HL7Events\PV1.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\HL7Events\MSH.cs" />
     <Compile Include="Models\HL7SegmentColumn.cs" />

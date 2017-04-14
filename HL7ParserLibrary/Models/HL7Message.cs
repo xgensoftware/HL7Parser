@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.Threading.Tasks;
 
 namespace HL7Parser.Models
 {
@@ -20,7 +18,7 @@ namespace HL7Parser.Models
     04/4/2017   Anthony Sanfilippo      Added ToString Override
 
     */
-    public class HL7Message
+    public class HL7Message : ModelBase
     {
         #region Member Variables 
         Token _token = null;

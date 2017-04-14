@@ -29,6 +29,7 @@ namespace EDIParseConsole
             Console.WriteLine(DateTime.Now.ToString());
 
             PipeParser parse = new PipeParser();
+            parse.EnableLogging = true;
             string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\R01_2701363_32200927664_20170130390155_92a290c2-8b44-4cd9-b45b-bb2aa546dd56.hl7";
             string message = File.ReadAllText(filePath);
             HL7Message temp = parse.Parse(message);
@@ -167,11 +168,7 @@ namespace EDIParseConsole
             log.LogMessage(LogMessageType.INFO, string.Format("**************** Completed Scraping {0} ****************", DateTime.Now.ToString("yyyyMMdd hh:mm:ss")));
         }
         
-        private static string ReadMappingFile()
-        {
-            return File.ReadAllText(AppConfiguration.SegmentTableMappingFile);
-        }
-
+        
         private static void CreateMappingFile()
         {
             //SegmentTableMappingList collection = new SegmentTableMappingList();
@@ -188,9 +185,9 @@ namespace EDIParseConsole
 
             //Console.WriteLine(x);
 
-            string x = ReadMappingFile();
+//            string x = ReadMappingFile();
             //Console.WriteLine(xml);
-            SegmentTableMappingList newCollection = x.FromXML<SegmentTableMappingList>();
+            //SegmentTableMappingList newCollection = x.FromXML<SegmentTableMappingList>();
 
         }
         #endregion

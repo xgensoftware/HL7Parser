@@ -1,13 +1,12 @@
 ﻿
 using HL7Parser.Helper;
 
-namespace HL7Parser.Parser
+namespace HL7Parser.Models
 {
-    public abstract class ParserBase
+    public class ModelBase
     {
         #region Member Variables 
         protected ParserLog _logging = null;
-        protected bool _loggingEnabled = false;
         #endregion
 
         #region Private Methods
@@ -17,15 +16,14 @@ namespace HL7Parser.Parser
         }
         protected void LogInfoMessage(string message)
         {
-            if(_loggingEnabled)
-                _logging.LogMessage( message);
+            _logging.LogMessage(message);
         }
         #endregion
 
-        public ParserBase()
+        public ModelBase()
         {
             this._logging = new ParserLog();
         }
-        
+
     }
 }

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using HL7Parser.Models;
-using HL7Parser.Parser;
 using HL7Parser.Repository;
 namespace HL7Parser.Parser
 {
@@ -28,6 +22,20 @@ namespace HL7Parser.Parser
         #region Member Variables 
         HL7Message _hl7 = null;
         HL7SchemaRepository  _repo = null;
+
+       
+        #endregion
+
+        #region Properties 
+
+        /// <summary>
+        /// Set to enable logging during parsing
+        /// </summary>
+        public bool EnableLogging
+        {
+            get { return _loggingEnabled; }
+            set { _loggingEnabled = value; }
+        }
         #endregion
 
         #region Constructor 
@@ -40,53 +48,50 @@ namespace HL7Parser.Parser
 
         #region Private Methods        
 
-        private HL7Segment CreateEvent(TriggerEvent tr)
-        {
-            HL7Segment e = null;
-            var segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
+        //private HL7Segment CreateEvent(TriggerEvent tr)
+        //{
+        //    HL7Segment e = null;
+        //    var segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
             
-            try
-            {
-                e = new HL7Segment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
-            }
-            catch (ArgumentNullException) { }
+        //    try
+        //    {
+        //        e = new HL7Segment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
+        //    }
+        //    catch (ArgumentNullException)
+        //    {
+               
+        //    }
 
-            if (e != null)
-            {
-                var segmentArray = this._hl7.MessageToken.GetSegmentData(tr.Segment);
-                foreach (Segment s in segmentsConfig)
-                {
-                    try
-                    {
-                        HL7SegmentColumn segment = new HL7SegmentColumn(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
-                        segment.SetValue(s.DataType, segmentArray[s.Sequence]);
-                        e.AddSegmentEvent(segment);
-                    }
-                    catch { }
-                }
+        //    if (e != null)
+        //    {
+        //        var segmentArray = this._hl7.MessageToken.GetSegmentData(tr.Segment);
+        //        foreach (Segment s in segmentsConfig)
+        //        {
+        //            try
+        //            {
+        //                HL7SegmentColumn segment = new HL7SegmentColumn(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+        //                segment.SetValue(s.DataType, segmentArray[s.Sequence]);
+        //                e.AddSegmentEvent(segment);
+        //            }
+        //            catch { }
+        //        }
 
-            }
-            else
-            {
-                this.LogInfoMessage(string.Format("No Segment class exists for {0}.", tr.Segment));
-            }
+        //    }
+        //    else
+        //    {
+        //        this.LogInfoMessage(string.Format("No Segment class exists for {0}.", tr.Segment));
+        //    }
                 
             
 
-            return e;
-        }
+        //    return e;
+        //}
 
         private HL7Segment CreateFromSegmentString(string rawSegment, TriggerEvent tr)
         {
             HL7Segment e = null;
-            List<Segment> segmentsConfig = tr.SegmentCollection;
-
-            //try
-            //{
-            //    segmentsConfig = this._repo.GetSegmentBy(tr.Version, tr.Segment);
-            //}
-            //catch { }
-
+            Segment[] segmentsConfig = tr.SegmentCollection;
+            
             if (segmentsConfig != null)
             {
                 e = new HL7Segment(tr.EventType, tr.Segment, tr.Version, (int)tr.Sequence, (bool)tr.IsOptional, (bool)tr.IsRepeated);
@@ -131,24 +136,34 @@ namespace HL7Parser.Parser
             }
 
             this._hl7 = new HL7Message(tempMessage);
+            base.LogInfoMessage(string.Format("Creating HL7 message object from {0}",message));
 
             //The Fields in the message should drive this, to handle multiple similar segments.
-            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToList<TriggerEvent>();            
+            TriggerEvent[] triggerEvents = this._repo.GetTriggerEventsBy(this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType).AsParallel().ToArray<TriggerEvent>();
 
-            if (triggerEvents.Count == 0)
+            base.LogInfoMessage(string.Format("Fetching TriggerEvent configuration for verions {0} {1}_{2}", this._hl7.MessageToken.MessageVersion
+                , this._hl7.MessageToken.MessageType
+                , this._hl7.MessageToken.EventType));
+
+            if (triggerEvents.Length== 0)
             {
-                throw new ParserException(string.Format("No trigger events found for version {0}, message type {1}_{2}", this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType));
+                throw new ParserException(string.Format("No trigger events found for version {0}, message type {1}_{2}", this._hl7.MessageToken.MessageVersion, this._hl7.MessageToken.MessageType, this._hl7.MessageToken.EventType));                
             }
             else
             {
                 foreach (string s in this._hl7.MessageToken.Segments)
                 {
                     string segId = s.Substring(0, 3);
-                    TriggerEvent tr = triggerEvents.Where(x => x.Segment == segId).FirstOrDefault();
+                    base.LogInfoMessage(string.Format("Searching TriggerEvent configuration for segment {0}", segId));
 
-                    HL7Segment newEvent = this.CreateFromSegmentString(s, tr);
-                    if (newEvent != null)
-                        _hl7.AddEventSegment(newEvent);
+                    TriggerEvent tr = triggerEvents.Where(x => x.Segment == segId).FirstOrDefault();
+                    if (tr != null)
+                    {
+                        HL7Segment newEvent = this.CreateFromSegmentString(s, tr);
+                        base.LogInfoMessage(string.Format("Successfully created HL7 segment {0} for TriggerEvent {1}_{2}", newEvent.Name, tr.MessageType,tr.EventType));
+                        if (newEvent != null)
+                            _hl7.AddEventSegment(newEvent);
+                    }
                 }
 
                 return _hl7;

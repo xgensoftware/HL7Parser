@@ -29,7 +29,7 @@ namespace HL7Explorer
         SegmentTableMappingList _segmentDBMappingList = null;
 
         DBTableCollection _dbTableCollection = null;
-        List<TriggerEvent> _triggerEvents = null;
+        TriggerEvent[] _triggerEvents = null;
         #endregion
 
         #region Private Methods
@@ -161,7 +161,7 @@ namespace HL7Explorer
             string segmentCol = cmbSegment.SelectedItem as string;
 
             HL7Parser.Version ver = cmbHL7Versions.SelectedItem as HL7Parser.Version;
-            List<Segment> seg = _repo.GetSegmentBy(ver.Name, segmentCol);
+            Segment[] seg = _repo.GetSegmentBy(ver.Name, segmentCol);
             foreach(Segment s in seg)
             {
                 lstSegColumns.Items.Add(s.Name);

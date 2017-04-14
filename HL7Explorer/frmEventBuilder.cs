@@ -83,7 +83,7 @@ namespace HL7Explorer
                 return;
             }
 
-            List<TriggerEvent> triggerEvents = this._repo.GetTriggerEventsBy(version, messageType, eventType);
+            TriggerEvent[] triggerEvents = this._repo.GetTriggerEventsBy(version, messageType, eventType);
             
             dataGridView1.DataSource = triggerEvents;
         }

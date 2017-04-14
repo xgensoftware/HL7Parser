@@ -72,6 +72,8 @@ namespace HL7Explorer
         {
             this._hl7Message = null;
             toolStripButtonLoad.Enabled = false;
+            toolStripButtonLoadHL7DatFile.Enabled = false;
+            toolStripButtonDBCompare.Enabled = false;
             
             bgwParser.RunWorkerAsync(hl7Data);
 
@@ -261,7 +263,7 @@ namespace HL7Explorer
                 _hl7Message = parser.Parse(e.Argument.ToString());
             }
             catch(ParserException ex)
-            {
+            {                 
                 LogError(string.Format("Parser error: {0}", ex.Message));
             }
         }
@@ -269,10 +271,12 @@ namespace HL7Explorer
         private void bgwParser_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.LoadHL7Controls();
-
+           
             StopProgressBar();
 
             toolStripButtonLoad.Enabled = true;
+            toolStripButtonLoadHL7DatFile.Enabled = true;
+            toolStripButtonDBCompare.Enabled = true;
         }
         
         private void BgwDBCompare_DoWork(object sender, DoWorkEventArgs e)

@@ -62,16 +62,16 @@ namespace HL7Parser.Repository
             this._dbCTX.SaveChanges();
         }
 
-        public List<TriggerEvent> GetTriggerEventsBy(string version, string message, string eventType)
+        public TriggerEvent[] GetTriggerEventsBy(string version, string message, string eventType)
         {
 
-            List<TriggerEvent> collection = _dbCTX.TriggerEvents
+            TriggerEvent[] collection = _dbCTX.TriggerEvents
                                             .Where(x => x.Version == version && x.MessageType == message && x.EventType == eventType)
                                             .AsParallel()
                                             .OrderBy(x => x.Sequence)
-                                            .ToList();
+                                            .ToArray<TriggerEvent>();
 
-            if (collection.Count >0)
+            if (collection.Length >0)
             {
                 for (int idx = 0; idx <= collection.Count() - 1; idx++)
                 {
@@ -82,14 +82,14 @@ namespace HL7Parser.Repository
             return collection;
         }
 
-        public List<TriggerEvent> GetAllTriggerEvents()
+        public TriggerEvent[] GetAllTriggerEvents()
         {
-            return _dbCTX.TriggerEvents.AsParallel().ToList();
+            return _dbCTX.TriggerEvents.AsParallel().ToArray<TriggerEvent>();
         }
 
-        public  List<Segment> GetSegmentBy(string version, string segment)
+        public  Segment[] GetSegmentBy(string version, string segment)
         {
-            List<Segment> collection = null;
+            Segment[] collection = null;
 
             try
             {
@@ -97,9 +97,9 @@ namespace HL7Parser.Repository
                             .Where(x => x.Version == version && x.SegmentId == segment)
                             .AsParallel()
                             .OrderBy(x => x.Sequence)
-                            .ToList<Segment>();
+                            .ToArray<Segment>();
             }
-            catch { collection = new List<Segment>();  }
+            catch { collection = new Segment[] { };  }
 
 
             return collection;

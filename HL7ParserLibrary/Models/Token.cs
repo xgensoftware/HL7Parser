@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HL7Parser.Models
 {
@@ -10,7 +8,7 @@ namespace HL7Parser.Models
     /// HL7 token object
     /// holds the respective identifing portions of the raw HL7 message
     /// </summary>
-    public class Token
+    public class Token : ModelBase
     {
         #region Member Variables 
         char _fieldSeparator = '|';

@@ -16,7 +16,7 @@ namespace HL7Parser
         #endregion
 
         #region Properties
-        public List<Segment> SegmentCollection
+        public Segment[] SegmentCollection
         {
             get; set;
         }

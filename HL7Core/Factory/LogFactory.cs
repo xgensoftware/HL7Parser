@@ -16,7 +16,7 @@ namespace HL7Core
             {
                 case LogType.FILE:
 
-                    l = new FileLogger(AppConfiguration.ApplicationName);
+                    l = new FileLogger(string.Format("{0}_{1}.log", AppConfiguration.ApplicationName, DateTime.Now.ToString("yyyyMMdd")));
                     break;
 
                 case LogType.DATABASE:
