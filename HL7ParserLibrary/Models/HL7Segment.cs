@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace HL7Parser.Models
 {
     /// <summary>
-    /// THis will be the new class for dynamic HL7Events based on the Segment and TriggerEvent Tables
+    /// THis will be the new class for dynamic HL7Events based on the Segment and TriggerEvent
     /// </summary>
     public class HL7Segment : Object
     {
@@ -53,6 +53,10 @@ namespace HL7Parser.Models
         {
             get { return _isRepeated; }
         }
+
+        /// <summary>
+        /// List of columns available in the HL7 Segment
+        /// </summary>
         public List<HL7SegmentColumn> Segments
         {
             get { return _segmentEvents.OrderBy(x => x.Sequence).ToList<HL7SegmentColumn>(); }

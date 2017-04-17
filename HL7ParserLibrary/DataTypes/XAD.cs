@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
+    /// <summary>
+    /// Extended Address
+    /// </summary>
     public class XAD: BaseDataType,IDataType
     {
         #region Member Variables 

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using HL7Parser.DataTypes;
 namespace HL7Parser.Models
 {
+    /// <summary>
+    /// Columns available in an HL7 segment
+    /// </summary>
     public class HL7SegmentColumn
     {
         #region Member Variables        
@@ -59,6 +62,12 @@ namespace HL7Parser.Models
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Sets the value of the column from the HL7 message
+        /// </summary>
+        /// <param name="dataType">HL7 data type</param>
+        /// <param name="obj">Raw HL7 object</param>
         public void SetValue(string dataType, object obj)
         {
             Type type = Type.GetType(string.Format("HL7Parser.DataTypes.{0}",dataType));

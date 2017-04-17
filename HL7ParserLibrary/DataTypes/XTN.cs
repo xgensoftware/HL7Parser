@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
+    /// <summary>
+    /// Extended Telecommunication Number
+    /// </summary>
     public class XTN : BaseDataType, IDataType
     {
         #region Member Variables 

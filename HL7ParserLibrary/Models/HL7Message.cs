@@ -8,6 +8,7 @@ namespace HL7Parser.Models
 {
     /// <summary>
     /// HL7 Message object with segments and events
+    /// Events: Dictionary object with HL7Segment.
     /// </summary>
     /*
     History
@@ -37,6 +38,9 @@ namespace HL7Parser.Models
             get { return this._events ; }
         }
 
+        /// <summary>
+        /// Comma seperated string of segment names
+        /// </summary>
         public string ToSegmentString
         {
             get
@@ -64,6 +68,11 @@ namespace HL7Parser.Models
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Add a new Segment object to the Event Collection
+        /// </summary>
+        /// <param name="e"></param>
         public void AddEventSegment(HL7Segment e)
         {
             int key = 0;
@@ -76,19 +85,20 @@ namespace HL7Parser.Models
             this._events.Add(key, e);
         }
 
-        public string SegmentQueryParamter()
-        {
+
+        //public string SegmentQueryParamter()
+        //{
             
-            StringBuilder s = new StringBuilder();
-            foreach(HL7Segment seg in _events.Values)
-            {
-                s.Append(string.Format("'{0}',", seg.Name));
-            }
+        //    StringBuilder s = new StringBuilder();
+        //    foreach(HL7Segment seg in _events.Values)
+        //    {
+        //        s.Append(string.Format("'{0}',", seg.Name));
+        //    }
 
-            s.Remove(s.Length - 1, 1);
+        //    s.Remove(s.Length - 1, 1);
 
-            return s.ToString();            
-        }
+        //    return s.ToString();            
+        //}
 
         public override string ToString()
         {

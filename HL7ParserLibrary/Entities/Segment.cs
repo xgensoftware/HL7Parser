@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HL7Parser
 {
     /// <summary>
-    /// Partial class for DB entity
+    /// class for DB segment entity
     /// </summary>
     public partial class Segment
     {

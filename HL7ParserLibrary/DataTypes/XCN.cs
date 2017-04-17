@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
+    /// <summary>
+    /// Extended Composite ID Number and Name fore Persons
+    /// </summary>
     public class XCN : BaseDataType, IDataType
     {
         #region Memebr Variables 

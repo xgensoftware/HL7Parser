@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HL7Parser
 {
     /// <summary>
-    /// Partial class for DB entity
+    /// Class for DB TriggerEvent entity
     /// </summary>
     public partial class TriggerEvent
     {

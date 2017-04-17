@@ -119,7 +119,7 @@ namespace HL7Parser.Parser
         /// <summary>
         /// Parse HL7 message using the local DB for Segments and trigger events
         /// </summary>
-        /// <param name="message">Raw HL7 formated file</param>
+        /// <param name="message">Raw HL7 formated string. Multiple message file should be formated with \r\n after each message.</param>
         /// <returns>HL7 object with segments and events</returns>
         public HL7Message Parse(string message)
         {            

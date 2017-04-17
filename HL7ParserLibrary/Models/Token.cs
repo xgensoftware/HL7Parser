@@ -5,8 +5,7 @@ using System.Text;
 namespace HL7Parser.Models
 {
     /// <summary>
-    /// HL7 token object
-    /// holds the respective identifing portions of the raw HL7 message
+    /// HL7 token object that holds the respective identifing portions of the raw HL7 message
     /// </summary>
     public class Token : ModelBase
     {
@@ -56,11 +55,17 @@ namespace HL7Parser.Models
             get { return _messageControlId; }
         }
 
+        /// <summary>
+        /// Array holding the raw segments from the HL7 message
+        /// </summary>
         public string[] Segments
         {
             get { return this._segment; }
         }
 
+        /// <summary>
+        /// Unformated HL7 string
+        /// </summary>
         public string RawMessage
         {
             get { return _rawMessage.ToString(); }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace HL7Parser.DataTypes
 {
+    /// <summary>
+    /// Extended Person Name
+    /// </summary>
     public class XPN : BaseDataType, IDataType
     {
         #region Member Variables 
