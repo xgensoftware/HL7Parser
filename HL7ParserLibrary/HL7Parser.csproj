@@ -69,10 +69,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BaseEvent.cs" />
+    <Compile Include="DataTypes\AD.cs" />
+    <Compile Include="DataTypes\AUI.cs" />
     <Compile Include="DataTypes\BaseDataType.cs" />
+    <Compile Include="DataTypes\CM_MSG.cs" />
+    <Compile Include="DataTypes\DLN.cs" />
+    <Compile Include="DataTypes\HD.cs" />
     <Compile Include="DataTypes\IDataType.cs" />
+    <Compile Include="DataTypes\MSG.cs" />
+    <Compile Include="DataTypes\VID.cs" />
     <Compile Include="DataTypes\XAD.cs" />
     <Compile Include="DataTypes\XCN.cs" />
+    <Compile Include="DataTypes\XON.cs" />
     <Compile Include="DataTypes\XPN.cs" />
     <Compile Include="DataTypes\XTN.cs" />
     <Compile Include="Entities\Segment.cs" />
