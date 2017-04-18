@@ -29,10 +29,16 @@ namespace EDIParseConsole
             Console.WriteLine(DateTime.Now.ToString());
 
             PipeParser parse = new PipeParser();
-            parse.EnableLogging = true;
-            string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\R01_2701363_32200927664_20170130390155_92a290c2-8b44-4cd9-b45b-bb2aa546dd56.hl7";
+            string filePath = @"C:\Users\anthony.sanfilippo\Downloads\HL7\A08_BO00000119_BO0000011231_20170224210724_fd105be7-51f8-41f0-ad6a-d2116ef75438.hl7";
             string message = File.ReadAllText(filePath);
             HL7Message temp = parse.Parse(message);
+
+            string filename = string.Format("{0}{1}.hl7", DateTime.Now.ToString("yyyyMMddHHmmss"), temp.MessageToken.MessageControlId);
+            filePath = @"C:\Development\HL7Parser\" + filename;
+            HL7Builder builder = new HL7Builder("2.5", "ADT", "A08");
+            builder.EnableLogging = true;
+            builder.CreateFile(temp,filePath);
+
 
             Console.WriteLine(DateTime.Now.ToString());
             //Console.WriteLine(temp.SegmentString());
