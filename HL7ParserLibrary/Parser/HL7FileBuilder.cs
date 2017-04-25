@@ -9,7 +9,7 @@ using HL7Parser.Repository;
 
 namespace HL7Parser.Parser
 {
-    public class HL7Builder : ParserBase
+    public class HL7FileBuilder : ParserBase
     {
         /// <summary>
         /// Builds HL7 file based on version and array of data
@@ -32,7 +32,7 @@ namespace HL7Parser.Parser
         #endregion
 
         #region Constructor 
-        public HL7Builder(string hl7Version, string messageType, string eventType)
+        public HL7FileBuilder(string hl7Version, string messageType, string eventType)
         {
             _repo = new HL7SchemaRepository();
             _hl7Version = hl7Version;
@@ -61,12 +61,12 @@ namespace HL7Parser.Parser
 
             try
             {
-                foreach (KeyValuePair<int,HL7Segment> hl7SegmentItem in hl7Data.Events)
+                foreach (KeyValuePair<int,HL7Segment> hl7SegmentItem in hl7Data.Segments)
                 {
                     StringBuilder sbProp = new StringBuilder();
                     HL7Segment tr = hl7SegmentItem.Value;
                     sbProp.AppendFormat("{0}|", tr.Name);
-                    foreach(HL7SegmentColumn column in tr.Segments)
+                    foreach(HL7SegmentField column in tr.Segments)
                     {
                         sbProp.AppendFormat("{0}|",column.Value);
                         LogInfoMessage(string.Format("Successfully added segment column {0} to segment {1}", column.Name,tr.Name));

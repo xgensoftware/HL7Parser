@@ -9,7 +9,7 @@ namespace HL7Parser.Base
     public abstract class BaseEvent
     {
         #region Member Variables 
-        List<Models.HL7SegmentColumn> _segments;
+        List<Models.HL7SegmentField> _segments;
 
         protected string _eventType = string.Empty;
         protected string _name = string.Empty;
@@ -51,7 +51,7 @@ namespace HL7Parser.Base
         }
 
 
-        public List<Models.HL7SegmentColumn> SegmentEvents
+        public List<Models.HL7SegmentField> SegmentEvents
         {
             get { return this._segments; }
         }
@@ -60,17 +60,17 @@ namespace HL7Parser.Base
         #region Constructor 
         public BaseEvent()
         {
-            this._segments = new List<Models.HL7SegmentColumn>();
+            this._segments = new List<Models.HL7SegmentField>();
         }
         #endregion
 
         #region Public Methods
-        public Models.HL7SegmentColumn GetSegment(string name)
+        public Models.HL7SegmentField GetSegment(string name)
         {
             return this._segments.Where(x => x.Name == name).FirstOrDefault();
         }
 
-        public void AddSegment(Models.HL7SegmentColumn s)
+        public void AddSegment(Models.HL7SegmentField s)
         {
             this._segments.Add(s);
         }

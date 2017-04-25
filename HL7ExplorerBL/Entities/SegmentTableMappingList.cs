@@ -12,6 +12,18 @@ using HL7ExplorerBL.Repository;
 
 namespace HL7ExplorerBL.Entities
 {
+    /*
+    Object to represent the HL7 message to the Database mappings
+
+    History
+    *********************************************************************************
+    Date        Author                  Description
+    *********************************************************************************
+    04/19/2017   Anthony Sanfilippo      changed parameter of GetMessagesFromDB to 
+                                         take HL7 message control id
+    *********************************************************************************
+    */
+
     [Serializable]
     public class SegmentTableMappingList 
     {
@@ -92,13 +104,13 @@ namespace HL7ExplorerBL.Entities
             }
         }
 
-        public void GetMessagesFromDB(HL7Message hl7Message)
+        public void GetMessagesFromDB(string messageControlId)//HL7Message hl7Message)
         {
             StringBuilder sql = new StringBuilder();
 
             System.Data.DataSet ds = new System.Data.DataSet();
             int messageHeaderId = -1;
-            messageHeaderId = _repo.GetMessageHeaderIdBy(hl7Message.MessageToken.MessageControlId);
+            messageHeaderId = _repo.GetMessageHeaderIdBy(messageControlId);//hl7Message.MessageToken.MessageControlId);
 
             if (messageHeaderId != -1)
             {

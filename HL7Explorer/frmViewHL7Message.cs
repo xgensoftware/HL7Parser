@@ -87,7 +87,7 @@ namespace HL7Explorer
             if (_hl7Message != null)
             {
                 txtRawHL7Message.Text = _hl7Message.MessageToken.RawMessage;
-                foreach (var seg in _hl7Message.Events)
+                foreach (var seg in _hl7Message.Segments)
                 {
                     TreeNode n = new TreeNode(seg.Value.Name);
                     n.Name = seg.Value.Name;
@@ -236,7 +236,7 @@ namespace HL7Explorer
         private void TvSegments_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode node = e.Node;
-            grdSegmentFields.DataSource = node.Tag as List<HL7SegmentColumn>;
+            grdSegmentFields.DataSource = node.Tag as List<HL7SegmentField>;
             
         }
 
@@ -299,7 +299,7 @@ namespace HL7Explorer
 
             try
             {
-                segmentTableList.GetMessagesFromDB(_hl7Message);
+                segmentTableList.GetMessagesFromDB(_hl7Message.MessageToken.MessageControlId);
                 e.Result = segmentTableList;
             }
             catch (Exception ex)

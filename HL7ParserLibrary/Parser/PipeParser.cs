@@ -101,7 +101,7 @@ namespace HL7Parser.Parser
                 {
                     try
                     {
-                        HL7SegmentColumn segment = new HL7SegmentColumn(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
+                        HL7SegmentField segment = new HL7SegmentField(s.Sequence, s.Length, s.Version, s.Name, s.DataType, s.IsRequired, s.IsRepeating);
                         segment.SetValue(s.DataType, segmentArray[s.Sequence]);
                         e.AddSegmentEvent(segment);
                     }

@@ -9,7 +9,7 @@ namespace HL7Parser.Models
     /// <summary>
     /// Columns available in an HL7 segment
     /// </summary>
-    public class HL7SegmentColumn
+    public class HL7SegmentField
     {
         #region Member Variables        
         object _value;
@@ -47,7 +47,7 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor
-        public HL7SegmentColumn(long sequence, long length, string version, string name, string dataType,bool isRequired, bool isRepeating)
+        public HL7SegmentField(long sequence, long length, string version, string name, string dataType,bool isRequired, bool isRepeating)
         {
             this._sequence = sequence;
             this._length = length;

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="HL7Service.HL7ParserService" CodeBehind="HL7ParserService.svc.cs" %>

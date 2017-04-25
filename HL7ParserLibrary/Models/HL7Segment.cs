@@ -13,7 +13,7 @@ namespace HL7Parser.Models
     public class HL7Segment : Object
     {
         #region Member Variables 
-        ConcurrentBag<HL7SegmentColumn> _segmentEvents;
+        ConcurrentBag<HL7SegmentField> _segmentEvents;
 
         protected string _eventType = string.Empty;
         protected string _name = string.Empty;
@@ -57,9 +57,9 @@ namespace HL7Parser.Models
         /// <summary>
         /// List of columns available in the HL7 Segment
         /// </summary>
-        public List<HL7SegmentColumn> Segments
+        public List<HL7SegmentField> Segments
         {
-            get { return _segmentEvents.OrderBy(x => x.Sequence).ToList<HL7SegmentColumn>(); }
+            get { return _segmentEvents.OrderBy(x => x.Sequence).ToList<HL7SegmentField>(); }
         }
         #endregion
 
@@ -72,13 +72,13 @@ namespace HL7Parser.Models
             this._sequence = seq;
             this._isOptional = isOptional;
             this._isRepeated = isRepeated;
-            _segmentEvents = new ConcurrentBag<HL7SegmentColumn>();           
+            _segmentEvents = new ConcurrentBag<HL7SegmentField>();           
         }
         
         #endregion
 
         #region Public Method
-        public void AddSegmentEvent(HL7SegmentColumn se)
+        public void AddSegmentEvent(HL7SegmentField se)
         {
             this._segmentEvents.Add(se);
         }

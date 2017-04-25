@@ -24,7 +24,7 @@ namespace HL7Parser.Models
         #region Member Variables 
         Token _token = null;
         //ConcurrentBag<HL7EventSegment> _events;
-        Dictionary<int, HL7Segment> _events;
+        Dictionary<int, HL7Segment> _segments;
         #endregion
 
         #region Properties    
@@ -33,9 +33,9 @@ namespace HL7Parser.Models
             get { return _token; }
         }        
 
-        public Dictionary<int,HL7Segment> Events
+        public Dictionary<int,HL7Segment> Segments
         {
-            get { return this._events ; }
+            get { return this._segments ; }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace HL7Parser.Models
             get
             {
                 StringBuilder s = new StringBuilder();
-                foreach (HL7Segment seg in _events.Values)
+                foreach (HL7Segment seg in _segments.Values)
                 {
                     s.Append(string.Format("{0},", seg.Name));
                 }
@@ -59,10 +59,11 @@ namespace HL7Parser.Models
         #endregion
 
         #region Constructor
+                
         public HL7Message(string[] message)
         {
             this._token = new Token(message);
-            this._events = new Dictionary<int, HL7Segment>();
+            this._segments = new Dictionary<int, HL7Segment>();
         }
 
         #endregion
@@ -77,12 +78,12 @@ namespace HL7Parser.Models
         {
             int key = 0;
 
-            if(this._events.Count > 0)
+            if(this._segments.Count > 0)
             {
-                key = this._events.Keys.Max() + 1;
+                key = this._segments.Keys.Max() + 1;
             }
 
-            this._events.Add(key, e);
+            this._segments.Add(key, e);
         }
 
 

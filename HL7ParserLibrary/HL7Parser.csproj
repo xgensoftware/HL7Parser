@@ -120,7 +120,7 @@
     <Compile Include="Models\HL7Events\MSH.cs" />
     <Compile Include="Models\HL7SegmentColumn.cs" />
     <Compile Include="Entities\TriggerEvent.cs" />
-    <Compile Include="Parser\HL7Builder.cs" />
+    <Compile Include="Parser\HL7FileBuilder.cs" />
     <Compile Include="Parser\ParserBase.cs" />
     <Compile Include="Parser\PipeParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
