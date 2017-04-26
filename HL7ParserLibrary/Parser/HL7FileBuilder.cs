@@ -61,10 +61,10 @@ namespace HL7Parser.Parser
 
             try
             {
-                foreach (KeyValuePair<int,HL7Segment> hl7SegmentItem in hl7Data.Segments)
+                foreach (HL7Segment hl7SegmentItem in hl7Data.Segments) //KeyValuePair<int,HL7Segment> hl7SegmentItem in hl7Data.Segments)
                 {
                     StringBuilder sbProp = new StringBuilder();
-                    HL7Segment tr = hl7SegmentItem.Value;
+                    HL7Segment tr = hl7SegmentItem;//.Value;
                     sbProp.AppendFormat("{0}|", tr.Name);
                     foreach(HL7SegmentField column in tr.Segments)
                     {

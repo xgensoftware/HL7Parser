@@ -24,18 +24,24 @@ namespace HL7Parser.Models
         #region Member Variables 
         Token _token = null;
         //ConcurrentBag<HL7EventSegment> _events;
-        Dictionary<int, HL7Segment> _segments;
+        //Dictionary<int, HL7Segment> _segments;
+        List<HL7Segment> _segments;
         #endregion
 
         #region Properties    
+  
         public Token MessageToken
         {
             get { return _token; }
         }        
 
-        public Dictionary<int,HL7Segment> Segments
+        //public Dictionary<int,HL7Segment> Segments
+        //{
+        //    get { return this._segments ; }
+        //}
+        public List<HL7Segment> Segments
         {
-            get { return this._segments ; }
+            get { return this._segments; }
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace HL7Parser.Models
             get
             {
                 StringBuilder s = new StringBuilder();
-                foreach (HL7Segment seg in _segments.Values)
+                foreach (HL7Segment seg in _segments)//.Values)
                 {
                     s.Append(string.Format("{0},", seg.Name));
                 }
@@ -63,7 +69,7 @@ namespace HL7Parser.Models
         public HL7Message(string[] message)
         {
             this._token = new Token(message);
-            this._segments = new Dictionary<int, HL7Segment>();
+            this._segments = new List<HL7Segment>();//new Dictionary<int, HL7Segment>();
         }
 
         #endregion
@@ -76,14 +82,15 @@ namespace HL7Parser.Models
         /// <param name="e"></param>
         public void AddEventSegment(HL7Segment e)
         {
-            int key = 0;
+            this._segments.Add(e);
+            //int key = 0;
 
-            if(this._segments.Count > 0)
-            {
-                key = this._segments.Keys.Max() + 1;
-            }
+            //if (this._segments.Count > 0)
+            //{
+            //    key = this._segments.Keys.Max() + 1;
+            //}
 
-            this._segments.Add(key, e);
+            //this._segments.Add(key, e);
         }
 
 

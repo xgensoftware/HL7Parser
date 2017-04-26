@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HL7Parser", "HL7ParserLibrary\HL7Parser.csproj", "{BE02ADE4-7197-4658-BF67-0E69D1102014}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDIParseConsole", "EDIParseConsole\EDIParseConsole.csproj", "{FD2555F6-661F-4404-835E-25638A221C92}"
+	ProjectSection(ProjectDependencies) = postProject
+		{355EC66B-2864-49A4-B9DA-A1ADDA55F3D8} = {355EC66B-2864-49A4-B9DA-A1ADDA55F3D8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HL7Explorer", "HL7Explorer\HL7Explorer.csproj", "{622B3FD4-2213-46C3-AF86-BED265BCACB0}"
 EndProject

@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using HL7Parser.Helper;
 
 namespace HL7Parser.Models

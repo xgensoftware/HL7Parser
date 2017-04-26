@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/HL7Parser.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/HL7Parser.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:60253/HL7ParserService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://localhost:60253/HL7ParserService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System.Text" />
+  <xs:import schemaLocation="http://localhost:60253/HL7ParserService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="HL7Message">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ModelBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="MessageToken" nillable="true" type="tns:Token" />
+          <xs:element minOccurs="0" name="Segments" nillable="true" type="tns:ArrayOfHL7Segment" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HL7Message" nillable="true" type="tns:HL7Message" />
+  <xs:complexType name="ModelBase">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="ModelBase" nillable="true" type="tns:ModelBase" />
+  <xs:complexType name="Token">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ModelBase">
+        <xs:sequence>
+          <xs:element name="_encodingCharacter" type="ser:char" />
+          <xs:element name="_eventType" nillable="true" type="xs:string" />
+          <xs:element name="_fieldSeparator" type="ser:char" />
+          <xs:element name="_messageControlId" nillable="true" type="xs:string" />
+          <xs:element name="_messageType" nillable="true" type="xs:string" />
+          <xs:element name="_messageVersion" nillable="true" type="xs:string" />
+          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.Text" name="_rawMessage" nillable="true" type="q1:StringBuilder" />
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="_segment" nillable="true" type="q2:ArrayOfstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Token" nillable="true" type="tns:Token" />
+  <xs:complexType name="ArrayOfHL7Segment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="HL7Segment" nillable="true" type="tns:HL7Segment" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfHL7Segment" nillable="true" type="tns:ArrayOfHL7Segment" />
+  <xs:complexType name="HL7Segment">
+    <xs:sequence>
+      <xs:element name="_eventType" nillable="true" type="xs:string" />
+      <xs:element name="_isOptional" type="xs:boolean" />
+      <xs:element name="_isRepeated" type="xs:boolean" />
+      <xs:element name="_name" nillable="true" type="xs:string" />
+      <xs:element name="_segmentEvents" nillable="true" type="tns:ArrayOfHL7SegmentField" />
+      <xs:element name="_sequence" type="xs:int" />
+      <xs:element name="_version" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="HL7Segment" nillable="true" type="tns:HL7Segment" />
+  <xs:complexType name="ArrayOfHL7SegmentField">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="HL7SegmentField" nillable="true" type="tns:HL7SegmentField" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfHL7SegmentField" nillable="true" type="tns:ArrayOfHL7SegmentField" />
+  <xs:complexType name="HL7SegmentField">
+    <xs:sequence>
+      <xs:element name="_dataType" nillable="true" type="xs:string" />
+      <xs:element name="_isRepeating" type="xs:boolean" />
+      <xs:element name="_isRequired" type="xs:boolean" />
+      <xs:element name="_length" type="xs:long" />
+      <xs:element name="_name" nillable="true" type="xs:string" />
+      <xs:element name="_sequence" type="xs:long" />
+      <xs:element name="_value" nillable="true" type="xs:anyType" />
+      <xs:element name="_version" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="HL7SegmentField" nillable="true" type="tns:HL7SegmentField" />
+</xs:schema>

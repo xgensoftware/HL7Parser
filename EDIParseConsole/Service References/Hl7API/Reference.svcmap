@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="42911702-edd0-4d01-a72d-5b0771b7a085" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:60253/HL7ParserService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="HL7ParserService.disco" MetadataType="Disco" ID="a6c9e4e1-c95e-46bc-9632-86a8d6c4ee71" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?disco" />
+    <MetadataFile FileName="HL7ParserService.xsd" MetadataType="Schema" ID="7cbfebe3-54d4-4d06-9049-70728fd7cce3" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?xsd=xsd2" />
+    <MetadataFile FileName="HL7ParserService1.xsd" MetadataType="Schema" ID="ed97fb69-d32b-46a2-a782-0aeafc6399f1" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?xsd=xsd4" />
+    <MetadataFile FileName="HL7ParserService2.xsd" MetadataType="Schema" ID="10249d64-bfa9-48ab-9229-c993ddc3d4eb" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?xsd=xsd1" />
+    <MetadataFile FileName="HL7ParserService.wsdl" MetadataType="Wsdl" ID="dd317bae-1aaf-4bd7-a301-4d8ed6e394f2" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?wsdl" />
+    <MetadataFile FileName="HL7ParserService3.xsd" MetadataType="Schema" ID="780cb594-d97d-4e6a-ab7a-7e36a57f69b8" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?xsd=xsd3" />
+    <MetadataFile FileName="HL7ParserService4.xsd" MetadataType="Schema" ID="40169aab-97a1-4e29-bbe4-1648c463d498" SourceId="1" SourceUrl="http://localhost:60253/HL7ParserService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

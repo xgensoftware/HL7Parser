@@ -89,9 +89,9 @@ namespace HL7Explorer
                 txtRawHL7Message.Text = _hl7Message.MessageToken.RawMessage;
                 foreach (var seg in _hl7Message.Segments)
                 {
-                    TreeNode n = new TreeNode(seg.Value.Name);
-                    n.Name = seg.Value.Name;
-                    n.Tag = seg.Value.Segments;
+                    TreeNode n = new TreeNode(seg.Name);
+                    n.Name = seg.Name;
+                    n.Tag = seg.Segments;
                     tvSegments.Nodes.Add(n);
                 }
 
