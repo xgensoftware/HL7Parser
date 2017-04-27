@@ -87,7 +87,7 @@
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Helper\ParserLog.cs" />
+    <Compile Include="Entities\Helper\ParserLog.cs" />
     <Compile Include="HL7Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -129,6 +129,9 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\RepositoryFactory.cs" />
     <Compile Include="Segment.cs">
+      <DependentUpon>HL7Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SegmentConfiguration.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
     <Compile Include="TriggerEvent.cs">

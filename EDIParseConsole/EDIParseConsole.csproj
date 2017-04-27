@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>EDIParseConsole.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="com.Xgensoftware.Core">
       <HintPath>..\..\_components\com.Xgensoftware.Core.dll</HintPath>

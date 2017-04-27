@@ -50,6 +50,7 @@
     </AssociationSet>
     <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
     <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
+    <EntitySet Name="SegmentConfigurations" EntityType="HL7DataModel.SegmentConfiguration" />
   </EntityContainer>
   <EntityType Name="TriggerEvent">
     <Key>
@@ -77,5 +78,13 @@
     <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
     <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <EntityType Name="SegmentConfiguration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="Segments" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

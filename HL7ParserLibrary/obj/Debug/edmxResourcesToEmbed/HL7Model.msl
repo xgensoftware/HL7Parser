@@ -59,5 +59,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SegmentConfigurations">
+      <EntityTypeMapping TypeName="HL7DataModel.SegmentConfiguration">
+        <MappingFragment StoreEntitySet="SegmentConfiguration">
+          <ScalarProperty Name="Segments" ColumnName="Segments" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

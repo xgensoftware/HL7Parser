@@ -38,6 +38,14 @@
           <Property Name="DataType" Type="varchar" MaxLength="10" />
           <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <EntityType Name="SegmentConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Version" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Segments" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
         <EntityType Name="TriggerEvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -74,6 +82,7 @@
           <EntitySet Name="EventType" EntityType="Self.EventType" store:Type="Tables" />
           <EntitySet Name="MessageType" EntityType="Self.MessageType" store:Type="Tables" />
           <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables" />
+          <EntitySet Name="SegmentConfiguration" EntityType="Self.SegmentConfiguration" store:Type="Tables" />
           <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables" />
           <EntitySet Name="Version" EntityType="Self.Version" store:Type="Tables" />
           <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
@@ -135,6 +144,7 @@
           </AssociationSet>
           <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
           <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
+          <EntitySet Name="SegmentConfigurations" EntityType="HL7DataModel.SegmentConfiguration" />
         </EntityContainer>
         <EntityType Name="TriggerEvent">
           <Key>
@@ -162,6 +172,14 @@
           <Property Name="IsRepeating" Type="Boolean" Nullable="false" />
           <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="SegmentConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Segments" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -224,6 +242,15 @@
                 <ScalarProperty Name="Length" ColumnName="Length" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="SegmentId" ColumnName="SegmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SegmentConfigurations">
+            <EntityTypeMapping TypeName="HL7DataModel.SegmentConfiguration">
+              <MappingFragment StoreEntitySet="SegmentConfiguration">
+                <ScalarProperty Name="Segments" ColumnName="Segments" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

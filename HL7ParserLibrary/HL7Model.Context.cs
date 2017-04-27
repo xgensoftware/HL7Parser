@@ -30,5 +30,6 @@ namespace HL7Parser
         public virtual DbSet<Version> Versions { get; set; }
         public virtual DbSet<TriggerEvent> TriggerEvents { get; set; }
         public virtual DbSet<Segment> Segments { get; set; }
+        public virtual DbSet<SegmentConfiguration> SegmentConfigurations { get; set; }
     }
 }

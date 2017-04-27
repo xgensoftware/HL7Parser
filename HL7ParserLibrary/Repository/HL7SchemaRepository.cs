@@ -62,6 +62,11 @@ namespace HL7Parser.Repository
             this._dbCTX.SaveChanges();
         }
 
+        public SegmentConfiguration GetSegmentConfigurationByVersion(string version)
+        {
+            return _dbCTX.SegmentConfigurations.Where(x => x.Version == version).FirstOrDefault();
+        }
+
         public TriggerEvent[] GetTriggerEventsBy(string version, string message, string eventType)
         {
 

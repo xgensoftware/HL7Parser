@@ -11,6 +11,7 @@
         <AssociationConnector Association="HL7DataModel.FK_EventType_0_0" ManuallyRouted="false" />
         <EntityTypeShape EntityType="HL7DataModel.TriggerEvent" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="HL7DataModel.Segment" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HL7DataModel.SegmentConfiguration" Width="1.5" PointX="5.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
