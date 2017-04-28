@@ -69,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BaseEvent.cs" />
+    <Compile Include="DataType.cs">
+      <DependentUpon>HL7Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataTypeColumn.cs">
+      <DependentUpon>HL7Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataTypes\AD.cs" />
     <Compile Include="DataTypes\AUI.cs" />
     <Compile Include="DataTypes\BaseDataType.cs" />
@@ -84,10 +90,10 @@
     <Compile Include="DataTypes\XPN.cs" />
     <Compile Include="DataTypes\XTN.cs" />
     <Compile Include="Entities\Segment.cs" />
+    <Compile Include="Entities\Helper\ParserLog.cs" />
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Helper\ParserLog.cs" />
     <Compile Include="HL7Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

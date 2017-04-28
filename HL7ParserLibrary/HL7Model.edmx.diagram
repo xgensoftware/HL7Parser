@@ -5,14 +5,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1763834b62e74a9e91ad97e53719cb6e" Name="Diagram1">
-        <EntityTypeShape EntityType="HL7DataModel.EventType" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HL7DataModel.MessageType" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="HL7DataModel.Version" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="HL7DataModel.FK_EventType_0_0" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="HL7DataModel.TriggerEvent" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="HL7DataModel.Segment" Width="1.5" PointX="3.375" PointY="4.75" />
-        <EntityTypeShape EntityType="HL7DataModel.SegmentConfiguration" Width="1.5" PointX="5.375" PointY="4.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="HL7DataModel.SegmentConfiguration" Width="1.5" PointX="5.5" PointY="0.625" />
+        <EntityTypeShape EntityType="HL7DataModel.EventType" Width="1.5" PointX="7.375" PointY="5.25" />
+        <EntityTypeShape EntityType="HL7DataModel.MessageType" Width="1.5" PointX="4.75" PointY="5.125" />
+        <EntityTypeShape EntityType="HL7DataModel.TriggerEvent" Width="1.5" PointX="2.75" PointY="0.5" />
+        <AssociationConnector Association="HL7DataModel.FK_EventType_0_0" />
+        <EntityTypeShape EntityType="HL7DataModel.Segment" Width="1.5" PointX="0.875" PointY="0.5" />
+        <EntityTypeShape EntityType="HL7DataModel.Version" Width="1.5" PointX="5.375" PointY="2.75" />
+        <EntityTypeShape EntityType="HL7DataModel.DataType" Width="1.5" PointX="8.375" PointY="1.375" />
+        <EntityTypeShape EntityType="HL7DataModel.DataTypeColumn" Width="1.5" PointX="10.625" PointY="1" />
+        <AssociationConnector Association="HL7DataModel.FK_DataTypeColumns_0_0" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -44,6 +44,12 @@ namespace HL7Parser.Repository
                     entityName = string.Format("{0}:{1}", s.SegmentId, s.Name);
                     this._dbCTX.Segments.Add(entity as Segment);
                     break;
+
+                case "DataType":
+                    DataType dt = entity as DataType;
+                    entityName = string.Format("{0}:{1}", dt.Name, dt.Version);
+                    this._dbCTX.DataTypes.Add(dt as DataType);
+                    break;
             }
 
             try

@@ -5,6 +5,26 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HL7DataModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Development\HL7Parser\HL7Data.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DataType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="10" />
+          <Property Name="Version" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="DataTypeColumns">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="DataTypeId" Type="integer" />
+          <Property Name="Length" Type="integer" />
+          <Property Name="Sequence" Type="integer" />
+          <Property Name="IsOptional" Type="bit" />
+          <Property Name="DataType" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="EventType">
           <Key>
             <PropertyRef Name="EventTypeId" />
@@ -66,6 +86,18 @@
           <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <Association Name="FK_DataTypeColumns_0_0">
+          <End Role="DataType" Type="Self.DataType" Multiplicity="0..1" />
+          <End Role="DataTypeColumns" Type="Self.DataTypeColumns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DataTypeColumns">
+              <PropertyRef Name="DataTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EventType_0_0">
           <End Role="MessageType" Type="Self.MessageType" Multiplicity="1" />
           <End Role="EventType" Type="Self.EventType" Multiplicity="*" />
@@ -78,13 +110,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Segment_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Segment_0_0" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TriggerEvent_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TriggerEvent_0_0" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TriggerEvent_1_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TriggerEvent_1_0" />-->
         <EntityContainer Name="HL7DataModelStoreContainer">
+          <EntitySet Name="DataType" EntityType="Self.DataType" store:Type="Tables" />
+          <EntitySet Name="DataTypeColumns" EntityType="Self.DataTypeColumns" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" store:Type="Tables" />
           <EntitySet Name="MessageType" EntityType="Self.MessageType" store:Type="Tables" />
           <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables" />
           <EntitySet Name="SegmentConfiguration" EntityType="Self.SegmentConfiguration" store:Type="Tables" />
           <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables" />
           <EntitySet Name="Version" EntityType="Self.Version" store:Type="Tables" />
+          <AssociationSet Name="FK_DataTypeColumns_0_0" Association="Self.FK_DataTypeColumns_0_0">
+            <End Role="DataType" EntitySet="DataType" />
+            <End Role="DataTypeColumns" EntitySet="DataTypeColumns" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
             <End Role="MessageType" EntitySet="MessageType" />
             <End Role="EventType" EntitySet="EventType" />
@@ -94,58 +141,53 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HL7DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HL7DataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SegmentConfigurations" EntityType="HL7DataModel.SegmentConfiguration" />
+          <EntitySet Name="EventTypes" EntityType="HL7DataModel.EventType" />
+          <EntitySet Name="MessageTypes" EntityType="HL7DataModel.MessageType" />
+          <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
+          <AssociationSet Name="FK_EventType_0_0" Association="HL7DataModel.FK_EventType_0_0">
+            <End Role="MessageType" EntitySet="MessageTypes" />
+            <End Role="EventType" EntitySet="EventTypes" />
+          </AssociationSet>
+          <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
+          <EntitySet Name="Versions" EntityType="HL7DataModel.Version" />
+          <EntitySet Name="DataTypes" EntityType="HL7DataModel.DataType" />
+          <EntitySet Name="DataTypeColumns" EntityType="HL7DataModel.DataTypeColumn" />
+          <AssociationSet Name="FK_DataTypeColumns_0_0" Association="HL7DataModel.FK_DataTypeColumns_0_0">
+            <End Role="DataType" EntitySet="DataTypes" />
+            <End Role="DataTypeColumn" EntitySet="DataTypeColumns" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="SegmentConfiguration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Segments" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="EventType">
           <Key>
             <PropertyRef Name="EventTypeId" />
           </Key>
           <Property Name="EventTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EventType1" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EventType1" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="MessageTypeId" Type="Int64" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="MessageType" Relationship="Self.FK_EventType_0_0" FromRole="EventType" ToRole="MessageType" />
+          <NavigationProperty Name="MessageType" Relationship="HL7DataModel.FK_EventType_0_0" FromRole="EventType" ToRole="MessageType" />
         </EntityType>
         <EntityType Name="MessageType">
           <Key>
             <PropertyRef Name="MessageTypeId" />
           </Key>
           <Property Name="MessageTypeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MessageType1" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MessageType1" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="EventTypes" Relationship="Self.FK_EventType_0_0" FromRole="MessageType" ToRole="EventType" />
+          <NavigationProperty Name="EventTypes" Relationship="HL7DataModel.FK_EventType_0_0" FromRole="MessageType" ToRole="EventType" />
         </EntityType>
-        <EntityType Name="Version">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_EventType_0_0">
-          <End Role="MessageType" Type="Self.MessageType" Multiplicity="1" />
-          <End Role="EventType" Type="Self.EventType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MessageType">
-              <PropertyRef Name="MessageTypeId" />
-            </Principal>
-            <Dependent Role="EventType">
-              <PropertyRef Name="MessageTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="HL7DataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="EventTypes" EntityType="Self.EventType" />
-          <EntitySet Name="MessageTypes" EntityType="Self.MessageType" />
-          <EntitySet Name="Versions" EntityType="Self.Version" />
-          <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
-            <End Role="MessageType" EntitySet="MessageTypes" />
-            <End Role="EventType" EntitySet="EventTypes" />
-          </AssociationSet>
-          <EntitySet Name="TriggerEvents" EntityType="HL7DataModel.TriggerEvent" />
-          <EntitySet Name="Segments" EntityType="HL7DataModel.Segment" />
-          <EntitySet Name="SegmentConfigurations" EntityType="HL7DataModel.SegmentConfiguration" />
-        </EntityContainer>
         <EntityType Name="TriggerEvent">
           <Key>
             <PropertyRef Name="Id" />
@@ -159,6 +201,18 @@
           <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
+        <Association Name="FK_EventType_0_0">
+          <End Type="HL7DataModel.MessageType" Role="MessageType" Multiplicity="1" />
+          <End Type="HL7DataModel.EventType" Role="EventType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MessageType">
+              <PropertyRef Name="MessageTypeId" />
+            </Principal>
+            <Dependent Role="EventType">
+              <PropertyRef Name="MessageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Segment">
           <Key>
             <PropertyRef Name="Id" />
@@ -173,46 +227,80 @@
           <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="SegmentConfiguration">
+        <EntityType Name="Version">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Version" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Segments" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-      </Schema>
+        <EntityType Name="DataType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DataTypeColumns" Relationship="HL7DataModel.FK_DataTypeColumns_0_0" FromRole="DataType" ToRole="DataTypeColumn" />
+        </EntityType>
+        <EntityType Name="DataTypeColumn">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DataTypeId" Type="Int64" />
+          <Property Name="Length" Type="Int64" />
+          <Property Name="Sequence" Type="Int64" />
+          <Property Name="IsOptional" Type="Boolean" />
+          <Property Name="DataType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DataType1" Relationship="HL7DataModel.FK_DataTypeColumns_0_0" FromRole="DataTypeColumn" ToRole="DataType" />
+        </EntityType>
+        <Association Name="FK_DataTypeColumns_0_0">
+          <End Type="HL7DataModel.DataType" Role="DataType" Multiplicity="0..1" />
+          <End Type="HL7DataModel.DataTypeColumn" Role="DataTypeColumn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DataTypeColumn">
+              <PropertyRef Name="DataTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="HL7DataModelStoreContainer" CdmEntityContainer="HL7DataEntities">
+          <EntitySetMapping Name="SegmentConfigurations">
+            <EntityTypeMapping TypeName="HL7DataModel.SegmentConfiguration">
+              <MappingFragment StoreEntitySet="SegmentConfiguration">
+                <ScalarProperty Name="Segments" ColumnName="Segments" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="EventTypes">
             <EntityTypeMapping TypeName="HL7DataModel.EventType">
               <MappingFragment StoreEntitySet="EventType">
-                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
-                <ScalarProperty Name="EventType1" ColumnName="EventType" />
-                <ScalarProperty Name="MessageTypeId" ColumnName="MessageTypeId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MessageTypeId" ColumnName="MessageTypeId" />
+                <ScalarProperty Name="EventType1" ColumnName="EventType" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MessageTypes">
             <EntityTypeMapping TypeName="HL7DataModel.MessageType">
               <MappingFragment StoreEntitySet="MessageType">
-                <ScalarProperty Name="MessageTypeId" ColumnName="MessageTypeId" />
-                <ScalarProperty Name="MessageType1" ColumnName="MessageType" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Versions">
-            <EntityTypeMapping TypeName="HL7DataModel.Version">
-              <MappingFragment StoreEntitySet="Version">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MessageType1" ColumnName="MessageType" />
+                <ScalarProperty Name="MessageTypeId" ColumnName="MessageTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -245,16 +333,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SegmentConfigurations">
-            <EntityTypeMapping TypeName="HL7DataModel.SegmentConfiguration">
-              <MappingFragment StoreEntitySet="SegmentConfiguration">
-                <ScalarProperty Name="Segments" ColumnName="Segments" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
+          <EntitySetMapping Name="Versions">
+            <EntityTypeMapping TypeName="HL7DataModel.Version">
+              <MappingFragment StoreEntitySet="Version">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="DataTypes">
+            <EntityTypeMapping TypeName="HL7DataModel.DataType">
+              <MappingFragment StoreEntitySet="DataType">
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataTypeColumns">
+            <EntityTypeMapping TypeName="HL7DataModel.DataTypeColumn">
+              <MappingFragment StoreEntitySet="DataTypeColumns">
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="IsOptional" ColumnName="IsOptional" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="DataTypeId" ColumnName="DataTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-16"?>
+<SegmentTableMappingList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EventType>A08</EventType>
+  <MessageType>ADT</MessageType>
+  <Version>2.5</Version>
+  <SegmentMappings>
+    <SegmentTableMapping>
+      <SegmentName>MSH</SegmentName>
+      <TableName>MessageHeader_MSH</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Message Control ID</SegmentColumn>
+          <DatabaseColumn>MessageControlID</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>EVN</SegmentName>
+      <TableName>EventType_EVN</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Event Type Code</SegmentColumn>
+          <DatabaseColumn>EventTypeCode</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>PID</SegmentName>
+      <TableName>PatientIdentification_PID</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient ID</SegmentColumn>
+          <DatabaseColumn>PatientID</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Name</SegmentColumn>
+          <DatabaseColumn>PatientFirstName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Name</SegmentColumn>
+          <DatabaseColumn>PatientLastName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>SSN Number - Patient</SegmentColumn>
+          <DatabaseColumn>PatientSSN</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientAddress1</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientAddress2</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientCity</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientCounty</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientState</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientZip</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>NK1</SegmentName>
+      <TableName>NextOfKinAssociatedParties_NK1</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>NK Name</SegmentColumn>
+          <DatabaseColumn>NextKinFirstName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>NK Name</SegmentColumn>
+          <DatabaseColumn>NextKinLastName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+  </SegmentMappings>
+</SegmentTableMappingList>

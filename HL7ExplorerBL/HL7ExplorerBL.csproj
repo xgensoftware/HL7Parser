@@ -71,7 +71,7 @@
     <Compile Include="Repository\GenericDBRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\SegmentMappingRepository.cs" />
-    <Compile Include="Services\SegmentScraperService.cs" />
+    <Compile Include="Services\ScraperService.cs" />
     <Compile Include="Services\ServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>

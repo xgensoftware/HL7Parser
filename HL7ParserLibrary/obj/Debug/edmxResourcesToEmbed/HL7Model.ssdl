@@ -1,5 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="HL7DataModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Development\HL7Parser\HL7Data.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DataType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="10" />
+    <Property Name="Version" Type="varchar" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="DataTypeColumns">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="500" />
+    <Property Name="DataTypeId" Type="integer" />
+    <Property Name="Length" Type="integer" />
+    <Property Name="Sequence" Type="integer" />
+    <Property Name="IsOptional" Type="bit" />
+    <Property Name="DataType" Type="varchar" MaxLength="10" />
+  </EntityType>
   <EntityType Name="EventType">
     <Key>
       <PropertyRef Name="EventTypeId" />
@@ -61,6 +81,18 @@
     <Property Name="Id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="10" Nullable="false" />
   </EntityType>
+  <Association Name="FK_DataTypeColumns_0_0">
+    <End Role="DataType" Type="Self.DataType" Multiplicity="0..1" />
+    <End Role="DataTypeColumns" Type="Self.DataTypeColumns" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DataType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DataTypeColumns">
+        <PropertyRef Name="DataTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_EventType_0_0">
     <End Role="MessageType" Type="Self.MessageType" Multiplicity="1" />
     <End Role="EventType" Type="Self.EventType" Multiplicity="*" />
@@ -73,13 +105,28 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Segment_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Segment_0_0" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TriggerEvent_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TriggerEvent_0_0" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TriggerEvent_1_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TriggerEvent_1_0" />-->
   <EntityContainer Name="HL7DataModelStoreContainer">
+    <EntitySet Name="DataType" EntityType="Self.DataType" store:Type="Tables" />
+    <EntitySet Name="DataTypeColumns" EntityType="Self.DataTypeColumns" store:Type="Tables" />
     <EntitySet Name="EventType" EntityType="Self.EventType" store:Type="Tables" />
     <EntitySet Name="MessageType" EntityType="Self.MessageType" store:Type="Tables" />
     <EntitySet Name="Segment" EntityType="Self.Segment" store:Type="Tables" />
     <EntitySet Name="SegmentConfiguration" EntityType="Self.SegmentConfiguration" store:Type="Tables" />
     <EntitySet Name="TriggerEvent" EntityType="Self.TriggerEvent" store:Type="Tables" />
     <EntitySet Name="Version" EntityType="Self.Version" store:Type="Tables" />
+    <AssociationSet Name="FK_DataTypeColumns_0_0" Association="Self.FK_DataTypeColumns_0_0">
+      <End Role="DataType" EntitySet="DataType" />
+      <End Role="DataTypeColumns" EntitySet="DataTypeColumns" />
+    </AssociationSet>
     <AssociationSet Name="FK_EventType_0_0" Association="Self.FK_EventType_0_0">
       <End Role="MessageType" EntitySet="MessageType" />
       <End Role="EventType" EntitySet="EventType" />

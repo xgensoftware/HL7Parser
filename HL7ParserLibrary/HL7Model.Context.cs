@@ -25,11 +25,13 @@ namespace HL7Parser
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<SegmentConfiguration> SegmentConfigurations { get; set; }
         public virtual DbSet<EventType> EventTypes { get; set; }
         public virtual DbSet<MessageType> MessageTypes { get; set; }
-        public virtual DbSet<Version> Versions { get; set; }
         public virtual DbSet<TriggerEvent> TriggerEvents { get; set; }
         public virtual DbSet<Segment> Segments { get; set; }
-        public virtual DbSet<SegmentConfiguration> SegmentConfigurations { get; set; }
+        public virtual DbSet<Version> Versions { get; set; }
+        public virtual DbSet<DataType> DataTypes { get; set; }
+        public virtual DbSet<DataTypeColumn> DataTypeColumns { get; set; }
     }
 }

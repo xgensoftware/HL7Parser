@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-16"?>
+<SegmentTableMappingList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EventType>A18</EventType>
+  <MessageType>ADT</MessageType>
+  <Version>2.3</Version>
+  <SegmentMappings>
+    <SegmentTableMapping>
+      <SegmentName>MSH</SegmentName>
+      <TableName>MessageHeader_MSH</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Message Control ID</SegmentColumn>
+          <DatabaseColumn>MessageControlID</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>PID</SegmentName>
+      <TableName>PatientIdentification_PID</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient ID</SegmentColumn>
+          <DatabaseColumn>PatientID</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+  </SegmentMappings>
+</SegmentTableMappingList>

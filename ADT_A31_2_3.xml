@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-16"?>
+<SegmentTableMappingList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <EventType>A18</EventType>
+  <MessageType>ADT</MessageType>
+  <Version>2.3</Version>
+  <SegmentMappings>
+    <SegmentTableMapping>
+      <SegmentName>MSH</SegmentName>
+      <TableName>MessageHeader_MSH</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Message Control ID</SegmentColumn>
+          <DatabaseColumn>MessageControlID</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>EVN</SegmentName>
+      <TableName>EventType_EVN</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Event Type Code</SegmentColumn>
+          <DatabaseColumn>EventTypeCode</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Event Reason Code</SegmentColumn>
+          <DatabaseColumn>EventReasonCode</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Event Occurred</SegmentColumn>
+          <DatabaseColumn>EventOccured</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>PID</SegmentName>
+      <TableName>PatientIdentification_PID</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Set Id</SegmentColumn>
+          <DatabaseColumn>SetId</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient ID</SegmentColumn>
+          <DatabaseColumn>PatientID</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Name</SegmentColumn>
+          <DatabaseColumn>PatientFirstName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientAddress1</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Account Number</SegmentColumn>
+          <DatabaseColumn>PatientIdentificationNumber</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>SSN</SegmentColumn>
+          <DatabaseColumn>PatientSSN</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Name</SegmentColumn>
+          <DatabaseColumn>PatientLastName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientCity</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientCounty</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Patient Address</SegmentColumn>
+          <DatabaseColumn>PatientState</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+    <SegmentTableMapping>
+      <SegmentName>IN1</SegmentName>
+      <TableName>Insurance_IN1</TableName>
+      <ColumnMappings>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Insurance Company Name</SegmentColumn>
+          <DatabaseColumn>InsuranceCompanyName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Insurance Co. Contact Ppers</SegmentColumn>
+          <DatabaseColumn>InsuranceCoContactPerson</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Name of Insured</SegmentColumn>
+          <DatabaseColumn>InsuredFirstName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+        <SegmentDBColumnMapping>
+          <SegmentColumn>Name of Insured</SegmentColumn>
+          <DatabaseColumn>InsuredLastName</DatabaseColumn>
+        </SegmentDBColumnMapping>
+      </ColumnMappings>
+    </SegmentTableMapping>
+  </SegmentMappings>
+</SegmentTableMappingList>
