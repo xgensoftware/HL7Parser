@@ -19,7 +19,7 @@ namespace HL7Explorer
         #region Member Variables 
         string _segmentName = string.Empty;
 
-        SegmentTableMapping _segmentMapping = null;
+        //SegmentTableMapping _segmentMapping = null;
         #endregion
 
         #region Private Methods

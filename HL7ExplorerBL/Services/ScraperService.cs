@@ -15,7 +15,8 @@ namespace HL7ExplorerBL.Services
     public enum SCRAPSERVICE_COMMAND
     {
         SEGMENT,
-        DATATYPE
+        DATATYPE,
+        DATATYPE_COLUMN
     }
     public class ScraperService : ServiceBase
     {
@@ -176,7 +177,7 @@ namespace HL7ExplorerBL.Services
             }
             catch (Exception ex)
             {
-                _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Failed to scrape DataType for version {0}. ERROR: {0}",hl7Version,ex.Message));
+                _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Failed to scrape DataType for version {0}. ERROR: {1}",hl7Version,ex.Message));
             }
 
             if(scrapedData != null)
@@ -205,14 +206,88 @@ namespace HL7ExplorerBL.Services
                                 repo.AddNew<DataType>(dt);
                                 _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Created DataType {0} version {1}", option.InnerText, hl7Version));
                             }
+
+                            repo.Dispose();
                         }
                     }
             }
         }
 
-        private void ScrapeDataTypeColumnBy(string hl7Version, string columnName)
+        private void ProcessDataTypeColumn(HL7SchemaRepository repo, string hl7Version,DataType dt)
         {
-            string url = string.Format("http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v{0}&dataType={1}", hl7Version, columnName);
+            HtmlNode scrapedData = null;
+            _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Scraping table information for data type {0} version {1}.", dt.Name,hl7Version));
+            try
+            {
+                string url = string.Format("http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v{0}&dataType={1}", hl7Version, dt.Name);
+                var Webget = new HtmlWeb();
+                HtmlDocument doc = Webget.Load(url);
+                scrapedData = doc.DocumentNode.SelectSingleNode("//table[@id='grdResult']");
+            }
+            catch (Exception ex)
+            {
+                _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Failed to scrape DataTypeColumn for version {0} column {1}. ERROR: {2}", hl7Version, dt.Name, ex.Message));
+            }
+
+            if (scrapedData != null)
+            {
+                foreach (HtmlNode node in scrapedData.ChildNodes)
+                {
+                    if (node.Name == "tr")
+                    {
+                        bool isValid = true;
+                        const string tdPattern = @"<td\b[^>]*?>(?<V>[\s\S]*?)</\s*td>";
+                        StringBuilder strNode = new StringBuilder();
+                        foreach (Match match in Regex.Matches(node.InnerHtml, tdPattern, RegexOptions.IgnoreCase))
+                        {
+                            string value = match.Groups["V"].Value;
+                            strNode.Append(value + "|");
+                        }
+
+                        if (strNode.Length > 0)
+                        {
+                            strNode.Remove(strNode.Length - 1, 1);
+                            DataTypeColumn newDataTypeColumn = new DataTypeColumn();
+                            try
+                            {
+                                string[] splitData = strNode.ToString().Split('|');
+
+                                newDataTypeColumn.Sequence = splitData[0].Split('.')[1].Parse<long>();
+                                newDataTypeColumn.Length = splitData[1].Parse<long>();
+                                newDataTypeColumn.IsOptional = bool.Parse(splitData[3] == "O" ? "true" : "false");
+                                newDataTypeColumn.Name = splitData[5];
+                                newDataTypeColumn.DataType1 = dt;
+
+                                const string aPattern = @"<a\b[^>]*?>(?<V>[\s\S]*?)</\s*a>";
+                                foreach (Match match in Regex.Matches(splitData[2], aPattern, RegexOptions.IgnoreCase))
+                                {
+                                    string value = match.Groups["V"].Value;
+                                    newDataTypeColumn.DataType = DataTypeMap(value);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _fileLogger.LogMessage(LogMessageType.ERROR, ex.Message);
+                                isValid = false;
+                            }
+
+                            if (isValid)
+                                repo.AddNew<DataTypeColumn>(newDataTypeColumn);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ScrapeDataTypeColumnBy(string hl7Version)
+        {
+            HL7SchemaRepository repo = new HL7SchemaRepository();
+            List<DataType> dataTypeToScrape = repo.GetDataTypesBy(hl7Version);
+            foreach(DataType dt in dataTypeToScrape)
+            {
+                ProcessDataTypeColumn(repo,hl7Version, dt);
+            }
+            
         }
         #endregion
 
@@ -229,6 +304,10 @@ namespace HL7ExplorerBL.Services
 
                 case SCRAPSERVICE_COMMAND.DATATYPE:
                     ScrapeDataTypeBy(hl7Version);
+                    break;
+
+                case SCRAPSERVICE_COMMAND.DATATYPE_COLUMN:
+                    ScrapeDataTypeColumnBy(hl7Version);
                     break;
             }
 

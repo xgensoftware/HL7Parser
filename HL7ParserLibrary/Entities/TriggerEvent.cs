@@ -9,7 +9,7 @@ namespace HL7Parser
     /// <summary>
     /// Class for DB TriggerEvent entity
     /// </summary>
-    public partial class TriggerEvent
+    public partial class TriggerEvent 
     {
         #region Member Variables 
         
@@ -25,6 +25,7 @@ namespace HL7Parser
         #region Constructor 
 
         #endregion
+        
 
         #region Overrides
         public override string ToString()

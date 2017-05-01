@@ -50,6 +50,12 @@ namespace HL7Parser.Repository
                     entityName = string.Format("{0}:{1}", dt.Name, dt.Version);
                     this._dbCTX.DataTypes.Add(dt as DataType);
                     break;
+
+                case "DataTypeColumn":
+                    DataTypeColumn dtc = entity as DataTypeColumn;
+                    entityName = string.Format("{0}:{1}_{2}", dtc.DataType1.Version, dtc.DataType1.Name, dtc.Name);
+                    this._dbCTX.DataTypeColumns.Add(dtc);
+                    break;
             }
 
             try
@@ -135,6 +141,11 @@ namespace HL7Parser.Repository
         public List<Version> GetVersions()
         {
             return _dbCTX.Versions.ToList();
+        }
+
+        public List<DataType> GetDataTypesBy(string hl7Version)
+        {
+            return _dbCTX.DataTypes.Where(x => x.Version == hl7Version).AsParallel().ToList();
         }
 
         public void Dispose()

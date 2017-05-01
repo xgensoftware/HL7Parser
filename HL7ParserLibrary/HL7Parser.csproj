@@ -89,8 +89,9 @@
     <Compile Include="DataTypes\XON.cs" />
     <Compile Include="DataTypes\XPN.cs" />
     <Compile Include="DataTypes\XTN.cs" />
+    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Segment.cs" />
-    <Compile Include="Entities\Helper\ParserLog.cs" />
+    <Compile Include="Helper\ParserLog.cs" />
     <Compile Include="EventType.cs">
       <DependentUpon>HL7Model.tt</DependentUpon>
     </Compile>
