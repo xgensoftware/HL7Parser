@@ -64,7 +64,7 @@ namespace HL7Parser.Repository
             }
             catch (Exception ex)
             {
-                string message = string.Format("Error saving entity {0}. ERROR: {1}.", entityName, ex.Message);
+                string message = string.Format("Error saving entity {0}. ERROR: {1}. INNER EXCEPTION: {2}", entityName, ex.Message,ex.InnerException);
                 LogErrorMessage(message);
             }
         }

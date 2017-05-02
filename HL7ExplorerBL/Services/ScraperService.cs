@@ -16,7 +16,7 @@ namespace HL7ExplorerBL.Services
     {
         SEGMENT,
         DATATYPE,
-        DATATYPE_COLUMN
+        DATATYPECOLUMN
     }
     public class ScraperService : ServiceBase
     {
@@ -182,34 +182,65 @@ namespace HL7ExplorerBL.Services
 
             if(scrapedData != null)
             {
-                    foreach (HtmlNode option in scrapedData.ChildNodes)
+                Parallel.ForEach(scrapedData.ChildNodes, option=> {
+
+                    if (option.InnerText != "- Choose a data type" & option.InnerText != "\r\n\t" & !string.IsNullOrEmpty(option.InnerText))
                     {
-                        if (option.InnerText != "- Choose a data type" & option.InnerText != "\r\n\t" & !string.IsNullOrEmpty(option.InnerText))
+                        bool isValid = true;
+                        HL7SchemaRepository repo = new HL7SchemaRepository();
+                        DataType dt = new DataType();
+
+                        try
                         {
-                            bool isValid = true;
-                            HL7SchemaRepository repo = new HL7SchemaRepository();
-                            DataType dt = new DataType();
-
-                            try
-                            {
-                                dt.Name = option.InnerText;
-                                dt.Version = hl7Version;
-                            }
-                            catch (Exception ex)
-                            {
-                                _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Error creating DataType {0} version {1}. ERROR: {2}", option.InnerText, hl7Version, ex.Message));
-                                isValid = false;
-                            }
-
-                            if (isValid)
-                            {
-                                repo.AddNew<DataType>(dt);
-                                _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Created DataType {0} version {1}", option.InnerText, hl7Version));
-                            }
-
-                            repo.Dispose();
+                            dt.Name = option.InnerText;
+                            dt.Version = hl7Version;
                         }
+                        catch (Exception ex)
+                        {
+                            _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Error creating DataType {0} version {1}. ERROR: {2}", option.InnerText, hl7Version, ex.Message));
+                            isValid = false;
+                        }
+
+                        if (isValid)
+                        {
+                            repo.AddNew<DataType>(dt);
+                            _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Created DataType {0} version {1}", option.InnerText, hl7Version));
+                        }
+
+                        repo.Dispose();
                     }
+                });
+
+                #region standard for each
+                //foreach (HtmlNode option in scrapedData.ChildNodes)
+                //{
+                //    if (option.InnerText != "- Choose a data type" & option.InnerText != "\r\n\t" & !string.IsNullOrEmpty(option.InnerText))
+                //    {
+                //        bool isValid = true;
+                //        HL7SchemaRepository repo = new HL7SchemaRepository();
+                //        DataType dt = new DataType();
+
+                //        try
+                //        {
+                //            dt.Name = option.InnerText;
+                //            dt.Version = hl7Version;
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Error creating DataType {0} version {1}. ERROR: {2}", option.InnerText, hl7Version, ex.Message));
+                //            isValid = false;
+                //        }
+
+                //        if (isValid)
+                //        {
+                //            repo.AddNew<DataType>(dt);
+                //            _fileLogger.LogMessage(LogMessageType.INFO, string.Format("Created DataType {0} version {1}", option.InnerText, hl7Version));
+                //        }
+
+                //        repo.Dispose();
+                //    }
+                //}
+                #endregion
             }
         }
 
@@ -283,10 +314,9 @@ namespace HL7ExplorerBL.Services
         {
             HL7SchemaRepository repo = new HL7SchemaRepository();
             List<DataType> dataTypeToScrape = repo.GetDataTypesBy(hl7Version);
-            foreach(DataType dt in dataTypeToScrape)
-            {
-                ProcessDataTypeColumn(repo,hl7Version, dt);
-            }
+            Parallel.ForEach(dataTypeToScrape, dt => {
+                ProcessDataTypeColumn(repo, hl7Version, dt);
+            });           
             
         }
         #endregion
@@ -306,7 +336,7 @@ namespace HL7ExplorerBL.Services
                     ScrapeDataTypeBy(hl7Version);
                     break;
 
-                case SCRAPSERVICE_COMMAND.DATATYPE_COLUMN:
+                case SCRAPSERVICE_COMMAND.DATATYPECOLUMN:
                     ScrapeDataTypeColumnBy(hl7Version);
                     break;
             }
