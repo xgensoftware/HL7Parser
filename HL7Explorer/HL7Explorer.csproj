@@ -131,6 +131,18 @@
     <Compile Include="frmViewHL7Message.Designer.cs">
       <DependentUpon>frmViewHL7Message.cs</DependentUpon>
     </Compile>
+    <Compile Include="HL7QueryConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HL7QueryConfig.Designer.cs">
+      <DependentUpon>HL7QueryConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HL7QueryTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HL7QueryTool.Designer.cs">
+      <DependentUpon>HL7QueryTool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BaseForm.resx">
@@ -159,6 +171,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmViewHL7Message.resx">
       <DependentUpon>frmViewHL7Message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HL7QueryConfig.resx">
+      <DependentUpon>HL7QueryConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HL7QueryTool.resx">
+      <DependentUpon>HL7QueryTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

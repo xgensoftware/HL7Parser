@@ -52,5 +52,9 @@ namespace HL7Core
             get { return ConfigurationManager.AppSettings["DBProvider"].ToString(); }
         }
         
+        public static string HL7QueryPath
+        {
+            get { return ConfigurationManager.AppSettings["HL7QueryPath"].ToString(); }
+        }
     }
 }

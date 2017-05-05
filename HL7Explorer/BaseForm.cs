@@ -74,16 +74,20 @@ namespace HL7Explorer
             }
         }
        
-        protected void LogError(string message)
+        protected void LogError(string message, bool showDialog = true)
         {
             this._logger.LogMessage(LogMessageType.ERROR, message);
-            MessageBox.Show(message);
+
+            if(showDialog)
+                MessageBox.Show(message);
         }
 
-        protected void LogInfo(string message)
+        protected void LogInfo(string message, bool showDialog = true)
         {
             this._logger.LogMessage(LogMessageType.INFO, message);
-            MessageBox.Show(message);
+
+            if (showDialog)
+                MessageBox.Show(message);
         }
 
         private void toolStripMenuItemExit_Click(object sender, EventArgs e)

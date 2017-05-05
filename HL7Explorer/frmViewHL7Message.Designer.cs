@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmViewHL7Message));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.txtRawHL7Message = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonLoad = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButtonLoadHL7DatFile = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonDBCompare = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -47,8 +50,7 @@
             this.colIsRepeating = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.bgwParser = new System.ComponentModel.BackgroundWorker();
             this.bgwDBCompare = new System.ComponentModel.BackgroundWorker();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonLoadHL7DatFile = new System.Windows.Forms.ToolStripButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -108,6 +110,22 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripButtonLoadHL7DatFile
+            // 
+            this.toolStripButtonLoadHL7DatFile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoadHL7DatFile.Image")));
+            this.toolStripButtonLoadHL7DatFile.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.toolStripButtonLoadHL7DatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadHL7DatFile.Name = "toolStripButtonLoadHL7DatFile";
+            this.toolStripButtonLoadHL7DatFile.Size = new System.Drawing.Size(154, 22);
+            this.toolStripButtonLoadHL7DatFile.Text = "Load Multi Message File";
+            this.toolStripButtonLoadHL7DatFile.ToolTipText = "Load a file with multiple HL7 messages";
+            this.toolStripButtonLoadHL7DatFile.Click += new System.EventHandler(this.toolStripButtonLoadHL7DatFile_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // toolStripButtonDBCompare
             // 
             this.toolStripButtonDBCompare.Enabled = false;
@@ -166,8 +184,11 @@
             // tvSegments
             // 
             this.tvSegments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvSegments.ImageIndex = 0;
+            this.tvSegments.ImageList = this.imageList1;
             this.tvSegments.Location = new System.Drawing.Point(0, 0);
             this.tvSegments.Name = "tvSegments";
+            this.tvSegments.SelectedImageIndex = 0;
             this.tvSegments.Size = new System.Drawing.Size(175, 441);
             this.tvSegments.TabIndex = 0;
             // 
@@ -237,21 +258,13 @@
             this.colIsRepeating.Name = "colIsRepeating";
             this.colIsRepeating.ReadOnly = true;
             // 
-            // toolStripSeparator2
+            // imageList1
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButtonLoadHL7DatFile
-            // 
-            this.toolStripButtonLoadHL7DatFile.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoadHL7DatFile.Image")));
-            this.toolStripButtonLoadHL7DatFile.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.toolStripButtonLoadHL7DatFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonLoadHL7DatFile.Name = "toolStripButtonLoadHL7DatFile";
-            this.toolStripButtonLoadHL7DatFile.Size = new System.Drawing.Size(154, 22);
-            this.toolStripButtonLoadHL7DatFile.Text = "Load Multi Message File";
-            this.toolStripButtonLoadHL7DatFile.ToolTipText = "Load a file with multiple HL7 messages";
-            this.toolStripButtonLoadHL7DatFile.Click += new System.EventHandler(this.toolStripButtonLoadHL7DatFile_Click);
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Folder-icon.png");
+            this.imageList1.Images.SetKeyName(1, "data-chooser-icon.png");
+            this.imageList1.Images.SetKeyName(2, "column-single-icon.png");
             // 
             // frmViewHL7Message
             // 
@@ -305,5 +318,6 @@
         private System.ComponentModel.BackgroundWorker bgwDBCompare;
         private System.Windows.Forms.ToolStripButton toolStripButtonLoadHL7DatFile;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

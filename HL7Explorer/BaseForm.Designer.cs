@@ -32,6 +32,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemTools = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -39,7 +40,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFile,
-            this.toolStripMenuItemTools});
+            this.toolStripMenuItemTools,
+            this.toolStripMenuItemHelp});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(975, 24);
@@ -57,6 +59,12 @@
             this.toolStripMenuItemTools.Name = "toolStripMenuItemTools";
             this.toolStripMenuItemTools.Size = new System.Drawing.Size(48, 20);
             this.toolStripMenuItemTools.Text = "Tools";
+            // 
+            // toolStripMenuItemHelp
+            // 
+            this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
+            this.toolStripMenuItemHelp.Size = new System.Drawing.Size(44, 20);
+            this.toolStripMenuItemHelp.Text = "Help";
             // 
             // BaseForm
             // 
@@ -80,5 +88,6 @@
         protected System.Windows.Forms.MenuStrip menuStrip1;
         protected System.Windows.Forms.ToolStripMenuItem toolStripMenuItemFile;
         protected System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTools;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHelp;
     }
 }

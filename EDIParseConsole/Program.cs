@@ -5,7 +5,7 @@ using HL7Parser.Parser;
 using HL7Core;
 using HL7Parser.Models;
 using HL7ExplorerBL.Services;
-
+using HL7ExplorerBL.QueryParser;
 namespace EDIParseConsole
 {
     class Program
@@ -76,63 +76,62 @@ namespace EDIParseConsole
         //}
         #endregion
 
-        //static void Main(string[] args)
-        //{
-        //    using (ScraperService scraper = new ScraperService())
-        //    {
-        //        scraper.ScrapeBy(SCRAPSERVICE_COMMAND.DATATYPE_COLUMN, "2.5");
-        //    }
-
-        //    Console.ReadLine();
-        //}
-
         static void Main(string[] args)
         {
-            LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
-            log = LogFactory.CreateLogger(logType);
+            string query = "select * from MSH where MessageControlId = '123';";
+            QueryParser parser = new QueryParser();
+            parser.TokenizeQuery(query);
 
-            Console.WriteLine("Welcome to the HL7 Console.");
-            Console.WriteLine("Please enter a command (Help for a list of commands): ");
-            string command = Console.ReadLine();
-
-            while (command.ToLower() != "exit")
-            {
-                switch (command.ToLower())
-                {
-                    case "exit":
-                        break;
-
-                    case "help":
-                        StringBuilder help = new StringBuilder();
-                        help.AppendLine("Exit: exit console");
-                        help.AppendLine("Scrape: scrape HL7 segment column definitions");
-                        Console.WriteLine(help);
-                        break;
-
-                    case "scrape":
-                        Console.WriteLine("Please enter the scrape command and version");
-                        Console.WriteLine("Scrape Commands: SEGMENT, DATATYPE, DATATYPECOLUMN");
-                        Console.WriteLine("Usage: <ScrapeCommand>|<HL7Version> ");
-
-                        try
-                        {
-                            string[] scrapeCmd = Console.ReadLine().Split('|');
-                            SCRAPSERVICE_COMMAND cmd = (SCRAPSERVICE_COMMAND)Enum.Parse(typeof(SCRAPSERVICE_COMMAND), scrapeCmd[0]);
-                            using (ScraperService scraper = new ScraperService())
-                            {
-                                scraper.ScrapeBy(cmd, scrapeCmd[1]);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            log.LogMessage(LogMessageType.ERROR, string.Format("Failed to run scrape service. ERROR: {0}", ex.Message));
-                        }
-
-                        break;
-                }
-
-                command = Console.ReadLine();
-            }
+            //Console.ReadLine();
         }
+
+        //static void Main(string[] args)
+        //{
+        //    LogType logType = (LogType)Enum.Parse(typeof(LogType), AppConfiguration.LoggingType);
+        //    log = LogFactory.CreateLogger(logType);
+
+        //    Console.WriteLine("Welcome to the HL7 Console.");
+        //    Console.WriteLine("Please enter a command (Help for a list of commands): ");
+        //    string command = Console.ReadLine();
+
+        //    while (command.ToLower() != "exit")
+        //    {
+        //        switch (command.ToLower())
+        //        {
+        //            case "exit":
+        //                break;
+
+        //            case "help":
+        //                StringBuilder help = new StringBuilder();
+        //                help.AppendLine("Exit: exit console");
+        //                help.AppendLine("Scrape: scrape HL7 segment column definitions");
+        //                Console.WriteLine(help);
+        //                break;
+
+        //            case "scrape":
+        //                Console.WriteLine("Please enter the scrape command and version");
+        //                Console.WriteLine("Scrape Commands: SEGMENT, DATATYPE, DATATYPECOLUMN");
+        //                Console.WriteLine("Usage: <ScrapeCommand>|<HL7Version> ");
+
+        //                try
+        //                {
+        //                    string[] scrapeCmd = Console.ReadLine().Split('|');
+        //                    SCRAPSERVICE_COMMAND cmd = (SCRAPSERVICE_COMMAND)Enum.Parse(typeof(SCRAPSERVICE_COMMAND), scrapeCmd[0]);
+        //                    using (ScraperService scraper = new ScraperService())
+        //                    {
+        //                        scraper.ScrapeBy(cmd, scrapeCmd[1]);
+        //                    }
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    log.LogMessage(LogMessageType.ERROR, string.Format("Failed to run scrape service. ERROR: {0}", ex.Message));
+        //                }
+
+        //                break;
+        //        }
+
+        //        command = Console.ReadLine();
+        //    }
+        //}
     }
 }

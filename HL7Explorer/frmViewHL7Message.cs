@@ -53,8 +53,14 @@ namespace HL7Explorer
             tsiEventBuilder.Text = "HL7 Event Builder";
             tsiEventBuilder.Click += tsiEventBuilder_Click;
             this.toolStripMenuItemTools.DropDownItems.Add(tsiEventBuilder);
+
+            ToolStripItem tsiHl7Query = new ToolStripMenuItem();
+            tsiHl7Query.Text = "HL7 Query Editor";
+            tsiHl7Query.Click += TsiHl7Query_Click;
+            this.toolStripMenuItemTools.DropDownItems.Add(tsiHl7Query);
          
         }
+
 
         void CreateFormControls()
         {
@@ -92,6 +98,7 @@ namespace HL7Explorer
                     TreeNode n = new TreeNode(seg.Name);
                     n.Name = seg.Name;
                     n.Tag = seg.Segments;
+                    n.ImageIndex = 0;
                     tvSegments.Nodes.Add(n);
                 }
 
@@ -174,6 +181,12 @@ namespace HL7Explorer
             {
                 LogInfo("In order to continue, you must first load an HL7 message");
             }
+        }
+
+        private void TsiHl7Query_Click(object sender, EventArgs e)
+        {
+            HL7QueryTool frm = new HL7QueryTool();
+            frm.Show();
         }
 
         private void toolStripButtonLoadHL7DatFile_Click(object sender, EventArgs e)
