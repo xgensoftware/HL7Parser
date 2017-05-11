@@ -2,25 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+using HL7Parser.Models;
 namespace HL7ExplorerBL.QueryParser
 {
     public class QueryParser
     {
         #region Member Variables
-        const string _commandPattern = @" ^\w+";
         
-        QueryToken _token = null;
         #endregion
 
         #region Public Properties 
-
-        public QueryToken Token
-        {
-            get { return _token; }
-        }
+        
         #endregion
 
         #region Constructor 
@@ -31,11 +24,10 @@ namespace HL7ExplorerBL.QueryParser
         #endregion
 
         #region Public Methods 
-        public void TokenizeQuery(string queryToParse)
+        public void Query(QueryToken token,List<HL7Message> messages)
         {
-            _token = new QueryToken();
-
-            _token.Command = Regex.Match(queryToParse.ToLower(), _commandPattern).Value;
+            // use the token to query the messages
+            
         }
         #endregion
     }

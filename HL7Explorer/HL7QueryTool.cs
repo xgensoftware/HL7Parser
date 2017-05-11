@@ -70,7 +70,7 @@ Date        Author                  Description
         private void toolStripButtonRun_Click(object sender, EventArgs e)
         {
             QueryParser parser = new QueryParser();
-            parser.TokenizeQuery(txtQueryEditor.Text);            
+           // parser.TokenizeQuery(txtQueryEditor.Text); 
         }
 
         private void toolStripButtonRefresh_Click(object sender, EventArgs e)

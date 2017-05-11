@@ -11,7 +11,9 @@ namespace EDIParseConsole
     class Program
     {
         #region static Variables 
+#pragma warning disable CS0414 // The field 'Program.log' is assigned but its value is never used
         static ILogger log = null;
+#pragma warning restore CS0414 // The field 'Program.log' is assigned but its value is never used
         #endregion
 
         #region " Private Methods "
@@ -78,9 +80,14 @@ namespace EDIParseConsole
 
         static void Main(string[] args)
         {
-            string query = "select * from MSH where MessageControlId = '123';";
-            QueryParser parser = new QueryParser();
-            parser.TokenizeQuery(query);
+            string query = "select * from MSH WHERE MessageControlId = '123';";
+            string[] queryArray = query.Split(';');
+
+            QueryToken token = new QueryToken();
+            token.Tokenize(queryArray[0]);
+
+            //QueryParser parser = new QueryParser();
+            //parser.Query(token, null);
 
             //Console.ReadLine();
         }

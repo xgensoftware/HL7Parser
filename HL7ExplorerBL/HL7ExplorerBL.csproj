@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,6 +64,7 @@
     <Compile Include="Entities\SegmentDBColumnMapping.cs" />
     <Compile Include="Entities\SegmentTableMapping.cs" />
     <Compile Include="Entities\SegmentTableMappingList.cs" />
+    <Compile Include="Models\QueryWhereClauseItem.cs" />
     <Compile Include="QueryBuilder\IQueryBuilder.cs" />
     <Compile Include="QueryBuilder\QueryBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
